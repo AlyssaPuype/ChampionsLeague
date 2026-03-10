@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ChampionsLeague.Domains/ChampionsLeague.Domains.csproj" />
+  <Project Path="ChampionsLeague.Repositories/ChampionsLeague.Repositories.csproj" />
+  <Project Path="ChampionsLeague.Services/ChampionsLeague.Services.csproj" />
+  <Project Path="ChampionsLeague/ChampionsLeague.csproj" />
+</Solution>
