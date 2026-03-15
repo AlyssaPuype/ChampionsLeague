@@ -18,8 +18,6 @@ public partial class ChampionsLeagueDbContext : DbContext
 
     public virtual DbSet<Abonnement> Abonnements { get; set; }
 
-    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-
     public virtual DbSet<Club> Clubs { get; set; }
 
     public virtual DbSet<Competitie> Competities { get; set; }
@@ -40,9 +38,6 @@ public partial class ChampionsLeagueDbContext : DbContext
 
     public virtual DbSet<Zitplaat> Zitplaats { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.\\SQL26_VIVES;Database=ChampionsLeagueDB;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -73,29 +68,6 @@ public partial class ChampionsLeagueDbContext : DbContext
                 .HasForeignKey<Abonnement>(d => d.ZitplaatsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Abonnement_Zitplaats");
-        });
-
-        modelBuilder.Entity<AspNetUser>(entity =>
-        {
-            entity.ToTable("AspNetUser");
-
-            entity.HasIndex(e => e.Email, "UQ__AspNetUs__AB6E616426362C5C").IsUnique();
-
-            entity.HasIndex(e => e.Username, "UQ__AspNetUs__F3DBC57295AE9158").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Email)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("email");
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("passwordHash");
-            entity.Property(e => e.Username)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("username");
         });
 
         modelBuilder.Entity<Club>(entity =>
@@ -175,12 +147,15 @@ public partial class ChampionsLeagueDbContext : DbContext
             entity.Property(e => e.TotalePrijs)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("totale_prijs");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(450)
+                .HasDefaultValue("")
+                .HasColumnName("user_id");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+            entity.HasOne(d => d.User).WithMany()
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Order_User");
+                .HasConstraintName("FK_Order_AspNetUser");
         });
 
         modelBuilder.Entity<Orderline>(entity =>
