@@ -16,8 +16,21 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+
+//seeding data - source: https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
 builder.Services.AddDbContext<ChampionsLeagueDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options
+        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))  // ← geen ; hier
+        .UseSeeding((context, _) =>
+        {
+
+        })
+        .UseAsyncSeeding(async (context, _, cancellationToken) =>
+        {
+
+        })
+);
+
 
 builder.Services.AddControllersWithViews();
 
