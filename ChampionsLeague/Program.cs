@@ -23,7 +23,8 @@ builder.Services.AddDbContext<ChampionsLeagueDbContext>(options =>
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))  // ← geen ; hier
         .UseSeeding((context, _) =>
         {
-
+            var db = (ChampionsLeagueDbContext)context;
+            StadionSeeder.Seed(db);
         })
         .UseAsyncSeeding(async (context, _, cancellationToken) =>
         {
