@@ -1,4 +1,5 @@
 using ChampionsLeague.Data;
+using ChampionsLeague.Data.DataSeeders;
 using ChampionsLeague.Domains.DB;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,22 +21,16 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 //seeding data - source: https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
 builder.Services.AddDbContext<ChampionsLeagueDbContext>(options =>
     options
-        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))  // ← geen ; hier
-        .UseSeeding((context, _) =>
-        {
-            var db = (ChampionsLeagueDbContext)context;
-            StadionSeeder.Seed(db);
-        })
-        .UseAsyncSeeding(async (context, _, cancellationToken) =>
-        {
-
-        })
+        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+await DbSeeder.SeedAsync(app.Services);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
