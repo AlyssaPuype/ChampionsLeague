@@ -16,7 +16,10 @@ namespace ChampionsLeague.Data
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            if (context.Clubs.Any()) return; // already seeded, stop
+            await context.Database.MigrateAsync(); 
+
+
+            if (context.Clubs.Any()) return; 
 
             var stadions = StadionSeeder.Seed(context);
             var clubs = ClubSeeder.Seed(context, stadions);
