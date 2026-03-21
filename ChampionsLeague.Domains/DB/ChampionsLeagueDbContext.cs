@@ -37,7 +37,7 @@ public partial class ChampionsLeagueDbContext : DbContext
     public virtual DbSet<Voucher> Vouchers { get; set; }
 
     public virtual DbSet<Zitplaat> Zitplaats { get; set; }
-
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -183,7 +183,7 @@ public partial class ChampionsLeagueDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Capaciteit).HasColumnName("capaciteit");
             entity.Property(e => e.Naam)
-                .HasMaxLength(22)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("naam");
         });

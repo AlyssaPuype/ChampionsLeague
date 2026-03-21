@@ -16,5 +16,5 @@ public partial class Order
 
     public virtual ICollection<Orderline> Orderlines { get; set; } = new List<Orderline>();
 
-    public virtual IdentityUser User { get; set; } = null!;
+    public virtual ApplicationUser User { get; set; } = null!;
 }
