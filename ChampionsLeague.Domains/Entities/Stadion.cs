@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChampionsLeague.Domains.Entities;
 
@@ -7,6 +8,7 @@ public partial class Stadion
 {
     public int Id { get; set; }
 
+    [MaxLength(100)]
     public string? Naam { get; set; }
 
     public int? Capaciteit { get; set; }

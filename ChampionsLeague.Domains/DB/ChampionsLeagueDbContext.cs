@@ -183,7 +183,7 @@ public partial class ChampionsLeagueDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Capaciteit).HasColumnName("capaciteit");
             entity.Property(e => e.Naam)
-                .HasMaxLength(22)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("naam");
         });

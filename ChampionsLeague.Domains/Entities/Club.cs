@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChampionsLeague.Domains.Entities;
 
@@ -9,6 +10,7 @@ public partial class Club
 
     public int StadionId { get; set; }
 
+    [MaxLength(100)]
     public string? Naam { get; set; }
 
     public virtual ICollection<Abonnement> Abonnements { get; set; } = new List<Abonnement>();
