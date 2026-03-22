@@ -14,11 +14,6 @@ namespace ChampionsLeague.Domains.Migrations
                 name: "UQ_Zitplaats_VakNummer",
                 table: "Zitplaats");
 
-            migrationBuilder.RenameColumn(
-                name: "nummer",
-                table: "Zitplaats",
-                newName: "ZitplaatsNummer");
-
             migrationBuilder.CreateIndex(
                 name: "UQ_Zitplaats_VakNummer",
                 table: "Zitplaats",
