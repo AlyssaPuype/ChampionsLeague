@@ -25,6 +25,9 @@ builder.Services.AddDbContext<ChampionsLeagueDbContext>(options =>
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+//localization
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 
 builder.Services.AddControllersWithViews();
 
