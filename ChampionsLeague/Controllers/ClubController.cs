@@ -22,12 +22,14 @@ namespace ChampionsLeague.Controllers
 
         }
 
-        // Get one club by id
-        public async Task<IActionResult> Detail(int id)
+        // Get one club by naam
+        public async Task<IActionResult> Detail(int naam)
         {
-            var club = await _clubService.GetByIdAsync(id);
+            var club = await _clubService.GetByNaamAsync(naam);
             if (club == null) return NotFound();
             return View(club);
         }
+
+        
     }
 }

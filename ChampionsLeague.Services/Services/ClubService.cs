@@ -25,5 +25,10 @@ namespace ChampionsLeague.Services
         {
             return await _clubDAO.GetByIdAsync(id);
         }
+
+        public async Task<Club?> GetByNaamAsync(string naam)
+        {
+            return await _clubDAO.GetByNaamAsync(naam);
+        }
     }
 }
