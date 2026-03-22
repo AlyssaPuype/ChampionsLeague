@@ -32,8 +32,6 @@ namespace ChampionsLeague.Data
 
             await context.SaveChangesAsync();
 
-    
-
         }
     }
 }
