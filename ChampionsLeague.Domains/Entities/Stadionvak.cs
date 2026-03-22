@@ -10,6 +10,8 @@ public partial class Stadionvak
     public int StadionId { get; set; }
 
     public string? Naam { get; set; }
+    
+    public string? Code { get; set; }
 
     public string? Ring { get; set; }
 
