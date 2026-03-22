@@ -1,5 +1,4 @@
-﻿// Data/Seeders/ClubSeeder.cs
-using ChampionsLeague.Domains.DB;
+﻿using ChampionsLeague.Domains.DB;
 using ChampionsLeague.Domains.Entities;
 
 public static class ClubSeeder

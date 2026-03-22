@@ -11,7 +11,7 @@ public partial class Stadion
     [MaxLength(100)]
     public string? Naam { get; set; }
 
-    public int? Capaciteit { get; set; }
+    public int Capaciteit { get; set; }
 
     public virtual Club? Club { get; set; }
 
