@@ -13,6 +13,8 @@ public partial class Club
     [MaxLength(100)]
     public string? Naam { get; set; }
 
+    public string? LogoPath { get; set; }
+
     public virtual ICollection<Abonnement> Abonnements { get; set; } = new List<Abonnement>();
 
     public virtual ICollection<Match> MatchBezoekersclubs { get; set; } = new List<Match>();
