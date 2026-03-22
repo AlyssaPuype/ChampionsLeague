@@ -23,5 +23,5 @@ public partial class Ticket
 
     public virtual Voucher? Voucher { get; set; }
 
-    public virtual Zitplaat Zitplaats { get; set; } = null!;
+    public virtual Zitplaats Zitplaats { get; set; } = null!;
 }

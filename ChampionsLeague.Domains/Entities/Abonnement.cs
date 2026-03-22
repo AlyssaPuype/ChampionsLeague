@@ -19,5 +19,5 @@ public partial class Abonnement
 
     public virtual Orderline? Orderline { get; set; }
 
-    public virtual Zitplaat Zitplaats { get; set; } = null!;
+    public virtual Zitplaats Zitplaats { get; set; } = null!;
 }

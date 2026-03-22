@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace ChampionsLeague.Domains.Entities;
 
-public partial class Zitplaat
+public partial class Zitplaats
 {
     public int Id { get; set; }
 
     public int StadionvakId { get; set; }
 
-    public int? Nummer { get; set; }
+    public string? ZitplaatsNummer { get; set; }
 
     public virtual Abonnement? Abonnement { get; set; }
 

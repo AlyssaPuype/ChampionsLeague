@@ -4,6 +4,7 @@ using ChampionsLeague.Domains.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChampionsLeague.Domains.Migrations
 {
     [DbContext(typeof(ChampionsLeagueDbContext))]
-    partial class ChampionsLeagueDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260322113713_FixStadionCapaciteitNotNullable")]
+    partial class FixStadionCapaciteitNotNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -307,9 +310,6 @@ namespace ChampionsLeague.Domains.Migrations
                         .HasColumnType("int")
                         .HasColumnName("capaciteit");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Naam")
                         .HasMaxLength(255)
                         .IsUnicode(false)
@@ -431,19 +431,19 @@ namespace ChampionsLeague.Domains.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("Nummer")
+                        .HasColumnType("int")
+                        .HasColumnName("nummer");
+
                     b.Property<int>("StadionvakId")
                         .HasColumnType("int")
                         .HasColumnName("stadionvak_id");
 
-                    b.Property<string>("ZitplaatsNummer")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("ZitplaatsNummer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "StadionvakId", "ZitplaatsNummer" }, "UQ_Zitplaats_VakNummer")
+                    b.HasIndex(new[] { "StadionvakId", "Nummer" }, "UQ_Zitplaats_VakNummer")
                         .IsUnique()
-                        .HasFilter("[ZitplaatsNummer] IS NOT NULL");
+                        .HasFilter("[nummer] IS NOT NULL");
 
                     b.ToTable("Zitplaats");
                 });

@@ -17,21 +17,20 @@ namespace ChampionsLeague.Data
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             await context.Database.MigrateAsync();
-            Console.WriteLine(">>> MigrateAsync done");
-
-
 
             if (context.Clubs.Any())
             {
-                Console.WriteLine(">>> Already seeded, skipping");
                 return;
             }
 
             var stadions = StadionSeeder.Seed(context);
             var clubs = ClubSeeder.Seed(context, stadions);
-            await context.SaveChangesAsync();
+            var stadionvakken = StadionvakSeeder.Seed(context, stadions);
+            var zitplaatsen = ZitplaatsSeeder.Seed(context, stadionvakken);
+            var competities = CompetitieSeeder.Seed(context);
+            var matches = MatchSeeder.Seed(context, clubs, competities);
 
-    
+            await context.SaveChangesAsync();
 
         }
     }
