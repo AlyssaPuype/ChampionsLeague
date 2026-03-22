@@ -422,7 +422,7 @@ namespace ChampionsLeague.Domains.Migrations
                     b.ToTable("Voucher", (string)null);
                 });
 
-            modelBuilder.Entity("ChampionsLeague.Domains.Entities.Zitplaat", b =>
+            modelBuilder.Entity("ChampionsLeague.Domains.Entities.Zitplaats", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -461,7 +461,7 @@ namespace ChampionsLeague.Domains.Migrations
                         .HasForeignKey("Orderlineid")
                         .HasConstraintName("FK_Abonnement_Orderline");
 
-                    b.HasOne("ChampionsLeague.Domains.Entities.Zitplaat", "Zitplaats")
+                    b.HasOne("ChampionsLeague.Domains.Entities.Zitplaats", "Zitplaats")
                         .WithOne("Abonnement")
                         .HasForeignKey("ChampionsLeague.Domains.Entities.Abonnement", "ZitplaatsId")
                         .IsRequired()
@@ -566,7 +566,7 @@ namespace ChampionsLeague.Domains.Migrations
                         .HasForeignKey("Orderlineid")
                         .HasConstraintName("FK_Ticket_Orderline");
 
-                    b.HasOne("ChampionsLeague.Domains.Entities.Zitplaat", "Zitplaats")
+                    b.HasOne("ChampionsLeague.Domains.Entities.Zitplaats", "Zitplaats")
                         .WithMany("Tickets")
                         .HasForeignKey("ZitplaatsId")
                         .IsRequired()
@@ -590,7 +590,7 @@ namespace ChampionsLeague.Domains.Migrations
                     b.Navigation("Ticket");
                 });
 
-            modelBuilder.Entity("ChampionsLeague.Domains.Entities.Zitplaat", b =>
+            modelBuilder.Entity("ChampionsLeague.Domains.Entities.Zitplaats", b =>
                 {
                     b.HasOne("ChampionsLeague.Domains.Entities.Stadionvak", "Stadionvak")
                         .WithMany("Zitplaats")
@@ -651,7 +651,7 @@ namespace ChampionsLeague.Domains.Migrations
                     b.Navigation("Voucher");
                 });
 
-            modelBuilder.Entity("ChampionsLeague.Domains.Entities.Zitplaat", b =>
+            modelBuilder.Entity("ChampionsLeague.Domains.Entities.Zitplaats", b =>
                 {
                     b.Navigation("Abonnement");
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChampionsLeague.Domains.Migrations
 {
     [DbContext(typeof(ChampionsLeagueDbContext))]
-    [Migration("20260322113713_FixStadionCapaciteitNotNullable")]
-    partial class FixStadionCapaciteitNotNullable
+    [Migration("20260322115250_RenameZitplaatToZitplaats")]
+    partial class RenameZitplaatToZitplaats
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -36,7 +36,7 @@ public partial class ChampionsLeagueDbContext : DbContext
 
     public virtual DbSet<Voucher> Vouchers { get; set; }
 
-    public virtual DbSet<Zitplaat> Zitplaats { get; set; }
+    public virtual DbSet<Zitplaats> Zitplaats { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -274,7 +274,7 @@ public partial class ChampionsLeagueDbContext : DbContext
                 .HasConstraintName("FK_Voucher_Ticket");
         });
 
-        modelBuilder.Entity<Zitplaat>(entity =>
+        modelBuilder.Entity<Zitplaats>(entity =>
         {
             entity.HasIndex(e => new { e.StadionvakId, e.Nummer }, "UQ_Zitplaats_VakNummer").IsUnique();
 

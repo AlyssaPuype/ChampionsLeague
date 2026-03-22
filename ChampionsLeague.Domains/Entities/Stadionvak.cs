@@ -21,5 +21,5 @@ public partial class Stadionvak
 
     public virtual Stadion Stadion { get; set; } = null!;
 
-    public virtual ICollection<Zitplaat> Zitplaats { get; set; } = new List<Zitplaat>();
+    public virtual ICollection<Zitplaats> Zitplaats { get; set; } = new List<Zitplaats>();
 }

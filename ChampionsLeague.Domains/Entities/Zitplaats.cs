@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ChampionsLeague.Domains.Entities;
 
-public partial class Zitplaat
+public partial class Zitplaats
 {
     public int Id { get; set; }
 

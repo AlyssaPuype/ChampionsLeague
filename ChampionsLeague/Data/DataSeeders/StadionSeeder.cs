@@ -3,7 +3,6 @@ using ChampionsLeague.Domains.Entities;
 
 namespace ChampionsLeague.Data.DataSeeders
 {
-    
     public static class StadionSeeder
     {
         public static List<Stadion> Seed(ChampionsLeagueDbContext context)
