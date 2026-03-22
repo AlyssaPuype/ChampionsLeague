@@ -23,7 +23,7 @@ namespace ChampionsLeague.Controllers
         }
 
         // Get one club by naam
-        public async Task<IActionResult> Detail(int naam)
+        public async Task<IActionResult> Detail(string naam)
         {
             var club = await _clubService.GetByNaamAsync(naam);
             if (club == null) return NotFound();
