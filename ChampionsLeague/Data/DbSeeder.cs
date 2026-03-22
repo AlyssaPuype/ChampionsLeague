@@ -17,13 +17,9 @@ namespace ChampionsLeague.Data
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             await context.Database.MigrateAsync();
-            Console.WriteLine(">>> MigrateAsync done");
-
-
 
             if (context.Clubs.Any())
             {
-                Console.WriteLine(">>> Already seeded, skipping");
                 return;
             }
 
