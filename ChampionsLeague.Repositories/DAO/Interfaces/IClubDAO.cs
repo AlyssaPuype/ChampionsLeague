@@ -9,5 +9,7 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
     {
         Task<IEnumerable<Club>> GetAllClubsAsync();
         Task<Club> GetByIdAsync(int id);
+        Task<Club?> GetByNaamAsync(string naam);
+
     }
 }

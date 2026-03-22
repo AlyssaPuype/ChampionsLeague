@@ -31,5 +31,12 @@ namespace ChampionsLeague.Web.DAO
                 .Include(c => c.Stadion)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        public async Task<Club?> GetByNaamAsync(string naam)
+        {
+            return await _context.Clubs
+                .Include(c => c.Stadion)
+                .FirstOrDefaultAsync(c => c.Naam == naam);
+        }
     }
 }
