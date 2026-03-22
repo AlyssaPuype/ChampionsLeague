@@ -1,0 +1,38 @@
+﻿/*MOBILE*/
+
+.club-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 2rem;
+    padding: 1.2rem;
+}
+
+.club-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    border-radius: 1rem;
+    background-color: rgb(255, 255, 255);
+    padding: 1.2rem;
+}
+
+.club-grid img{
+    width: 50%;
+}
+
+.club-naam {
+    font-weight: bold;
+    color: rgba(3, 31, 56, 1);
+}
+
+
+
+/*DEKSTOP*/
+
+@media (min-width: 768px) {
+
+    .club-grid {
+        grid-template-columns: repeat(3,1fr);
+    }
+}

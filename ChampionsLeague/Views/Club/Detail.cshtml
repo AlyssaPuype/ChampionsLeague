@@ -1,0 +1,9 @@
+﻿@model Club
+
+@{
+    ViewData["Title"] = Model.Naam;
+}
+
+
+@await Html.PartialAsync("_ClubDetail", Model)
+

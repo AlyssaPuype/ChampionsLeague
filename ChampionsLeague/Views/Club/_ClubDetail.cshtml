@@ -1,0 +1,14 @@
+﻿@model Club
+
+<div class="club-detail">
+    <div class="club-header">
+        <h1>@Model.Naam</h1>
+        <img src="@Model.LogoPath" alt="@Model.Naam" class="club-logo" />
+    </div>
+
+    <div class="club-stadion">
+        <h3>Stadion</h3>
+        <p>Naam: @Model.Stadion?.Naam</p>
+        <p>Capaciteit: @Model.Stadion?.Capaciteit</p>
+    </div>
+</div>
