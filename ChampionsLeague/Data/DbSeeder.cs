@@ -27,6 +27,8 @@ namespace ChampionsLeague.Data
             var clubs = ClubSeeder.Seed(context, stadions);
             var stadionvakken = StadionvakSeeder.Seed(context, stadions);
             var zitplaatsen = ZitplaatsSeeder.Seed(context, stadionvakken);
+            var competities = CompetitieSeeder.Seed(context);
+            var matches = MatchSeeder.Seed(context, clubs, competities);
 
             await context.SaveChangesAsync();
 
