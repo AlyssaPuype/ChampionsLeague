@@ -10,11 +10,7 @@ namespace ChampionsLeague.Domains.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(    
-               name: "nummer",
-               table: "Zitplaats",
-               newName: "ZitplaatsNummer");
-
+         
             migrationBuilder.AlterColumn<string>(
                 name: "ZitplaatsNummer",
                 table: "Zitplaats",
