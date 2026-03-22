@@ -1,7 +1,23 @@
+/*MOBILE*/
+
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
+body {
+    background-color: rgba(3, 31, 56, 1);
+}
+
+.container{
+    padding:0;
+}
+
+.page-title {
+    color: rgba(3, 31, 56, 1);
+}
+
+
+/*DESKTOP*/
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -20,6 +36,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
