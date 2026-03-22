@@ -188,7 +188,7 @@ namespace ChampionsLeague.Domains.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     stadionvak_id = table.Column<int>(type: "int", nullable: false),
-                    nummer = table.Column<int>(type: "int", nullable: true)
+                    ZitplaatsNummer = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -395,9 +395,9 @@ namespace ChampionsLeague.Domains.Migrations
             migrationBuilder.CreateIndex(
                 name: "UQ_Zitplaats_VakNummer",
                 table: "Zitplaats",
-                columns: new[] { "stadionvak_id", "nummer" },
+                columns: new[] { "stadionvak_id", "ZitplaatsNummer" },
                 unique: true,
-                filter: "[nummer] IS NOT NULL");
+                filter: "[ZitplaatsNummer] IS NOT NULL");
         }
 
         /// <inheritdoc />

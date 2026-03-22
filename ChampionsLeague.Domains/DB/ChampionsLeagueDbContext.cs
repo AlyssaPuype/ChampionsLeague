@@ -279,7 +279,7 @@ public partial class ChampionsLeagueDbContext : DbContext
             entity.HasIndex(e => new { e.StadionvakId, e.ZitplaatsNummer }, "UQ_Zitplaats_VakNummer").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.ZitplaatsNummer).HasColumnName("nummer");
+            entity.Property(e => e.ZitplaatsNummer).HasColumnName("ZitplaatsNummer");
             entity.Property(e => e.StadionvakId).HasColumnName("stadionvak_id");
 
             entity.HasOne(d => d.Stadionvak).WithMany(p => p.Zitplaats)
