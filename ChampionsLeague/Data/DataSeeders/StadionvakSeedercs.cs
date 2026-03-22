@@ -15,14 +15,14 @@ namespace ChampionsLeague.Data.DataSeeders
             {
                 int capaciteitPerVak = stadion.Capaciteit / 8;
 
-                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Onderste ring - Achter doel - Thuis", Ring = "Onder", Type = "Achterdoel", Partij = "Thuis", Capaciteit = capaciteitPerVak });
-                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Onderste ring - Achter doel - Bezoek", Ring = "Onder", Type = "Achterdoel", Partij = "Bezoek", Capaciteit = capaciteitPerVak });
-                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Onderste ring - Zijlijn oost - Neutraal", Ring = "Onder", Type = "Zijlijn", Partij = "Neutraal", Capaciteit = capaciteitPerVak });
-                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Onderste ring - Zijlijn west - Neutraal", Ring = "Onder", Type = "Zijlijn", Partij = "Neutraal", Capaciteit = capaciteitPerVak });
-                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Achter doel - Thuis", Ring = "Boven", Type = "Achterdoel", Partij = "Thuis", Capaciteit = capaciteitPerVak });
-                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Achter doel - Bezoek", Ring = "Boven", Type = "Achterdoel", Partij = "Bezoek", Capaciteit = capaciteitPerVak });
-                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Zijlijn- Neutraal", Ring = "Boven", Type = "Zijlijn", Partij = "Neutraal", Capaciteit = capaciteitPerVak });
-                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Zijlijn - Neutraal", Ring = "Boven", Type = "Zijlijn", Partij = "Neutraal", Capaciteit = capaciteitPerVak });
+                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Onderste ring - Achter doel - Thuis", Code = "ODT", Ring = "Onder", Type = "Achterdoel", Partij = "Thuis", Capaciteit = capaciteitPerVak });
+                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Onderste ring - Achter doel - Bezoek", Code = "ODB", Ring = "Onder", Type = "Achterdoel", Partij = "Bezoek", Capaciteit = capaciteitPerVak });
+                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Onderste ring - Zijlijn oost - Neutraal", Code = "OZON", Ring = "Onder", Type = "Zijlijn", Partij = "Neutraal", Capaciteit = capaciteitPerVak });
+                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Onderste ring - Zijlijn west - Neutraal", Code = "OZWN", Ring = "Onder", Type = "Zijlijn", Partij = "Neutraal", Capaciteit = capaciteitPerVak });
+                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Achter doel - Thuis", Code = "BDT",  Ring = "Boven", Type = "Achterdoel", Partij = "Thuis", Capaciteit = capaciteitPerVak });
+                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Achter doel - Bezoek", Code = "BDB", Ring = "Boven", Type = "Achterdoel", Partij = "Bezoek", Capaciteit = capaciteitPerVak });
+                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Zijlijn oost- Neutraal", Code = "BZON", Ring = "Boven", Type = "Zijlijn", Partij = "Neutraal", Capaciteit = capaciteitPerVak });
+                stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Zijlijn west - Neutraal", Code = "BZWN", Ring = "Boven", Type = "Zijlijn", Partij = "Neutraal", Capaciteit = capaciteitPerVak });
         }
             
             context.Stadionvaks.AddRange(stadionvakken);
