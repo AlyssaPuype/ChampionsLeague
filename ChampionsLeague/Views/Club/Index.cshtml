@@ -1,5 +1,8 @@
-﻿@{
+﻿@model IEnumerable<Club>
+
+@{
     ViewData["Title"] = "Clubs Page";
+
 }
 
 @section Styles {
@@ -10,7 +13,10 @@
     <h1 class="display-4">Clubs</h1>
 
     <section class="club-grid">
-        <img src=""
+        @foreach (var club in Model)
+        {
+                <img src="@club.LogoPath" alt="@club.Naam" class="club-logo" />
+        }
     </section>
     
 </div>
