@@ -1,4 +1,24 @@
-﻿@page
-@model ChampionsLeague.Views.Matches.IndexModel
+﻿@model IEnumerable<Match>
+
 @{
+    ViewData["Title"] = "Matches Page";
 }
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/MatchIndex.css" />
+}
+
+<div class="text-center">
+    <h1 class="display-4 page-title">Matches</h1>
+
+    <section>
+        @foreach (var match in Model)
+        {
+            <div class="match-card">
+                <p>@match.Thuisclub.Naam</p>
+                <p>@match.Bezoekersclub.Naam</p>
+                <p>@match.Stadion.Naam</p>
+            </div>
+        }
+    </section>
+</div>

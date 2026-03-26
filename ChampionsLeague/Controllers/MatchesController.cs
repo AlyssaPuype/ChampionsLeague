@@ -30,4 +30,3 @@ namespace ChampionsLeague.Web.Controllers
         }
     }
 }
-}
