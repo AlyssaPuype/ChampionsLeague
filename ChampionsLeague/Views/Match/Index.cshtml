@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Match>
+
+@{
+    ViewData["Title"] = "Matches Page";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/MatchIndex.css" />
+}
+
+<div class="text-center">
+    <h1 class="display-4 page-title">Matches</h1>
+
+    <section class="match-container">
+        @foreach (var match in Model)
+        {
+            <div class="match-card">
+                <div class="match-info">
+                    <p class="match-date">@($"{match.MatchDate:dd/MM/yyyy}")</p>
+                    <p class="match-stadion">@match.Stadion.Naam</p>
+                </div>
+                <div class="match-teams">
+                    <p class="match-thuisploeg">@match.Thuisclub.Naam</p>
+                    <p class="match-bezoekers">@match.Bezoekersclub.Naam</p>
+                </div>
+               
+            </div>
+        }
+    </section>
+</div>
