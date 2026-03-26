@@ -1,9 +1,12 @@
 using ChampionsLeague.Data;
+using ChampionsLeague.Data.DAOs;
 using ChampionsLeague.Data.DataSeeders;
+using ChampionsLeague.Data.Interfaces;
 using ChampionsLeague.Domains.DB;
 using ChampionsLeague.Domains.Entities;
 using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Services;
+using ChampionsLeague.Services.Services;
 using ChampionsLeague.Services.Services.Interfaces;
 using ChampionsLeague.Web.DAO;
 using Microsoft.AspNetCore.Identity;
@@ -35,9 +38,11 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 //DAO
 //Dbcontext is AddScoped by default, so for DAO too
 builder.Services.AddScoped<IClubDAO, ClubDAO>();
+builder.Services.AddScoped<IMatchDAO, MatchDAO>();
 
 //services
 builder.Services.AddScoped<IClubService, ClubService>();
+builder.Services.AddScoped<IMatchService, MatchService>();
 
 
 builder.Services.AddControllersWithViews();
