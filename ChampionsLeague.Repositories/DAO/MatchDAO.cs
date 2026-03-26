@@ -46,5 +46,7 @@ namespace ChampionsLeague.Data.DAOs
                 .OrderBy(m => m.MatchDate)
                 .ToListAsync();
         }
+
+        
     }
 }

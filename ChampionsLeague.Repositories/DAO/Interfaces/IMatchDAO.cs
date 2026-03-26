@@ -11,5 +11,6 @@ namespace ChampionsLeague.Data.Interfaces
         Task<List<Match>> GetAllAsync();
         Task<Match?> GetByIdAsync(int id);
         Task<List<Match>> GetByClubAsync(int clubId);
+
     }
 }

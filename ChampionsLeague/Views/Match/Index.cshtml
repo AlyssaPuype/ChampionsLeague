@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Matches Page";
+    var groupedMatches = Model.GroupBy(m => m.MatchDate).OrderBy(g => g.Key);
+
 }
 
 @section Styles {
@@ -11,20 +13,29 @@
 <div class="text-center">
     <h1 class="display-4 page-title">Matches</h1>
 
-    <section class="match-container">
-        @foreach (var match in Model)
-        {
-            <div class="match-card">
-                <div class="match-info">
-                    <p class="match-date">@($"{match.MatchDate:dd/MM/yyyy}")</p>
-                    <p class="match-stadion">@match.Stadion.Naam</p>
+    @foreach (var group in groupedMatches)
+    {
+        <h4 class="match-date">@($"{group.Key:dd MMMM yyyy}")</h4>
+
+        <section class="match-container">
+            @foreach (var match in group)
+            {
+                <div class="match-section">
+                    <div class="match-card">
+                        <div class="match-teams">
+                            <p class="match-thuisploeg">@match.Thuisclub.Naam</p>
+                            <p class="match-bezoekers">@match.Bezoekersclub.Naam</p>
+                        </div>
+                        <div class="match-info">
+                            <p>@match.Stadion.Naam</p>
+                        </div>
+                    </div>
+                    <div class="buy-button">
+                        <button>Koop ticket</button>
+                    </div>
                 </div>
-                <div class="match-teams">
-                    <p class="match-thuisploeg">@match.Thuisclub.Naam</p>
-                    <p class="match-bezoekers">@match.Bezoekersclub.Naam</p>
-                </div>
-               
-            </div>
-        }
-    </section>
+                
+            }
+        </section>
+    }
 </div>
