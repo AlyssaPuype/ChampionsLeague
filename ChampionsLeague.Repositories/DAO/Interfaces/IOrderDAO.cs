@@ -10,5 +10,7 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
         Task<IEnumerable<Order>> GetAllAsync();
         Task<Order?> GetByIdAsync(int id);
         Task<IEnumerable<Order>> GetByUserAsync(string userId);
+        Task AddAsync(Order order);
+
     }
 }
