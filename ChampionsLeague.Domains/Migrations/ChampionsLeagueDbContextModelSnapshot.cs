@@ -448,7 +448,7 @@ namespace ChampionsLeague.Domains.Migrations
                         .IsUnique()
                         .HasFilter("[ZitplaatsNummer] IS NOT NULL");
 
-                    b.ToTable("Zitplaatsen");
+                    b.ToTable("Zitplaats", (string)null);
                 });
 
             modelBuilder.Entity("ChampionsLeague.Domains.Entities.Abonnement", b =>

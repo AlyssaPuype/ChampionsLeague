@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChampionsLeague.Domains.Migrations
 {
     [DbContext(typeof(ChampionsLeagueDbContext))]
-    [Migration("20260328140449_SomeModelChanges")]
+    [Migration("20260328141314_SomeModelChanges")]
     partial class SomeModelChanges
     {
         /// <inheritdoc />
@@ -451,7 +451,7 @@ namespace ChampionsLeague.Domains.Migrations
                         .IsUnique()
                         .HasFilter("[ZitplaatsNummer] IS NOT NULL");
 
-                    b.ToTable("Zitplaatsen");
+                    b.ToTable("Zitplaats", (string)null);
                 });
 
             modelBuilder.Entity("ChampionsLeague.Domains.Entities.Abonnement", b =>
