@@ -19,7 +19,6 @@ namespace ChampionsLeague.Services.Services
         {
             _orderDAO = orderDAO;
             _zitplaatsService = zitplaatsService;
-
         }
 
         public async Task<IEnumerable<Order>> GetAllAsync()
