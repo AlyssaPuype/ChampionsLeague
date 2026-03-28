@@ -1,7 +1,6 @@
 ﻿using ChampionsLeague.Domains.Entities;
 using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Services.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
