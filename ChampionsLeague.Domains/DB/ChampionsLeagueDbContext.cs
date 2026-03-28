@@ -36,7 +36,7 @@ public partial class ChampionsLeagueDbContext : DbContext
 
     public virtual DbSet<Voucher> Vouchers { get; set; }
 
-    public virtual DbSet<Zitplaats> Zitplaats { get; set; }
+    public virtual DbSet<Zitplaats> Zitplaatsen { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
