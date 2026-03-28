@@ -25,7 +25,7 @@ namespace ChampionsLeague.Data.DataSeeders
                 stadionvakken.Add(new Stadionvak() { Stadion = stadion, Naam = "Bovenste ring - Zijlijn west - Neutraal", Code = "BZWN", Ring = "Boven", Type = "Zijlijn", Partij = "West", Capaciteit = capaciteitPerVak });
             }
             
-            context.Stadionvaks.AddRange(stadionvakken);
+            context.Stadionvakken.AddRange(stadionvakken);
             return stadionvakken;
         }
     }

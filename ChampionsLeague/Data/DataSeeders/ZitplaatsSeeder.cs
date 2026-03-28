@@ -20,7 +20,7 @@ namespace ChampionsLeague.Data.DataSeeders
                 }
             }
 
-            context.Zitplaats.AddRange(zitplaatsen);
+            context.Zitplaatsen.AddRange(zitplaatsen);
             return zitplaatsen;
         }
     }
