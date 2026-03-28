@@ -30,13 +30,13 @@ public partial class ChampionsLeagueDbContext : DbContext
 
     public virtual DbSet<Stadion> Stadions { get; set; }
 
-    public virtual DbSet<Stadionvak> Stadionvaks { get; set; }
+    public virtual DbSet<Stadionvak> Stadionvakken { get; set; }
 
     public virtual DbSet<Ticket> Tickets { get; set; }
 
     public virtual DbSet<Voucher> Vouchers { get; set; }
 
-    public virtual DbSet<Zitplaats> Zitplaats { get; set; }
+    public virtual DbSet<Zitplaats> Zitplaatsen { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
