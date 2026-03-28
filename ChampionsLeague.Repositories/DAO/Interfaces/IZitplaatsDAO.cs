@@ -10,6 +10,6 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
     {
         Task<IEnumerable<Zitplaats>> GetAllAsync();
         Task<Zitplaats?> GetByIdAsync(int id);
-         Task<IEnumerable<Zitplaats>> GetByStadionvakAsync(int stadionvakId, int matchId, int aantalGewensteZitplaatsen);
+         Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int stadionvakId, int matchId, int aantalGewensteZitplaatsen);
     }
 }

@@ -27,7 +27,7 @@ namespace ChampionsLeague.Repositories.DAO
                 .FirstOrDefaultAsync(z => z.Id == id);
         }
 
-        public async Task<IEnumerable<Zitplaats>> GetByStadionvakAsync(int stadionvakId, int matchId, int aantalGewensteZitplaatsen)
+        public async Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int stadionvakId, int matchId, int aantalGewensteZitplaatsen)
         {
             return await _context.Zitplaatsen
                 .Where(z => z.StadionvakId == stadionvakId)

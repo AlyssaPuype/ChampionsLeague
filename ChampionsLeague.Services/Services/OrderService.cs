@@ -1,7 +1,4 @@
-﻿using ChampionsLeague.Data.Interfaces;
-using ChampionsLeague.Domains.DB;
-using ChampionsLeague.Domains.Entities;
-using ChampionsLeague.Repositories.DAO;
+﻿using ChampionsLeague.Domains.Entities;
 using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Services.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +12,14 @@ namespace ChampionsLeague.Services.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderDAO _orderDAO;
-    }
+        private readonly IZitplaatsService _zitplaatsService;
+        private const decimal TicketPrijs = 50m;
 
-    public OrderService(IOrderDAO orderDAO)
+
+        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService)
         {
             _orderDAO = orderDAO;
+            _zitplaatsService = zitplaatsService;
 
         }
 
@@ -39,12 +39,47 @@ namespace ChampionsLeague.Services.Services
         }
 
 
-        public async Task CreateTicketOrderAsync(string userId, int matchId, int zitplaatsId)
+        public async Task CreateTicketOrderAsync(string userId, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
-            var beschikbareZitplaatsen = 
+            //get beschikbare zitplaatsen
+            var beschikbareZitplaatsen = await _zitplaatsService.GetAvailableByStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
 
-            
+            //maak orderline aan en bereken totaalprijs
+            var orderline = new Orderline
+            {
+                Prijs = TicketPrijs * aantalGewensteZitplaatsen
+            };
+
+
+            //voeg ticket toe aan orderline
+            foreach (var zitplaats in beschikbareZitplaatsen)
+            {
+                orderline.Tickets
+                    .Add(new Ticket
+                    {
+                        ZitplaatsId = zitplaats.Id,
+                        MatchId = matchId,
+                        Prijs = TicketPrijs,
+                        Status = "Gereserveerd"
+                    });
+            }
+
+            //maak order
+            var order = new Order
+            {
+                UserId = userId,
+                Orderlines = new List<Orderline>{orderline},
+                TotalePrijs = orderline.Prijs,
+                OrderDate = DateTime.Now
+
+            };
+
+
+            await _orderDAO.AddAsync(order);
+            await _orderDAO.SaveAsync();
 
         }
+    
 
     }
+}

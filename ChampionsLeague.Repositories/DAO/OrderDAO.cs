@@ -52,5 +52,10 @@ namespace ChampionsLeague.Repositories.DAO
         {
             await _context.Orders.AddAsync(order);
         }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
