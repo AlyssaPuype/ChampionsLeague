@@ -30,7 +30,7 @@ public partial class ChampionsLeagueDbContext : DbContext
 
     public virtual DbSet<Stadion> Stadions { get; set; }
 
-    public virtual DbSet<Stadionvak> Stadionvaks { get; set; }
+    public virtual DbSet<Stadionvak> Stadionvakken { get; set; }
 
     public virtual DbSet<Ticket> Tickets { get; set; }
 
