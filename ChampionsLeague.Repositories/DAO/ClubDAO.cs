@@ -21,22 +21,22 @@ namespace ChampionsLeague.Web.DAO
         public async Task<IEnumerable<Club>> GetAllClubsAsync()
         {
             return await _context.Clubs
-                .Include(i => i.Stadion)
+                .Include(c => c.Stadion)
                 .ToListAsync();
         }
 
         public async Task<Club?> GetByIdAsync(int id)
         {
             return await _context.Clubs
-                .Include(i => i.Stadion)
-                .FirstOrDefaultAsync(i => i.Id == id);
+                .Include(c => c.Stadion)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Club?> GetByNaamAsync(string naam)
         {
             return await _context.Clubs
-                .Include(i => i.Stadion)
-                .FirstOrDefaultAsync(i => i.Naam == naam);
+                .Include(c => c.Stadion)
+                .FirstOrDefaultAsync(c => c.Naam == naam);
         }
     }
 }
