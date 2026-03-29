@@ -19,7 +19,14 @@
 
 
 <form asp-action="CreateTicket" method="post">
-
+    <label>Stadionvak</label>
+    <select asp-for="GeselecteerdStadionvakId">
+        <option value="">Selecteer een stadionvak</option>
+        @foreach (var stadionvak in Model.Stadionvakken)
+        {
+            <option value="@stadionvak.Id">@stadionvak.Ring - @stadionvak.Partij</option>
+        }
+    </select>
 </form>
 
 
