@@ -10,6 +10,13 @@
 }
 
 <h1>Koop ticket</h1>
+<div class="ticket-details-container">
+    <h4>Match details</h4>
+    <p class="clubnames">@Model.Match.Thuisclub.Naam vs @Model.Match.Bezoekersclub.Naam</p>
+    <p>Datum: @Model.Match.MatchDate</p>
+    <p>Stadion: @Model.Match.Stadion.Naam</p>
+</div>
+
 
 <form asp-action="CreateTicket" method="post">
 
