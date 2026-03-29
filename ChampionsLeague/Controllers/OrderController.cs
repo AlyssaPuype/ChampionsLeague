@@ -25,10 +25,21 @@ namespace ChampionsLeague.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        
+            public async Task<IActionResult> Index(int matchId)
         {
-            
-            return View();
+            var match = await _matchService.GetMatchByIdAsync(matchId);
+
+            var vakken = await _stadionvakService.GetByStadionAsync(match.Stadion.Id);
+
+            var viewModel = new OrderTicketVM
+            {
+                Match = match,
+                Stadionvakken = vakken,
+                GeselecteerdMatchId = matchId
+            };
+
+            return View(viewModel);
         }
 
     }
