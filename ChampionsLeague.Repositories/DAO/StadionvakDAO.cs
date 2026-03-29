@@ -16,22 +16,19 @@ namespace ChampionsLeague.Repositories.DAO
             _context = context;
         }
 
-        public async Task<IEnumerable<Stadionvak>> GetAllAsync()
+        public async Task<IEnumerable<Stadionvak>> GetAllStadionvakkenAsync()
         {
             return await _context.Stadionvakken.ToListAsync();
         }
 
         public async Task<Stadionvak?> GetByIdAsync(int id)
         {
-            return await _context.Stadionvakken
-                .FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Stadionvakken.FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<IEnumerable<Stadionvak>> GetByStadionAsync(int stadionId)
         {
-            return await _context.Stadionvakken
-                .Where(s => s.StadionId == stadionId)
-                .ToListAsync();
+            return await _context.Stadionvakken.Where(s => s.StadionId == stadionId).ToListAsync();
         }
     }
 }

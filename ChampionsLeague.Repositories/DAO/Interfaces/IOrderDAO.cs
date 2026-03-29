@@ -7,7 +7,7 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
 {
     public interface IOrderDAO
     {
-        Task<IEnumerable<Order>> GetAllAsync();
+        Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task<Order?> GetByIdAsync(int id);
         Task<IEnumerable<Order>> GetByUserAsync(string userId);
         Task AddAsync(Order order);

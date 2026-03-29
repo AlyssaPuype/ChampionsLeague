@@ -42,12 +42,16 @@ builder.Services.AddScoped<IClubDAO, ClubDAO>();
 builder.Services.AddScoped<IMatchDAO, MatchDAO>();
 builder.Services.AddScoped<IOrderDAO, OrderDAO>();
 builder.Services.AddScoped<IStadionvakDAO, StadionvakDAO>();
+builder.Services.AddScoped<IZitplaatsDAO, ZitplaatsDAO>();
+
 
 //services
 builder.Services.AddScoped<IClubService, ClubService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IStadionvakService, StadionvakService>();
+builder.Services.AddScoped<IZitplaatsService, ZitplaatsService>();
+
 
 
 
