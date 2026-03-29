@@ -25,7 +25,11 @@ namespace ChampionsLeague.Controllers
             _userManager = userManager;
         }
 
-        
+        public async Task<IActionResult> Index()
+        {
+            
+            return View();
+        }
 
     }
 }
