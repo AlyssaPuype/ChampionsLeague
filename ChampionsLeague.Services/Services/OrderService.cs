@@ -22,7 +22,7 @@ namespace ChampionsLeague.Services.Services
             _zitplaatsService = zitplaatsService;
         }
 
-        public async Task<IEnumerable<Order>> GetAllAsync()
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return await _orderDAO.GetAllOrdersAsync();
         }
