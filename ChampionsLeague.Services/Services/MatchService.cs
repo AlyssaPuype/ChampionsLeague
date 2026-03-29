@@ -18,7 +18,7 @@ namespace ChampionsLeague.Services.Services
 
         public async Task<List<Match>> GetAllMatchesAsync()
         {
-            return await _matchDAO.GetAllAsync();
+            return await _matchDAO.GetAllMatchesAsync();
         }
 
         public async Task<Match?> GetMatchByIdAsync(int id)

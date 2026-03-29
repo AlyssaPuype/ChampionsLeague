@@ -16,9 +16,9 @@ namespace ChampionsLeague.Services
             _zitplaatsDAO = zitplaatsDAO;
         }
 
-        public async Task<IEnumerable<Zitplaats>> GetAllAsync()
+        public async Task<IEnumerable<Zitplaats>> GetAllZitplaatsenAsync()
         {
-            return await _zitplaatsDAO.GetAllAsync();
+            return await _zitplaatsDAO.GetAllZitplaatsenAsync();
         }
 
         public async Task<Zitplaats?> GetByIdAsync(int id)

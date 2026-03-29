@@ -9,7 +9,7 @@ namespace ChampionsLeague.Services.Services
 {
     public interface IStadionvakService
     {
-        Task<IEnumerable<Stadionvak>> GetAllAsync();
+        Task<IEnumerable<Stadionvak>> GetAllStadionvakkenAsync();
         Task<Stadionvak?> GetByIdAsync(int id);
         Task<IEnumerable<Stadionvak>> GetByStadionAsync(int stadionId);
     }

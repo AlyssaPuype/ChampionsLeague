@@ -16,7 +16,7 @@ namespace ChampionsLeague.Repositories.DAO
         {
             _context = context;
         }
-        public async Task<IEnumerable<Zitplaats>> GetAllAsync()
+        public async Task<IEnumerable<Zitplaats>> GetAllZitplaatsenAsync()
         {
             return await _context.Zitplaatsen.ToListAsync();
         }

@@ -14,7 +14,7 @@ namespace ChampionsLeague.Data.DAOs
             _context = context;
         }
 
-        public async Task<List<Match>> GetAllAsync()
+        public async Task<List<Match>> GetAllMatchesAsync()
         {
             return await _context.Matches
                 .Include(m => m.Thuisclub)

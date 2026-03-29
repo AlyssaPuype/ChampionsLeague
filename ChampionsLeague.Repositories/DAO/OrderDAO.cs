@@ -20,8 +20,7 @@ namespace ChampionsLeague.Repositories.DAO
         }
 
 
-
-        public async Task<IEnumerable<Order>> GetAllAsync()
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return await _context.Orders
                 .Include(o => o.User)        

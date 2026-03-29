@@ -11,9 +11,10 @@ namespace ChampionsLeague.Services.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderDAO _orderDAO;
+        //zitplaatsservice om beschikbare zitplaatsen op te halen 
         private readonly IZitplaatsService _zitplaatsService;
+        //constante ticketprijs voor nu
         private const decimal TicketPrijs = 50m;
-
 
         public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService)
         {
@@ -23,7 +24,7 @@ namespace ChampionsLeague.Services.Services
 
         public async Task<IEnumerable<Order>> GetAllAsync()
         {
-            return await _orderDAO.GetAllAsync();
+            return await _orderDAO.GetAllOrdersAsync();
         }
 
         public async Task<Order?> GetByIdAsync(int id)
