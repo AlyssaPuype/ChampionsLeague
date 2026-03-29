@@ -16,7 +16,7 @@ namespace ChampionsLeague.Controllers
         private readonly IMatchService _matchService;
         private readonly IStadionvakService _stadionvakService;
         private readonly UserManager<ApplicationUser> _userManager;
-       
+
         public OrderController(IOrderService orderService, IMatchService matchService, IStadionvakService stadionvakService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
@@ -25,8 +25,9 @@ namespace ChampionsLeague.Controllers
             _userManager = userManager;
         }
 
-        
-            public async Task<IActionResult> Index(int matchId)
+
+        [HttpGet]
+        public async Task<IActionResult> Index(int matchId)
         {
             var match = await _matchService.GetMatchByIdAsync(matchId);
 
@@ -42,5 +43,15 @@ namespace ChampionsLeague.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateTicket(OrderTicketVM viewmodel)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            await _orderService.CreateTicketOrderAsync(user.Id, viewmodel.GeselecteerdMatchId, viewmodel.GeselecteerdStadionvakId, viewmodel.AantalTickets);
+
+            return RedirectToAction("Index", "Home");
+
+        }
     }
 }

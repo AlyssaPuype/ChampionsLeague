@@ -9,39 +9,41 @@
     <link rel="stylesheet" href="~/css/OrderIndex.css" />
 }
 
-<h1>Koop ticket</h1>
-<div class="ticket-details-container">
+<h1>Koop tickets</h1>
+<section class="ticket-details-container">
     <h4>Match details</h4>
     <p class="clubnames">@Model.Match.Thuisclub.Naam vs @Model.Match.Bezoekersclub.Naam</p>
     <p>Datum: @Model.Match.MatchDate</p>
     <p>Stadion: @Model.Match.Stadion.Naam</p>
-</div>
+</section>
 
+<section class="ticket-form-container">
+    <form asp-action="CreateTicket" method="post">
 
-<form asp-action="CreateTicket" method="post">
+        <!--selecteren van een stadionvak-->
+        <div class="stadionvak">
+            <label>Stadionvak</label>
+            <select asp-for="GeselecteerdStadionvakId">
+                <option value="">Selecteer een stadionvak</option>
+                @foreach (var stadionvak in Model.Stadionvakken)
+                {
+                    <option value="@stadionvak.Id">@stadionvak.Ring - @stadionvak.Partij</option>
+                }
+            </select>
+        </div>
+        
 
-    <!--selecteren van een stadionvak-->
-    <label>Stadionvak</label>
-    <select asp-for="GeselecteerdStadionvakId">
-        <option value="">Selecteer een stadionvak</option>
-        @foreach (var stadionvak in Model.Stadionvakken)
-        {
-            <option value="@stadionvak.Id">@stadionvak.Ring - @stadionvak.Partij</option>
-        }
-    </select>
+        <!--selecteren van aantal tickets-->
+        <div class="aantal-tickets">
+            <label>Aantal tickets</label>
+            <input asp-for="AantalTickets" type="number" value="1" />
 
+        </div>
+       
+        <button type="submit">Bevestig</button>
 
-    <!--selecteren van aantal tickets-->
+    </form>
 
-    <label>Stadionvak</label>
-    <select asp-for="GeselecteerdStadionvakId">
-        <option value="">Selecteer een stadionvak</option>
-        @foreach (var stadionvak in Model.Stadionvakken)
-        {
-            <option value="@stadionvak.Id">@stadionvak.Ring - @stadionvak.Partij</option>
-        }
-    </select>
-
-</form>
+</section>
 
 

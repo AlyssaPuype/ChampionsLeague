@@ -138,6 +138,8 @@ public partial class ChampionsLeagueDbContext : DbContext
                 .HasConstraintName("FK_Match_Thuisclub");
         });
 
+        modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers");
+
         modelBuilder.Entity<Order>(entity =>
         {
             entity.ToTable("Order");
@@ -149,7 +151,6 @@ public partial class ChampionsLeagueDbContext : DbContext
                 .HasColumnName("totale_prijs");
             entity.Property(e => e.UserId)
                 .HasMaxLength(450)
-                .HasDefaultValue("")
                 .HasColumnName("user_id");
 
             entity.HasOne(d => d.User).WithMany()
