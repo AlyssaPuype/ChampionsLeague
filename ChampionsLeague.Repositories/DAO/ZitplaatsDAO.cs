@@ -27,10 +27,11 @@ namespace ChampionsLeague.Repositories.DAO
                 .FirstOrDefaultAsync(z => z.Id == id);
         }
 
-        public async Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int stadionvakId, int matchId, int aantalGewensteZitplaatsen)
+        public async Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
             return await _context.Zitplaatsen
                 .Where(z => z.StadionvakId == stadionvakId)
+                //TODO: ook zitplaatsen toevoegen die geannuleerd zijn (issue #40)
                 .Where(z => !z.Tickets.Any(t => t.MatchId == matchId))
                 .Take(aantalGewensteZitplaatsen)
                 .ToListAsync();

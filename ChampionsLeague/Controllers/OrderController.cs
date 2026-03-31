@@ -44,13 +44,39 @@ namespace ChampionsLeague.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTicket(OrderTicketVM viewmodel)
+        public async Task<IActionResult> CreateTicket(OrderTicketVM viewModel)
         {
             var user = await _userManager.GetUserAsync(User);
+            //null check op user:
+            if (user == null) return Unauthorized();
 
-            await _orderService.CreateTicketOrderAsync(user.Id, viewmodel.GeselecteerdMatchId, viewmodel.GeselecteerdStadionvakId, viewmodel.AantalTickets);
+            try
+            {
+                //Probleem: #39 : Ticket object werd niet aangemaakt in OrderService
+                //Breakpoint hier gezet, kijk welke waarde matchId, StadionvakId en AantalTickets heeft. 
+                //viewModel.GeslecteerdMatchId: 0
+                //viewModel.GeselecteerdStadionvakId: 0
+                //viewModel.AantalTickets: 1
+                //Oplossing:
+                    //in Views/Order/Index.cshtml input field voor GeselecteerdMatchId ontbreekt, toevoegen
+                    //In OrderService.cs: order van attributen was omgedraaid, opgelost door matchId als eerste te zetten. var beschikbareZitplaatsen = await _zitplaatsService.GetAvailableByStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
+                //Test: stadionvak: Real Madrid - Mancity 26/04/01. Onder-West, Aantal tickets: 2 -> output: MatchId: 31, StadionvakId: 248, AantalTickets: 2
+                await _orderService.CreateTicketOrderAsync(user.Id, viewModel.GeselecteerdMatchId, viewModel.GeselecteerdStadionvakId, viewModel.AantalTickets);
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            } 
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+
+                var match = await _matchService.GetMatchByIdAsync(viewModel.GeselecteerdMatchId);
+                var vakken = await _stadionvakService.GetByStadionAsync(match!.Stadion.Id);
+                viewModel.Match = match;
+                viewModel.Stadionvakken = vakken;
+
+                return View("Index", viewModel);
+            }
+            
 
         }
     }

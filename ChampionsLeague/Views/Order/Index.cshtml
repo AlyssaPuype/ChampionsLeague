@@ -20,6 +20,9 @@
 <section class="ticket-form-container">
     <form asp-action="CreateTicket" method="post">
 
+        <!--Match is geselecteerd-->
+        <input type="hidden" asp-for="GeselecteerdMatchId" />
+
         <!--selecteren van een stadionvak-->
         <div class="stadionvak">
             <label>Stadionvak</label>
