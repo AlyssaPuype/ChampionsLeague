@@ -36,7 +36,7 @@
                         <td>@match.Bezoekersclub.Naam</td>
                         <td>@match.Stadion.Naam</td>
                         <td>
-                            <a asp-controller="Order" asp-action="Index" class="orderbtn">Koop ticket</a>
+                            <a asp-controller="Order" asp-action="Index" asp-route-matchid="@match.Id" class="orderbtn">Koop ticket</a>
                         </td>
                     </tr>
                 }

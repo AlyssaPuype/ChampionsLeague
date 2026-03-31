@@ -1,2 +1,31 @@
-﻿body {
+﻿
+
+/*MOBILE*/
+
+p {
+    padding: 0;
+    margin: 0;
 }
+
+.ticket-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    background-color: rgb(255, 255, 255);
+    padding: 1rem;
+}
+
+.clubnames{
+    font-weight: bold;
+}
+
+.ticket-form-container{
+    display: flex;
+    flex-direction: column;
+}
+
+/*DEKSTOP*/
+@media (min-width: 768px) {
+   
+}
+

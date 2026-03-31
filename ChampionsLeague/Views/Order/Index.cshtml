@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Club>
+﻿@model ChampionsLeague.Models.Order.OrderTicketVM
 
 @{
     ViewData["Title"] = "Tickets kopen";
@@ -9,10 +9,44 @@
     <link rel="stylesheet" href="~/css/OrderIndex.css" />
 }
 
-<h1>Koop ticket</h1>
+<h1>Koop tickets</h1>
+<section class="ticket-details-container">
+    <h4>Match details</h4>
+    <p class="clubnames">@Model.Match.Thuisclub.Naam vs @Model.Match.Bezoekersclub.Naam</p>
+    <p>Datum: @Model.Match.MatchDate</p>
+    <p>Stadion: @Model.Match.Stadion.Naam</p>
+</section>
 
-<form asp-action="CreateTicket" method="post">
+<section class="ticket-form-container">
+    <form asp-action="CreateTicket" method="post">
 
-</form>
+        <!--Match is geselecteerd-->
+        <input type="hidden" asp-for="GeselecteerdMatchId" />
+
+        <!--selecteren van een stadionvak-->
+        <div class="stadionvak">
+            <label>Stadionvak</label>
+            <select asp-for="GeselecteerdStadionvakId">
+                <option value="">Selecteer een stadionvak</option>
+                @foreach (var stadionvak in Model.Stadionvakken)
+                {
+                    <option value="@stadionvak.Id">@stadionvak.Ring - @stadionvak.Partij</option>
+                }
+            </select>
+        </div>
+        
+
+        <!--selecteren van aantal tickets-->
+        <div class="aantal-tickets">
+            <label>Aantal tickets</label>
+            <input asp-for="AantalTickets" type="number" value="1" />
+
+        </div>
+       
+        <button type="submit">Bevestig</button>
+
+    </form>
+
+</section>
 
 

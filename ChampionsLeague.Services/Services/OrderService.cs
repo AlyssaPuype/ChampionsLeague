@@ -42,7 +42,13 @@ namespace ChampionsLeague.Services.Services
         {
             //get beschikbare zitplaatsen
             var beschikbareZitplaatsen = await _zitplaatsService.GetAvailableByStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
-
+            //Check of deze ingevuld worden
+            if (!beschikbareZitplaatsen.Any())
+            {
+                throw new Exception("Geen beschikbare zitplaatsen.");
+            }
+            
+            
             //maak orderline aan en bereken totaalprijs
             var orderline = new Orderline
             {

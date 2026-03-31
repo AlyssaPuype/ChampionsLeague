@@ -9,6 +9,6 @@ namespace ChampionsLeague.Services.Services.Interfaces
     {
         Task<IEnumerable<Zitplaats>> GetAllZitplaatsenAsync();
         Task<Zitplaats?> GetByIdAsync(int id);
-        Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int stadionvakId, int matchId, int aantalGewensteZitplaatsen);
+        Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen);
     }
 }
