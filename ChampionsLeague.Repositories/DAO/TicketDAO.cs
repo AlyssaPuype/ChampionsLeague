@@ -24,12 +24,21 @@ namespace ChampionsLeague.Repositories.DAO
 
         public async Task<Ticket?> GetByIdAsync(int ticketId)
         {
-            return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId); // ← filter on id
+            return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
         public async Task<IEnumerable<Ticket>> GetByUserAsync(string userId)
         {
-            return await _context.Tickets.Where(t => t.Orderline!.Order.UserId == userId).ToListAsync();
+            //Include thuis en bezoekersclub en zitplaats
+            return await _context.Tickets
+                .Include(t => t.Match).ThenInclude(m => m.Thuisclub)
+                .Include(t => t.Match).ThenInclude(m => m.Bezoekersclub)
+                .Include(t => t.Match).ThenInclude(m => m.Stadion)
+                .Include(t => t.Zitplaats).ThenInclude(z => z.Stadionvak)
+                .Include(t => t.Zitplaats).ThenInclude(z => z.Stadionvak)
+                .Include(t => t.Orderline).ThenInclude(ol => ol!.Order)
+                .Where(t => t.Orderline!.Order.UserId == userId)
+                .ToListAsync();
         }
 
         public async Task UpdateAsync(Ticket ticket)
