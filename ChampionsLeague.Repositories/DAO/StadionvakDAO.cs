@@ -30,5 +30,8 @@ namespace ChampionsLeague.Repositories.DAO
         {
             return await _context.Stadionvakken.Where(s => s.StadionId == stadionId).ToListAsync();
         }
+
+
+
     }
 }

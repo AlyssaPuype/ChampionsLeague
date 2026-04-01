@@ -31,6 +31,11 @@ namespace ChampionsLeague.Services.Services
             return await _ticketDAO.GetByUserAsync(userId);
         }
 
+        public async Task<int> CountTicketsByUserAndMatchAsync(string userId, int matchId)
+        {
+            return await _ticketDAO.CountTicketsByUserAndMatchAsync(userId, matchId);
+        }
+
         // we moeten een ticket kunnen annuleren
         public async Task UpdateAsync(Ticket ticket)
         {
