@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ChampionsLeague.Repositories.DAO
 {
@@ -58,13 +59,14 @@ namespace ChampionsLeague.Repositories.DAO
         }
 
         //methode voor validatie dat user geen tickets kan kopen voor twee =/ matches op dezelfde dag, rekening houden met geannuleerde tickets
-        public async Task<bool> HeeftTicketOpZelfdeDagAsync(string userId, DateOnly matchDate)
+        public async Task<bool> HeeftTicketOpZelfdeDagAsync(string userId, DateOnly matchDate, int matchId)
         {
             return await _context.Tickets
                 .Include(t => t.Match)
                 .Where(t => t.Orderline!.Order.UserId == userId)
                 .Where(t => t.Status != "geannuleerd")
                 .Where(t => t.Match!.MatchDate == matchDate)
+                .Where(t => t.MatchId != matchId) //dezelfde match uitsluiten, user mag wel nog verder bestellen voor dezelfde match
                 .AnyAsync();
         }
 
