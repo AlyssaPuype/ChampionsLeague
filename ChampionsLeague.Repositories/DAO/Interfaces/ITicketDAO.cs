@@ -15,6 +15,10 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
 
         //get aantal ticket van een user van een match
         Task<int> CountTicketsByUserAndMatchAsync(string userId, int matchId);
+
+        //Check of er al een ticket voor een andere match op dezelfde dag is gekocht voor deze gebruiker
+        Task<bool> HeeftTicketOpZelfdeDagAsync(string userId, DateOnly matchDate);
+
         Task SaveAsync();
     }
 }

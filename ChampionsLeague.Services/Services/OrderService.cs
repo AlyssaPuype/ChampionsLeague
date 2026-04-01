@@ -4,6 +4,7 @@ using ChampionsLeague.Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 
 namespace ChampionsLeague.Services.Services
@@ -54,6 +55,17 @@ namespace ChampionsLeague.Services.Services
             if (gekochteTickets + aantalGewensteZitplaatsen > 4)
                 throw new Exception($"Reeds gekochte tickets: {gekochteTickets}. Maximum tickets per match: 4.");
 
+            //#48: Validatie: User mag geen tickets kopen voor twee verschillende matches op dezelfde dag
+            var match = await _matchService.GetMatchByIdAsync(matchId);
+            if (match == null) throw new Exception("Match niet gevonden.");
+
+            if (match.MatchDate != null)
+            {
+                var heeftTicketOpDag = await _ticketService.HeeftTicketOpZelfdeDagAsync(userId, match.MatchDate.Value);
+                if (heeftTicketOpDag)
+                    throw new Exception("Je hebt al een ticket voor een andere match op deze dag.");
+            }
+
             //TODO: #46 Error handling: stadionvak moet gekozen worden
             //get beschikbare zitplaatsen
             var beschikbareZitplaatsen = await _zitplaatsService.GetAvailableByStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
@@ -69,7 +81,6 @@ namespace ChampionsLeague.Services.Services
             {
                 Prijs = TicketPrijs * aantalGewensteZitplaatsen
             };
-
 
             //voeg ticket toe aan orderline
             foreach (var zitplaats in beschikbareZitplaatsen)

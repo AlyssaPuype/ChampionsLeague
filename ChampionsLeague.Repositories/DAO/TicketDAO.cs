@@ -45,9 +45,9 @@ namespace ChampionsLeague.Repositories.DAO
         {
             _context.Tickets.Update(ticket);
         }
-
         
-        //methode voor validatie van max 4 tickets per user per match aan te kopen
+        
+        //methode voor validatie van max 4 tickets per user per match aan te kopen, rekening houden met geannuleerde tickets
         public async Task<int> CountTicketsByUserAndMatchAsync(string userId, int matchId)
         {
             return await _context.Tickets
@@ -55,6 +55,17 @@ namespace ChampionsLeague.Repositories.DAO
                 .Where(t => t.MatchId == matchId)
                 .Where(t => t.Status != "geannuleerd")
                 .CountAsync();
+        }
+
+        //methode voor validatie dat user geen tickets kan kopen voor twee =/ matches op dezelfde dag, rekening houden met geannuleerde tickets
+        public async Task<bool> HeeftTicketOpZelfdeDagAsync(string userId, DateOnly matchDate)
+        {
+            return await _context.Tickets
+                .Include(t => t.Match)
+                .Where(t => t.Orderline!.Order.UserId == userId)
+                .Where(t => t.Status != "geannuleerd")
+                .Where(t => t.Match!.MatchDate == matchDate)
+                .AnyAsync();
         }
 
         public async Task SaveAsync()
