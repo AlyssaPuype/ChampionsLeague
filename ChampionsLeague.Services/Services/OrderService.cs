@@ -70,7 +70,6 @@ namespace ChampionsLeague.Services.Services
                 Prijs = TicketPrijs * aantalGewensteZitplaatsen
             };
 
-
             //voeg ticket toe aan orderline
             foreach (var zitplaats in beschikbareZitplaatsen)
             {
