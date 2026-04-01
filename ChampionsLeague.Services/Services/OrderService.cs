@@ -16,10 +16,18 @@ namespace ChampionsLeague.Services.Services
         //constante ticketprijs voor nu
         private const decimal TicketPrijs = 50m;
 
-        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService)
+        //ticketservice (max 4 tickets per user per match)
+        private readonly ITicketService _ticketService;
+
+        //mag geen tickets kopen voor twee verschillende matches op een dag
+        private readonly IMatchService _matchService;
+
+        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService, ITicketService ticketService, IMatchService matchService)
         {
             _orderDAO = orderDAO;
             _zitplaatsService = zitplaatsService;
+            _ticketService = ticketService;
+            _matchService = matchService;
         }
 
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
@@ -40,6 +48,13 @@ namespace ChampionsLeague.Services.Services
 
         public async Task CreateTicketOrderAsync(string userId, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
+
+            //#18: Validatie: User mag max 4 tickets per match kopen
+            var gekochteTickets = await _ticketService.CountTicketsByUserAndMatchAsync(userId, matchId);
+            if (gekochteTickets + aantalGewensteZitplaatsen > 4)
+                throw new Exception($"Reeds gekochte tickets: {gekochteTickets}. Maximum tickets per match: 4.");
+
+            //TODO: #46 Error handling: stadionvak moet gekozen worden
             //get beschikbare zitplaatsen
             var beschikbareZitplaatsen = await _zitplaatsService.GetAvailableByStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
             //Check of deze ingevuld worden
@@ -65,7 +80,7 @@ namespace ChampionsLeague.Services.Services
                         ZitplaatsId = zitplaats.Id,
                         MatchId = matchId,
                         Prijs = TicketPrijs,
-                        Status = "Gereserveerd"
+                        Status = "gereserveerd"
                     });
             }
 

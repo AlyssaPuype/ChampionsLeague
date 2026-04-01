@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace ChampionsLeague.Domains.Entities;
@@ -24,4 +25,6 @@ public partial class Ticket
     public virtual Voucher? Voucher { get; set; }
 
     public virtual Zitplaats Zitplaats { get; set; } = null!;
+
+
 }

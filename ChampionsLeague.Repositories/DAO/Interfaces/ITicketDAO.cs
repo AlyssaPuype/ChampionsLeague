@@ -12,6 +12,9 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
         Task<Ticket?> GetByIdAsync(int ticketId);
         Task<IEnumerable<Ticket>> GetByUserAsync(string userId);
         Task UpdateAsync(Ticket ticket);
+
+        //get aantal ticket van een user van een match
+        Task<int> CountTicketsByUserAndMatchAsync(string userId, int matchId);
         Task SaveAsync();
     }
 }
