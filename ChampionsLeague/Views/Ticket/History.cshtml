@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ChampionsLeague.Domains.Entities.Ticket>
+
+@{
+    ViewData["Title"] = "Ticket historiek";
+}
+
+<h1>Ticket historiek</h1>
+
+@if (!Model.Any())
+{
+    <p>Geen tickets gekocht.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Match</th>
+                <th>Datum</th>
+                <th>Stadion</th>
+                <th>Zitplaats</th>
+                <th>Vak</th>
+                <th>Prijs</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ticket in Model)
+            {
+                <tr>
+                    <td>@ticket.Match?.Thuisclub?.Naam vs @ticket.Match?.Bezoekersclub?.Naam</td>
+                    <td>@ticket.Match?.MatchDate?.ToString("dd/MM/yyyy")</td>
+                    <td>@ticket.Match?.Stadion?.Naam</td>
+                    <td>@ticket.Zitplaats?.ZitplaatsNummer</td>
+                    <td>@ticket.Zitplaats?.Stadionvak?.Naam</td>
+                    <td>€@ticket.Prijs</td>
+                    <td>@ticket.Status</td>
+                    <td>
+                        
+                        @if (ticket.Status != "geannuleerd")
+                        {
+                            <form asp-action="Annuleer" method="post">
+                                <input type="hidden" name="ticketId" value="@ticket.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Annuleer
+                                </button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
