@@ -36,6 +36,11 @@ namespace ChampionsLeague.Services.Services
             return await _ticketDAO.CountTicketsByUserAndMatchAsync(userId, matchId);
         }
 
+        public async Task<bool> HeeftTicketOpZelfdeDagAsync(string userId, DateOnly matchDate)
+        {
+            return await _ticketDAO.HeeftTicketOpZelfdeDagAsync(userId, matchDate);
+        }
+
         // we moeten een ticket kunnen annuleren
         public async Task UpdateAsync(Ticket ticket)
         {
