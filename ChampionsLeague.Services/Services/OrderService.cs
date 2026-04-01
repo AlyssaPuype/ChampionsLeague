@@ -46,7 +46,6 @@ namespace ChampionsLeague.Services.Services
             return await _orderDAO.GetByUserAsync(userId);
         }
 
-
         public async Task CreateTicketOrderAsync(string userId, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
 
