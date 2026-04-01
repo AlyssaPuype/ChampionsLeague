@@ -22,7 +22,7 @@
                 <th>Thuisploeg</th>
                 <th>Bezoekers</th>
                 <th>Stadion</th>
-                <th></th>
+                <th>Koop tickets</th>
             </tr>
         </thead>
         <tbody>
@@ -35,8 +35,17 @@
                         <td>@match.Thuisclub.Naam</td>
                         <td>@match.Bezoekersclub.Naam</td>
                         <td>@match.Stadion.Naam</td>
-                        <td>
-                            <a asp-controller="Order" asp-action="Index" asp-route-matchid="@match.Id" class="orderbtn">Koop ticket</a>
+                        <td> <!--#50 Blokkeer in de UI de mogelijkheid om tickets te kopen voor matches met date > 1 maand-->
+                            @if (match.MatchDate != null && match.MatchDate.Value <= DateOnly.FromDateTime(DateTime.Now.AddMonths(1)))
+                            {
+                                // minder dan een maand:
+                               <a asp-controller="Order" asp-action="Index" asp-route-matchid="@match.Id" class=" btn btn-primary">Koop ticket</a>
+                            }
+                            else
+                            {
+                                // Meer dan een maand:
+                                <button class="btn btn-dark" disabled>Nog niet beschikbaar</button>
+                            }
                         </td>
                     </tr>
                 }

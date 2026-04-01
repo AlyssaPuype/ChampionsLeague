@@ -46,7 +46,6 @@ namespace ChampionsLeague.Services.Services
             return await _orderDAO.GetByUserAsync(userId);
         }
 
-
         public async Task CreateTicketOrderAsync(string userId, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
 
@@ -61,9 +60,18 @@ namespace ChampionsLeague.Services.Services
 
             if (match.MatchDate != null)
             {
-                var heeftTicketOpDag = await _ticketService.HeeftTicketOpZelfdeDagAsync(userId, match.MatchDate.Value);
+                var heeftTicketOpDag = await _ticketService.HeeftTicketOpZelfdeDagAsync(userId, match.MatchDate.Value, matchId);
                 if (heeftTicketOpDag)
                     throw new Exception("Je hebt al een ticket voor een andere match op deze dag.");
+            }
+
+            //#50: Validatie: Een gebruiker mag enkel tickets kopen voor matches met date < 1 maand
+            //
+            if (match.MatchDate != null)
+            {
+                var maandlimiet = DateOnly.FromDateTime(DateTime.Now.AddMonths(1));
+                if (match.MatchDate.Value > maandlimiet)
+                    throw new Exception("Tickets kunnen pas 1 maand voor de wedstrijd gekocht worden.");
             }
 
             //TODO: #46 Error handling: stadionvak moet gekozen worden
