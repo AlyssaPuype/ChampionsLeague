@@ -18,7 +18,6 @@
             <b>Winkelmandje:</b> @Model.Carts.Sum(x => x.AantalTickets) ticket(s) — €@Model.ComputeTotalValue()
         </small>
     </div>
-
     <form asp-action="CreateTicket" method="post">
         <table class="table table-striped">
             <thead>
