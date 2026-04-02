@@ -18,7 +18,8 @@
 </section>
 
 <section class="ticket-form-container">
-    <form asp-action="CreateTicket" method="post">
+    <!--Bij gebruik van shoppingcart, asp-action veranderd van CreateTicket naar AddToCart-->
+    <form asp-action="AddToCart" method="post">
 
         <!--Match is geselecteerd-->
         <input type="hidden" asp-for="GeselecteerdMatchId" />
@@ -43,7 +44,7 @@
 
         </div>
        
-        <button type="submit">Bevestig</button>
+        <button type="submit">Voeg toe aan winkelmand</button>
 
     </form>
 

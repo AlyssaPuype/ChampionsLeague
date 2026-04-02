@@ -55,10 +55,16 @@ builder.Services.AddScoped<IZitplaatsService, ZitplaatsService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 
 
-
-
-
 builder.Services.AddControllersWithViews();
+
+//sessions
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "be.ChampionsLeague.Session";
+
+    options.IdleTimeout = TimeSpan.FromMinutes(1);
+});
+
 
 var app = builder.Build();
 
@@ -78,6 +84,8 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

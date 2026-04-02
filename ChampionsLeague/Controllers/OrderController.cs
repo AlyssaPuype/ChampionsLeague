@@ -1,10 +1,12 @@
 ﻿using ChampionsLeague.Domains.Entities;
+using ChampionsLeague.Models;
 using ChampionsLeague.Models.Order;
 using ChampionsLeague.Services;
 using ChampionsLeague.Services.Services;
 using ChampionsLeague.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using ChampionsLeague.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChampionsLeague.Controllers
@@ -43,6 +45,47 @@ namespace ChampionsLeague.Controllers
             return View(viewModel);
         }
 
+        //Implementing shoppingcart ipv CreateTicket()
+        public async Task<IActionResult>AddToCart(OrderTicketVM viewModel)
+        {
+            var match = await _matchService.GetMatchByIdAsync(viewModel.GeselecteerdMatchId);
+            var vak = await _stadionvakService.GetByIdAsync(viewModel.GeselecteerdStadionvakId);
+
+            //get cart of maak nieuw
+            var cartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart") ?? new ShoppingCartVM
+            {
+                Carts = new List<CartItemVM>()
+            };
+
+            //Bestaat match al in cart?
+            var bestaandItem = cartList.Carts!.FirstOrDefault(c => c.MatchId == viewModel.GeselecteerdMatchId);
+            if (bestaandItem != null)
+            {
+                // update aantal
+                bestaandItem.AantalTickets += viewModel.AantalTickets;
+            }
+            else
+            {
+                // add new item
+                cartList.Carts!.Add(new CartItemVM
+                {
+                    MatchId = match!.Id,
+                    MatchNaam = $"{match.Thuisclub?.Naam} vs {match.Bezoekersclub?.Naam}",
+                    MatchDatum = match.MatchDate?.ToString("dd/MM/yyyy"),
+                    StadionNaam = match.Stadion?.Naam,
+                    StadionvakId = vak!.Id,
+                    StadionvakNaam = vak.Naam,
+                    AantalTickets = viewModel.AantalTickets,
+                    Prijs = 50m
+                });
+            }
+
+            HttpContext.Session.SetObject("ShoppingCart", cartList);
+
+            return RedirectToAction("Index", "ShoppingCart");
+        }
+
+        //niet meer gebruikt, vervangen door AddToCart() en ShoppingCartController
         [HttpPost]
         public async Task<IActionResult> CreateTicket(OrderTicketVM viewModel)
         {
