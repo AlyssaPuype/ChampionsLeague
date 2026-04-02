@@ -1,4 +1,5 @@
 ﻿using ChampionsLeague.Domains.Entities;
+using ChampionsLeague.Extensions;
 using ChampionsLeague.Models;
 using ChampionsLeague.Models.Order;
 using ChampionsLeague.Services;
@@ -6,7 +7,6 @@ using ChampionsLeague.Services.Services;
 using ChampionsLeague.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using ChampionsLeague.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChampionsLeague.Controllers
@@ -45,28 +45,37 @@ namespace ChampionsLeague.Controllers
             return View(viewModel);
         }
 
-        //Implementing shoppingcart ipv CreateTicket()
-        public async Task<IActionResult>AddToCart(OrderTicketVM viewModel)
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(OrderTicketVM viewModel)
         {
+            // validatie — stadionvak moet geselecteerd zijn
+            if (viewModel.GeselecteerdStadionvakId == 0)
+            {
+                ModelState.AddModelError("", "Selecteer een stadionvak.");
+
+                var matchOpnieuw = await _matchService.GetMatchByIdAsync(viewModel.GeselecteerdMatchId);
+                var vakkenOpnieuw = await _stadionvakService.GetByStadionAsync(matchOpnieuw!.Stadion.Id);
+                viewModel.Match = matchOpnieuw;
+                viewModel.Stadionvakken = vakkenOpnieuw;
+
+                return View("Index", viewModel);
+            }
+
             var match = await _matchService.GetMatchByIdAsync(viewModel.GeselecteerdMatchId);
             var vak = await _stadionvakService.GetByIdAsync(viewModel.GeselecteerdStadionvakId);
 
-            //get cart of maak nieuw
-            var cartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart") ?? new ShoppingCartVM
-            {
-                Carts = new List<CartItemVM>()
-            };
+            // get cart or create new
+            var cartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart")
+                ?? new ShoppingCartVM { Carts = new List<CartItemVM>() };
 
-            //Bestaat match al in cart?
+            // check if match already in cart
             var bestaandItem = cartList.Carts!.FirstOrDefault(c => c.MatchId == viewModel.GeselecteerdMatchId);
             if (bestaandItem != null)
             {
-                // update aantal
                 bestaandItem.AantalTickets += viewModel.AantalTickets;
             }
             else
             {
-                // add new item
                 cartList.Carts!.Add(new CartItemVM
                 {
                     MatchId = match!.Id,
@@ -85,7 +94,6 @@ namespace ChampionsLeague.Controllers
             return RedirectToAction("Index", "ShoppingCart");
         }
 
-        //niet meer gebruikt, vervangen door AddToCart() en ShoppingCartController
         [HttpPost]
         public async Task<IActionResult> CreateTicket(OrderTicketVM viewModel)
         {
