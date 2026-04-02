@@ -54,11 +54,17 @@ builder.Services.AddScoped<IStadionvakService, StadionvakService>();
 builder.Services.AddScoped<IZitplaatsService, ZitplaatsService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 
-
-
-
-
 builder.Services.AddControllersWithViews();
+
+
+//Session
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "be.ChampionsLeague.Session";
+
+    options.IdleTimeout = TimeSpan.FromMinutes(1);
+});
+
 
 var app = builder.Build();
 
@@ -79,6 +85,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 

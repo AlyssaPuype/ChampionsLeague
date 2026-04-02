@@ -1,4 +1,6 @@
 ﻿using ChampionsLeague.Domains.Entities;
+using ChampionsLeague.Extensions;
+using ChampionsLeague.Models;
 using ChampionsLeague.Models.Order;
 using ChampionsLeague.Services;
 using ChampionsLeague.Services.Services;
@@ -41,6 +43,55 @@ namespace ChampionsLeague.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(OrderTicketVM viewModel)
+        {
+            // validatie — stadionvak moet geselecteerd zijn
+            if (viewModel.GeselecteerdStadionvakId == 0)
+            {
+                ModelState.AddModelError("", "Selecteer een stadionvak.");
+
+                var matchOpnieuw = await _matchService.GetMatchByIdAsync(viewModel.GeselecteerdMatchId);
+                var vakkenOpnieuw = await _stadionvakService.GetByStadionAsync(matchOpnieuw!.Stadion.Id);
+                viewModel.Match = matchOpnieuw;
+                viewModel.Stadionvakken = vakkenOpnieuw;
+
+                return View("Index", viewModel);
+            }
+
+            var match = await _matchService.GetMatchByIdAsync(viewModel.GeselecteerdMatchId);
+            var vak = await _stadionvakService.GetByIdAsync(viewModel.GeselecteerdStadionvakId);
+
+            // get cart or create new
+            var cartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart")
+                ?? new ShoppingCartVM { Carts = new List<CartItemVM>() };
+
+            // check if match already in cart
+            var bestaandItem = cartList.Carts!.FirstOrDefault(c => c.MatchId == viewModel.GeselecteerdMatchId);
+            if (bestaandItem != null)
+            {
+                bestaandItem.AantalTickets += viewModel.AantalTickets;
+            }
+            else
+            {
+                cartList.Carts!.Add(new CartItemVM
+                {
+                    MatchId = match!.Id,
+                    MatchNaam = $"{match.Thuisclub?.Naam} vs {match.Bezoekersclub?.Naam}",
+                    MatchDatum = match.MatchDate?.ToString("dd/MM/yyyy"),
+                    StadionNaam = match.Stadion?.Naam,
+                    StadionvakId = vak!.Id,
+                    StadionvakNaam = vak.Naam,
+                    AantalTickets = viewModel.AantalTickets,
+                    Prijs = 50m
+                });
+            }
+
+            HttpContext.Session.SetObject("ShoppingCart", cartList);
+
+            return RedirectToAction("Index", "ShoppingCart");
         }
 
         [HttpPost]
