@@ -50,9 +50,10 @@ namespace ChampionsLeague.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Payment(ShoppingCartVM carts)
+        public async Task<IActionResult> CreateTicket()
         {
             string? userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var carts = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
 
             try
             {
