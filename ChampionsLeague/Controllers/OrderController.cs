@@ -1,4 +1,5 @@
 ﻿using ChampionsLeague.Domains.Entities;
+using ChampionsLeague.Extensions;
 using ChampionsLeague.Models;
 using ChampionsLeague.Models.Order;
 using ChampionsLeague.Services;
@@ -6,7 +7,6 @@ using ChampionsLeague.Services.Services;
 using ChampionsLeague.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using ChampionsLeague.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChampionsLeague.Controllers
@@ -17,13 +17,15 @@ namespace ChampionsLeague.Controllers
         private readonly IOrderService _orderService;
         private readonly IMatchService _matchService;
         private readonly IStadionvakService _stadionvakService;
+        private readonly ITicketService _ticketService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(IOrderService orderService, IMatchService matchService, IStadionvakService stadionvakService, UserManager<ApplicationUser> userManager)
+        public OrderController(IOrderService orderService, IMatchService matchService, IStadionvakService stadionvakService, ITicketService ticketService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
             _matchService = matchService;
             _stadionvakService = stadionvakService;
+            _ticketService = ticketService;
             _userManager = userManager;
         }
 
@@ -45,28 +47,93 @@ namespace ChampionsLeague.Controllers
             return View(viewModel);
         }
 
-        //Implementing shoppingcart ipv CreateTicket()
-        public async Task<IActionResult>AddToCart(OrderTicketVM viewModel)
+        //De flow:
+        //Na het selecteren van een match, komt de gebruiker op de Order/index terecht
+        //De gebruiker selecteert een stadionvak
+        //De gebruiker selecteert het aantal gewenste tickets
+        //De gebruikter klikt op 'Toevoegen aan winkelmand'
+        //AddToCart actie wordt getriggered, er is validatie op het stadionvak en business rules
+        //Gebruiker kan naar de winkelmand en daar de bestelling afronden, dan wordt Payment() getriggered
+        //Payment() calls CreateTicketOrderAsync() in OrderService, de tickets worden in de DB aangemaakt
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(OrderTicketVM viewModel)
         {
+            var user = await _userManager.GetUserAsync(User);
             var match = await _matchService.GetMatchByIdAsync(viewModel.GeselecteerdMatchId);
-            var vak = await _stadionvakService.GetByIdAsync(viewModel.GeselecteerdStadionvakId);
 
-            //get cart of maak nieuw
-            var cartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart") ?? new ShoppingCartVM
+            try
             {
-                Carts = new List<CartItemVM>()
-            };
+                //Get current shoppingcart list from Session
+                var currentCartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
 
-            //Bestaat match al in cart?
-            var bestaandItem = cartList.Carts!.FirstOrDefault(c => c.MatchId == viewModel.GeselecteerdMatchId);
+                // validatie — stadionvak moet geselecteerd zijn
+                if (viewModel.GeselecteerdStadionvakId == 0)
+                    throw new Exception("Selecteer een stadionvak.");
+
+                //#18: Validatie: User mag max 4 tickets per match (over alle stadionvakken) kopen
+                var gekochteTickets = await _ticketService.CountTicketsByUserAndMatchAsync(user!.Id, viewModel.GeselecteerdMatchId);
+                var ticketsInCart = currentCartList?.Carts?
+                    .Where(c => c.MatchId == viewModel.GeselecteerdMatchId)
+                    .Sum(c => c.AantalTickets) ?? 0;
+
+                if (gekochteTickets + ticketsInCart + viewModel.AantalTickets > 4)
+                    throw new Exception($"Maximum 4 tickets per match. Al gekocht: {gekochteTickets}, in winkelmand: {ticketsInCart}.");
+
+
+                //#48: Validatie: User mag geen tickets kopen voor twee verschillende matches op dezelfde dag
+                if (match == null) throw new Exception("Match niet gevonden.");
+
+                if (match.MatchDate != null)
+                {
+                    //Dit checkt of er al een ticket voor een match bestaat in de database
+                    var heeftTicketOpDag = await _ticketService.HeeftTicketOpZelfdeDagAsync(user!.Id, match.MatchDate.Value, viewModel.GeselecteerdMatchId);
+                    if (heeftTicketOpDag)
+                        throw new Exception("Je hebt al een ticket voor een andere match op deze dag.");
+
+                    //dit checkt of er al een ticket voor een andere match in de shopping cart zit.
+                    if (currentCartList?.Carts != null && currentCartList.Carts.Any())
+                    {
+                        var heeftMatchInCartOpDag = currentCartList.Carts.Any(c =>
+                            c.MatchId != viewModel.GeselecteerdMatchId &&
+                            c.MatchDatum == match.MatchDate.Value.ToString("dd/MM/yyyy"));
+                        if (heeftMatchInCartOpDag)
+                            throw new Exception("Je hebt al een ticket voor een andere match op deze dag in je winkelmand.");
+                    }
+                }
+
+                //#50: Validatie: Een gebruiker mag enkel tickets kopen voor matches met date < 1 maand
+                //
+                if (match.MatchDate != null)
+                {
+                    var maandlimiet = DateOnly.FromDateTime(DateTime.Now.AddMonths(1));
+                    if (match.MatchDate.Value > maandlimiet)
+                        throw new Exception("Tickets kunnen pas 1 maand voor de wedstrijd gekocht worden.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                viewModel.Match = match!;
+                viewModel.Stadionvakken = await _stadionvakService.GetByStadionAsync(match!.Stadion.Id);
+                return View("Index", viewModel);
+            }
+
+            // Validaties ok -> toevoegen aan shoppingcart
+            var vak = await _stadionvakService.GetByIdAsync(viewModel.GeselecteerdStadionvakId);
+            var cartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart")
+                ?? new ShoppingCartVM { Carts = new List<CartItemVM>() };
+
+            // check if match already in cart
+            var bestaandItem = cartList.Carts!.FirstOrDefault(c => c.MatchId == viewModel.GeselecteerdMatchId && c.StadionvakId == viewModel.GeselecteerdStadionvakId);
             if (bestaandItem != null)
             {
-                // update aantal
                 bestaandItem.AantalTickets += viewModel.AantalTickets;
             }
             else
             {
-                // add new item
                 cartList.Carts!.Add(new CartItemVM
                 {
                     MatchId = match!.Id,
@@ -85,7 +152,7 @@ namespace ChampionsLeague.Controllers
             return RedirectToAction("Index", "ShoppingCart");
         }
 
-        //niet meer gebruikt, vervangen door AddToCart() en ShoppingCartController
+        //niet meer gebruiken
         [HttpPost]
         public async Task<IActionResult> CreateTicket(OrderTicketVM viewModel)
         {

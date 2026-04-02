@@ -1,0 +1,74 @@
+﻿@model ChampionsLeague.Models.ShoppingCartVM
+
+@{
+    ViewData["Title"] = "Winkelmandje";
+}
+
+<h3>Jouw winkelmandje</h3>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (Model?.Carts?.Any() == true)
+{
+    <div class="mb-3">
+        <small>
+            <b>Winkelmandje:</b> @Model.Carts.Sum(x => x.AantalTickets) ticket(s) — €@Model.ComputeTotalValue()
+        </small>
+    </div>
+    <form asp-action="CreateTicket" method="post">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Match</th>
+                    <th>Datum</th>
+                    <th>Stadion</th>
+                    <th>Vak</th>
+                    <th>Aantal</th>
+                    <th>Prijs</th>
+                    <th>Subtotaal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (cartItem, index) in Model.Carts.Select((value, i) => (value, i)))
+                {
+                    <tr>
+                        <td>@cartItem.MatchNaam</td>
+                        <td>@cartItem.MatchDatum</td>
+                        <td>@cartItem.StadionNaam</td>
+                        <td>@cartItem.StadionvakNaam</td>
+                        <td>@cartItem.AantalTickets</td>
+                        <td>€@cartItem.Prijs</td>
+                        <td>€@(cartItem.Prijs* cartItem.AantalTickets)</td>
+                        <td>
+                            <a asp-action="Delete"
+                               asp-route-matchId="@cartItem.MatchId"
+                               asp-route-stadionvakId="@cartItem.StadionvakId"
+                               class="btn btn-danger btn-sm">Verwijder</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <input type="submit" value="Bevestig bestelling" class="btn btn-primary" />
+            </div>
+            <div class="col-md-6 text-end">
+                <strong>Totaal: €@Model.ComputeTotalValue()</strong>
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <p>Je winkelmandje is leeg.</p>
+}
+
+<a asp-controller="Match" asp-action="Index" class="btn btn-secondary mt-3">
+    Verder winkelen
+</a>
