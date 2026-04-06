@@ -1,6 +1,7 @@
 ﻿using ChampionsLeague.Domains.Entities;
 using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Services.Services.Interfaces;
+using ChampionsLeague.Util.Mail.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,12 +24,15 @@ namespace ChampionsLeague.Services.Services
         //mag geen tickets kopen voor twee verschillende matches op een dag
         private readonly IMatchService _matchService;
 
-        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService, ITicketService ticketService, IMatchService matchService)
+        private readonly IEmailSend _emailSend;
+
+        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService, ITicketService ticketService, IMatchService matchService, IEmailSend emailSend)
         {
             _orderDAO = orderDAO;
             _zitplaatsService = zitplaatsService;
             _ticketService = ticketService;
             _matchService = matchService;
+            _emailSend = emailSend;
         }
 
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
@@ -46,7 +50,7 @@ namespace ChampionsLeague.Services.Services
             return await _orderDAO.GetByUserAsync(userId);
         }
 
-        public async Task CreateTicketOrderAsync(string userId, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
+        public async Task CreateTicketOrderAsync(string userId, string email, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
 
             //#18: Validatie: User mag max 4 tickets per match kopen
@@ -99,7 +103,11 @@ namespace ChampionsLeague.Services.Services
                         ZitplaatsId = zitplaats.Id,
                         MatchId = matchId,
                         Prijs = TicketPrijs,
-                        Status = "gereserveerd"
+                        Status = "gereserveerd",
+                        Voucher = new Voucher
+                        {
+                            Code = Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()
+                        }
                     });
             }
 
@@ -116,6 +124,18 @@ namespace ChampionsLeague.Services.Services
 
             await _orderDAO.AddAsync(order);
             await _orderDAO.SaveAsync();
+
+            //Send voucher
+            var voucherLines = orderline.Tickets
+            .Select(t => $"<li>Zitplaats {t.ZitplaatsId} — Voucher: <strong>{t.Voucher.Code}</strong></li>")
+            .ToList();
+
+            await _emailSend.SendEmailAsync(email,
+                "Bevestiging van uw tickets - ChampionsLeague",
+                $@"<h2>Bedankt voor uw bestelling!</h2>
+       <p>Uw vouchers:</p>
+       <ul>{string.Join("", voucherLines)}</ul>
+       <p>Totaalprijs: €{order.TotalePrijs}</p>");
 
         }
     
