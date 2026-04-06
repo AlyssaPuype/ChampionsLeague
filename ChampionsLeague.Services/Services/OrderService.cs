@@ -131,7 +131,7 @@ namespace ChampionsLeague.Services.Services
             .ToList();
 
             await _emailSend.SendEmailAsync(email,
-                "Bevestiging uw tickets - ChampionsLeague",
+                "Bevestiging van uw tickets - ChampionsLeague",
                 $@"<h2>Bedankt voor uw bestelling!</h2>
        <p>Uw vouchers:</p>
        <ul>{string.Join("", voucherLines)}</ul>
