@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChampionsLeague.Util\ChampionsLeague.Util.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ChampionsLeague.Domains\ChampionsLeague.Domains.csproj" />
-    <ProjectReference Include="..\ChampionsLeague.Repositories\ChampionsLeague.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

@@ -52,7 +52,7 @@ namespace ChampionsLeague.Controllers
         [Authorize]
         public async Task<IActionResult> CreateTicket()
         {
-            string? userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userManager.GetUserAsync(User);
             var carts = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
 
             try
@@ -62,7 +62,8 @@ namespace ChampionsLeague.Controllers
                     foreach (var cart in carts.Carts)
                     {
                         await _orderService.CreateTicketOrderAsync(
-                            userId!,
+                            user!.Id,
+                            user!.Email,
                             cart.MatchId,
                             cart.StadionvakId,
                             cart.AantalTickets

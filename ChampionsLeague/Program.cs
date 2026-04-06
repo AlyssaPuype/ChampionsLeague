@@ -10,6 +10,8 @@ using ChampionsLeague.Services;
 using ChampionsLeague.Services.Services;
 using ChampionsLeague.Services.Services.Interfaces;
 using ChampionsLeague.Web.DAO;
+using ChampionsLeague.Util.Mail;
+using ChampionsLeague.Util.Mail.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -67,6 +69,10 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(1);
 });
 
+//Email
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+builder.Services.AddSingleton<IEmailSend, EmailSend>();
 
 
 var app = builder.Build();
