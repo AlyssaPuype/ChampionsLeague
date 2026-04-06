@@ -65,6 +65,7 @@ namespace ChampionsLeague.Controllers
 
             try
             {
+
                 //Get current shoppingcart list from Session
                 var currentCartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
 
