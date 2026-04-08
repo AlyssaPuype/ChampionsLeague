@@ -13,6 +13,8 @@
     align-items: center;
     gap: 1rem;
     background-color: rgb(255, 255, 255);
+    border: 2px solid rgba(3, 31, 56, 1);
+    border-radius: 10px;
     padding: 1rem;
 }
 
@@ -23,6 +25,23 @@
 .club-naam {
     font-weight: bold;
     color: rgba(3, 31, 56, 1);
+}
+
+/*_ClubDetail.cshtml*/
+.club-header {
+    display: flex;
+    align-items: center;
+    background: rgba(3, 31, 56, 1);
+    color: white;
+    padding: 1rem;
+}
+
+.club-header img{
+    height: 5rem;
+}
+
+.club-stadion {
+    padding: 1rem;
 }
 
 

@@ -4,6 +4,10 @@
     ViewData["Title"] = Model.Naam;
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/clubIndex.css" />
+}
+
 
 @await Html.PartialAsync("_ClubDetail", Model)
 
