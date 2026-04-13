@@ -51,11 +51,12 @@ namespace ChampionsLeague.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateTicket()
+        public async Task<IActionResult> CreateOrder()
         {
             var user = await _userManager.GetUserAsync(User);
             var carts = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
 
+            //Tickets aanmaken
             try
             {
                 if (carts.Carts != null)
@@ -72,7 +73,19 @@ namespace ChampionsLeague.Controllers
                     }
                 }
 
-                // clear cart after payment
+                if (carts?.AbonnementCarts != null)
+                {
+                    foreach (var abonnement in carts.AbonnementCarts)
+                    {
+                        await _orderService.CreateAbonnementOrderAsync(
+                            user!.Id,
+                            user!.Email,
+                            abonnement.ClubId
+                        );
+                    }
+                }
+
+                //Cart leegmaken na bestelling
                 HttpContext.Session.Remove("ShoppingCart");
                 TempData["Success"] = "Bestelling geplaatst!";
             }
@@ -82,7 +95,12 @@ namespace ChampionsLeague.Controllers
                 return View("Index", carts);
             }
 
+            //Na de bestelling is geplaatst, ga naar tickets of abonnementen
+            if (carts?.AbonnementCarts?.Any() == true)
+                return RedirectToAction("History", "Abonnement");
+
             return RedirectToAction("History", "Ticket");
+
         }
 
         public IActionResult DeleteAbonnement(int clubId)

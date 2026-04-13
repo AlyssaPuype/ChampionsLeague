@@ -12,7 +12,10 @@ namespace ChampionsLeague.Services.Services.Interfaces
         Task<Order?> GetByIdAsync(int id);
         Task<IEnumerable<Order>> GetByUserAsync(string userId);
         
-        //method to create a new order
+        //ticket aanmaken
         Task CreateTicketOrderAsync(string userId, string email, int matchId, int zitplaatsId, int aantalTickets);
+
+        // abonnement aanmaken
+        Task CreateAbonnementOrderAsync(string userId, string email, int clubId);
     }
 }

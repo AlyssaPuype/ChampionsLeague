@@ -39,9 +39,9 @@ namespace ChampionsLeague.Services.Services
             if (club == null) throw new Exception("Club niet gevonden.");
 
             // regel: abonnement enkel voor start competitie
-            var eersteMatch = await _matchService.GetEersteMatchVanClubAsync(clubId);
-            if (eersteMatch?.MatchDate != null && DateOnly.FromDateTime(DateTime.Now) >= eersteMatch.MatchDate.Value)
-                throw new Exception("Abonnementen kunnen enkel gekocht worden voor de start van de competitie.");
+            //var eersteMatch = await _matchService.GetEersteMatchVanClubAsync(clubId);
+            //if (eersteMatch?.MatchDate != null && DateOnly.FromDateTime(DateTime.Now) >= eersteMatch.MatchDate.Value)
+            //    throw new Exception("Abonnementen kunnen enkel gekocht worden voor de start van de competitie.");
 
             // regel: user heeft al abonnement voor deze club
             if (await _abonnementDAO.HeeftAbonnementVoorClubAsync(userId, clubId))
@@ -80,6 +80,11 @@ namespace ChampionsLeague.Services.Services
                <p>Zitplaats: <strong>{zitplaats.ZitplaatsNummer}</strong></p>
                <p>Prijs: €{AbonnementPrijs}</p>"
             );
+        }
+
+        public async Task<IEnumerable<Abonnement>> GetByUserIdAsync(string userId)
+        {
+            return await _abonnementDAO.GetByUserIdAsync(userId);
         }
 
         public async Task<IEnumerable<Abonnement>> GetAllAsync()

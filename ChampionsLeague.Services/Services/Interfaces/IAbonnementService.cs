@@ -12,5 +12,8 @@ namespace ChampionsLeague.Services.Services.Interfaces
 
         Task CreateAbonnementOrderAsync(string userId, string email, int clubId);
         Task<bool> HeeftAbonnementVoorClubAsync(string userId, int clubId);
+        Task<IEnumerable<Abonnement>> GetByUserIdAsync(string userId);
+
+
     }
 }
