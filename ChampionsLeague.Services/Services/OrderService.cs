@@ -21,16 +21,21 @@ namespace ChampionsLeague.Services.Services
         //ticketservice (max 4 tickets per user per match)
         private readonly ITicketService _ticketService;
 
+        //nodig om abonnementen aan te maken
+        private readonly IAbonnementService _abonnementService;
+
         //mag geen tickets kopen voor twee verschillende matches op een dag
         private readonly IMatchService _matchService;
 
         private readonly IEmailSend _emailSend;
 
-        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService, ITicketService ticketService, IMatchService matchService, IEmailSend emailSend)
+
+        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService, ITicketService ticketService, IAbonnementService abonnementService, IMatchService matchService, IEmailSend emailSend)
         {
             _orderDAO = orderDAO;
             _zitplaatsService = zitplaatsService;
             _ticketService = ticketService;
+            _abonnementService = abonnementService;
             _matchService = matchService;
             _emailSend = emailSend;
         }
@@ -50,6 +55,8 @@ namespace ChampionsLeague.Services.Services
             return await _orderDAO.GetByUserAsync(userId);
         }
 
+
+        //Ticket aanmaken
         public async Task CreateTicketOrderAsync(string userId, string email, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
 
@@ -137,7 +144,14 @@ namespace ChampionsLeague.Services.Services
        <p>Totaalprijs: €{order.TotalePrijs}</p>");
 
         }
-    
+
+
+        // abonnement aanmaken
+        public async Task CreateAbonnementOrderAsync(string userId, string email, int clubId)
+        {
+            await _abonnementService.CreateAbonnementOrderAsync(userId, email, clubId);
+        }
+
 
     }
 }

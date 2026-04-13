@@ -40,4 +40,18 @@ ApplicationUser tabel manueel verwijderd in database.
 
 
 
+EMPTY orders query:
+
+DELETE FROM Voucher;
+DELETE FROM Ticket;
+DELETE FROM Abonnement;
+DELETE FROM Orderline;
+DELETE FROM [Order];
+
+DBCC CHECKIDENT ('Voucher', RESEED, 0);
+DBCC CHECKIDENT ('Ticket', RESEED, 0);
+DBCC CHECKIDENT ('Abonnement', RESEED, 0);
+DBCC CHECKIDENT ('Orderline', RESEED, 0);
+DBCC CHECKIDENT ('[Order]', RESEED, 0);
+
 

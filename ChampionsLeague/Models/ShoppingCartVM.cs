@@ -34,6 +34,7 @@
         public int ClubId { get; set; }
         public string? ClubNaam { get; set; }
         public string? ClubLogo { get; set; }
+        public int StadionvakId { get; set; }
         public decimal Prijs { get; set; }
     }
 }

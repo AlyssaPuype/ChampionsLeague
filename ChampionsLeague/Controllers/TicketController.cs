@@ -18,7 +18,8 @@ namespace ChampionsLeague.Controllers
             _ticketService = ticketService;
             _userManager = userManager;
         }
-
+        
+        //Toon History van tickets
         public async Task<IActionResult> History()
         {
             var user = await _userManager.GetUserAsync(User);

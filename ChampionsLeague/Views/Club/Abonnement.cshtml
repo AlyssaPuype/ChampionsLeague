@@ -1,0 +1,41 @@
+﻿@model ChampionsLeague.Models.Order.OrderAbonnementVM
+
+@{
+    ViewData["Title"] = "Abonnement kopen";
+}
+
+<h1>Abonnement kopen</h1>
+
+<section class="ticket-details-container">
+    <h4>Club details</h4>
+    <p class="clubnames">@Model.Club.Naam</p>
+    <p>Stadion: @Model.Club.Stadion?.Naam</p>
+    <p>Capaciteit: @Model.Club.Stadion?.Capaciteit</p>
+</section>
+
+<section class="ticket-form-container">
+    <p>Een abonnement geeft je dezelfde zitplaats voor alle thuismatches van @Model.Club.Naam.</p>
+    <p><strong>Prijs: €200</strong></p>
+
+    <form asp-controller="Club" asp-action="AddAbonnementToCart" method="post">
+        <input type="hidden" asp-for="ClubId" />
+
+        <div class="stadionvak">
+            <label>Stadionvak</label>
+            <select asp-for="GeselecteerdStadionvakId">
+                <option value="">Selecteer een stadionvak</option>
+                @foreach (var vak in Model.Stadionvakken)
+                {
+                    <option value="@vak.Id">@vak.Ring - @vak.Partij</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Voeg toe aan winkelmand</button>
+    </form>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger mt-3">@TempData["Error"]</div>
+    }
+</section>

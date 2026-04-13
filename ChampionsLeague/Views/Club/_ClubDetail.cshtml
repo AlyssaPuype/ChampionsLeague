@@ -12,8 +12,5 @@
         <p>Capaciteit: @Model.Stadion?.Capaciteit</p>
     </div>
 
-     <form asp-controller="Club" asp-action="AddAbonnementToCart" method="post">
-    <input type="hidden" name="clubId" value="@Model.Id" />
-    <button type="submit" class="btn btn-primary">Abonnement kopen</button>
-    </form>
+     <a asp-controller="Club" asp-action="Abonnement" asp-route-clubId="@Model.Id" class="btn btn-primary">Abonnement kopen</a>
 </div>
