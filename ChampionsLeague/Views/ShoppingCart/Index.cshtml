@@ -11,15 +11,12 @@
     <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
+<!--Gekozen Ticketjes tonen-->
 @if (Model?.Carts?.Any() == true)
 {
-    <div class="mb-3">
-        <small>
-            <b>Winkelmandje:</b> @Model.Carts.Sum(x => x.AantalTickets) ticket(s) — €@Model.ComputeTotalValue()
-        </small>
-    </div>
-    <form asp-action="CreateTicket" method="post">
-        <table class="table table-striped">
+
+    <h5>Tickets</h5>
+    <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Match</th>
@@ -53,9 +50,12 @@
                 }
             </tbody>
         </table>
+ }
 
-         @if (Model?.AbonnementCarts?.Any() == true)
-        {
+ <!--Gekozen Abonnenmenten tonen-->
+
+  @if (Model?.AbonnementCarts?.Any() == true)
+  {
             <h5>Abonnementen</h5>
             <table class="table table-striped">
                 <thead>
@@ -88,20 +88,25 @@
             </table>
         }
 
+
+@if (Model?.Carts?.Any() != true && Model?.AbonnementCarts?.Any() != true)
+{
+    <p>Je winkelmandje is leeg.</p>
+}
+else
+{
+    <form asp-action="CreateTicket" method="post">
         <div class="row mt-3">
             <div class="col-md-6">
                 <input type="submit" value="Bevestig bestelling" class="btn btn-primary" />
             </div>
             <div class="col-md-6 text-end">
-                <strong>Totaal: €@Model.ComputeTotalValue()</strong>
+                <strong>Totaal: €@Model!.ComputeTotalValue()</strong>
             </div>
         </div>
     </form>
 }
-else
-{
-    <p>Je winkelmandje is leeg.</p>
-}
+
 <a asp-controller="Match" asp-action="Index" class="btn btn-secondary mt-3">
     Verder winkelen
 </a>
