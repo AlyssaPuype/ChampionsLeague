@@ -41,7 +41,7 @@
                         <td>€@cartItem.Prijs</td>
                         <td>€@(cartItem.Prijs* cartItem.AantalTickets)</td>
                         <td>
-                            <a asp-action="Delete"
+                            <a asp-action="DeleteTicket"
                                asp-route-matchId="@cartItem.MatchId"
                                asp-route-stadionvakId="@cartItem.StadionvakId"
                                class="btn btn-danger btn-sm">Verwijder</a>

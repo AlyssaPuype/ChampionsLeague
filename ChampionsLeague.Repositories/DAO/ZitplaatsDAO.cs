@@ -34,6 +34,7 @@ namespace ChampionsLeague.Repositories.DAO
                 .Where(z => z.StadionvakId == stadionvakId)
                 .Where(z => !z.Tickets.Any(t => t.MatchId == matchId))
                 .Where(z => !z.Tickets.Any(t => t.MatchId == matchId && t.Status != "geannuleerd"))
+                .Where(z => !_context.Abonnements.Any(a => a.ZitplaatsId == z.Id))
                 .Take(aantalGewensteZitplaatsen)
                 .ToListAsync();
         }

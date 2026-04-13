@@ -17,12 +17,11 @@ namespace ChampionsLeague.Controllers
         private readonly IClubService _clubService;
         private readonly UserManager<ApplicationUser> _userManager;
         
-        public ClubController(IClubService clubService, UserManager<ApplicationUser> userManager, IAbonnementService abonnementService, IStadionvakService stadionvakService)
+        public ClubController(IClubService clubService, UserManager<ApplicationUser> userManager)
         {
             _clubService = clubService;
             _userManager = userManager;
-            _abonnementService = abonnementService;
-            _stadionvakService = stadionvakService;
+            
         }
 
         // Get all clubs

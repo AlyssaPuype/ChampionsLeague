@@ -10,6 +10,7 @@ using System.Security.Claims;
 
 namespace ChampionsLeague.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
 
@@ -23,64 +24,56 @@ namespace ChampionsLeague.Controllers
             _userManager = userManager;
         }
 
-        [Authorize]
+        //Toon Shoppingcart items
         public IActionResult Index()
         {
             ShoppingCartVM? cartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
 
             return View(cartList);
         }
-        public IActionResult Delete(int? matchId)
-        {
-            if (matchId == null) return NotFound();
 
-            ShoppingCartVM? cartList =
-                HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
-
-            CartItemVM? itemToRemove =
-                cartList?.Carts?.FirstOrDefault(r => r.MatchId == matchId);
-
-            if (itemToRemove != null)
-            {
-                cartList?.Carts?.Remove(itemToRemove);
-                HttpContext.Session.SetObject("ShoppingCart", cartList);
-            }
-
-            return View("Index", cartList);
-        }
-
+        //Behandel de bestelling, maak een order
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateOrder()
         {
             var user = await _userManager.GetUserAsync(User);
             var carts = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
 
-            //Tickets aanmaken
             try
             {
-                if (carts.Carts != null)
-                {
-                    foreach (var cart in carts.Carts)
-                    {
-                        await _orderService.CreateTicketOrderAsync(
-                            user!.Id,
-                            user!.Email,
-                            cart.MatchId,
-                            cart.StadionvakId,
-                            cart.AantalTickets
-                        );
-                    }
-                }
-
+                // Abonnementen aanmaken
                 if (carts?.AbonnementCarts != null)
                 {
                     foreach (var abonnement in carts.AbonnementCarts)
                     {
+                        if (user == null)
+                        {
+                            return Unauthorized();
+                        }
                         await _orderService.CreateAbonnementOrderAsync(
-                            user!.Id,
-                            user!.Email,
+                            user.Id,
+                            user.Email,
                             abonnement.ClubId
+                        );
+                    }
+                }
+
+                //Tickets aanmaken
+
+                if (carts?.Carts != null)
+                {
+                    foreach (var cart in carts.Carts)
+                    {
+                        if (user == null)
+                        {
+                            return Unauthorized();
+                        }
+                        await _orderService.CreateTicketOrderAsync(
+                            user.Id,
+                            user.Email,
+                            cart.MatchId,
+                            cart.StadionvakId,
+                            cart.AantalTickets
                         );
                     }
                 }
@@ -103,18 +96,49 @@ namespace ChampionsLeague.Controllers
 
         }
 
+        // Verwijder Ticket uit de session cart
+        public IActionResult DeleteTicket(int? matchId, int? stadionvakId)
+        {
+            if (matchId == null) return NotFound();
+
+            ShoppingCartVM? cartList =
+                HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
+
+            CartItemVM? itemToRemove = cartList?.Carts?.FirstOrDefault(r =>
+                r.MatchId == matchId && r.StadionvakId == stadionvakId);
+
+            if (itemToRemove != null)
+            {
+                cartList?.Carts?.Remove(itemToRemove);
+                HttpContext.Session.SetObject("ShoppingCart", cartList);
+            }
+
+            return View("Index", cartList);
+        }
+
+        // verwijder Abonnement uit de session cart
         public IActionResult DeleteAbonnement(int clubId)
         {
             var cart = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
-            var item = cart?.AbonnementCarts?.FirstOrDefault(a => a.ClubId == clubId);
-
-            if (item != null)
+            if (cart == null || cart.AbonnementCarts == null)
             {
-                cart!.AbonnementCarts!.Remove(item);
-                HttpContext.Session.SetObject("ShoppingCart", cart);
+                return View("Index", cart);
             }
+
+
+            var item = cart?.AbonnementCarts?.FirstOrDefault(a => a.ClubId == clubId);
+            if (item == null)
+            {
+                return View("Index", cart);
+            }
+
+            cart.AbonnementCarts.Remove(item);
+            HttpContext.Session.SetObject("ShoppingCart", cart);
+
 
             return View("Index", cart);
         }
+              
+        
     }
 }
