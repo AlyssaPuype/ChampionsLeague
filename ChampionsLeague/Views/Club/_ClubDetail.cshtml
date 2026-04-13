@@ -2,8 +2,8 @@
 
 <div class="club-detail">
     <div class="club-header">
-         <img src="@Model.LogoPath" alt="@Model.Naam" class="club-logo" />
-         <h1>@Model.Naam</h1>
+        <h1>@Model.Naam</h1>
+        <img src="@Model.LogoPath" alt="@Model.Naam" class="club-logo" />
     </div>
 
     <div class="club-stadion">
@@ -11,4 +11,9 @@
         <p>Naam: @Model.Stadion?.Naam</p>
         <p>Capaciteit: @Model.Stadion?.Capaciteit</p>
     </div>
+
+     <form asp-controller="Club" asp-action="AddAbonnementToCart" method="post">
+    <input type="hidden" name="clubId" value="@Model.Id" />
+    <button type="submit" class="btn btn-primary">Abonnement kopen</button>
+    </form>
 </div>

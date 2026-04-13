@@ -47,6 +47,7 @@ namespace ChampionsLeague.Repositories.DAO
 
         }
 
+        //order in database toevoegen
         public async Task AddAsync(Order order)
         {
             await _context.Orders.AddAsync(order);

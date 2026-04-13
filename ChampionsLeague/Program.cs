@@ -47,6 +47,8 @@ builder.Services.AddScoped<IOrderDAO, OrderDAO>();
 builder.Services.AddScoped<IStadionvakDAO, StadionvakDAO>();
 builder.Services.AddScoped<IZitplaatsDAO, ZitplaatsDAO>();
 builder.Services.AddScoped<ITicketDAO, TicketDAO>();
+builder.Services.AddScoped<IAbonnementDAO, AbonnementDAO>();
+
 
 
 //services
@@ -56,6 +58,8 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IStadionvakService, StadionvakService>();
 builder.Services.AddScoped<IZitplaatsService, ZitplaatsService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IAbonnementService, AbonnementService>();
+
 
 builder.Services.AddControllersWithViews();
 

@@ -16,6 +16,7 @@ namespace ChampionsLeague.Controllers
         private readonly IOrderService _orderService;
         private readonly UserManager<ApplicationUser> _userManager;
 
+
         public ShoppingCartController(IOrderService orderService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
@@ -82,6 +83,20 @@ namespace ChampionsLeague.Controllers
             }
 
             return RedirectToAction("History", "Ticket");
+        }
+
+        public IActionResult DeleteAbonnement(int clubId)
+        {
+            var cart = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");
+            var item = cart?.AbonnementCarts?.FirstOrDefault(a => a.ClubId == clubId);
+
+            if (item != null)
+            {
+                cart!.AbonnementCarts!.Remove(item);
+                HttpContext.Session.SetObject("ShoppingCart", cart);
+            }
+
+            return View("Index", cart);
         }
     }
 }

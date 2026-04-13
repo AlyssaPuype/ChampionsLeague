@@ -47,6 +47,14 @@ namespace ChampionsLeague.Data.DAOs
                 .ToListAsync();
         }
 
-        
+        public async Task<Match?> GetEersteMatchVanClubAsync(int clubId)
+        {
+            return await _context.Matches
+                .Where(m => m.ThuisclubId == clubId)
+                .OrderBy(m => m.MatchDate)
+                .FirstOrDefaultAsync();
+        }
+
+
     }
 }
