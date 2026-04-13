@@ -138,6 +138,7 @@ namespace ChampionsLeague.Controllers
                 cartList.Carts!.Add(new CartItemVM
                 {
                     MatchId = match!.Id,
+                    ThuisclubId = match.ThuisclubId,
                     MatchNaam = $"{match.Thuisclub?.Naam} vs {match.Bezoekersclub?.Naam}",
                     MatchDatum = match.MatchDate?.ToString("dd/MM/yyyy"),
                     StadionNaam = match.Stadion?.Naam,
