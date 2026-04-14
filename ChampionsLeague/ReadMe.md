@@ -88,3 +88,8 @@ xUnitTest: TestAbonnement:
 - create xUnit project
 - references toevoegen (domains, services)
 - installeer moq nuget package
+
+
+Search references :
+- selecteer methode (bv in Interface klasses van services) en press shift + f12
+- 
