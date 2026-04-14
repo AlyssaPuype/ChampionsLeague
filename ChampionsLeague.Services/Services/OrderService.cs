@@ -64,6 +64,7 @@ namespace ChampionsLeague.Services.Services
             //#50: Validatie: Een gebruiker mag enkel tickets kopen voor matches met date < 1 maand
             //
             if (match.MatchDate != null)
+
             {
                 var maandlimiet = DateOnly.FromDateTime(DateTime.Now.AddMonths(1));
                 if (match.MatchDate.Value > maandlimiet)
