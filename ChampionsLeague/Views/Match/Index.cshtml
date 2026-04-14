@@ -22,7 +22,7 @@
                 <th>Thuisploeg</th>
                 <th>Bezoekers</th>
                 <th>Stadion</th>
-                <th>Koop tickets</th>
+                <th>Koop tickets</th>mn 
             </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
                 @foreach (var match in group)
                 {
                     <tr>
-                        <td>@($"{group.Key:dd MMMM yyyy}")</td>
+                        <td data-order="@group.Key?.ToString("yyyy-MM-dd")">@($"{group.Key:dd MMMM yyyy}")</td>
                         <td>@match.Thuisclub.Naam</td>
                         <td>@match.Bezoekersclub.Naam</td>
                         <td>@match.Stadion.Naam</td>
