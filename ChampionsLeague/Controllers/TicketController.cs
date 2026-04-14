@@ -31,14 +31,19 @@ namespace ChampionsLeague.Controllers
             return View(tickets ?? new List<Ticket>());
         }
 
+
+        // Annuleer een ticket
         [HttpPost]
         public async Task<IActionResult> Annuleer(int ticketId)
         {
-            var ticket = await _ticketService.GetByIdAsync(ticketId);
-            if (ticket == null) return NotFound();
-
-            ticket.Status = "geannuleerd";
-            await _ticketService.UpdateAsync(ticket);
+            try
+            {
+                await _ticketService.AnnuleerAsync(ticketId);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+            }
 
             return RedirectToAction("History");
         }

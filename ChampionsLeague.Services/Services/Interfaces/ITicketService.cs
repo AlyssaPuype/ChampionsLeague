@@ -11,8 +11,8 @@ namespace ChampionsLeague.Services.Services.Interfaces
         Task<IEnumerable<Ticket>> GetByUserAsync(string userId);
         Task<int> CountTicketsByUserAndMatchAsync(string userId, int matchId);
         Task<bool> HeeftTicketOpZelfdeDagAsync(string userId, DateOnly matchDate, int matchId);
+        Task AnnuleerAsync(int ticketId);
 
-        Task UpdateAsync(Ticket ticket);
 
     }
 }
