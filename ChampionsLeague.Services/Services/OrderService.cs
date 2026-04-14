@@ -40,7 +40,6 @@ namespace ChampionsLeague.Services.Services
             _emailSend = emailSend;
         }
 
-       
         //Ticket aanmaken
         public async Task CreateTicketOrderAsync(string userId, string email, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
