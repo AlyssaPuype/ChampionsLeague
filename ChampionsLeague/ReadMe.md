@@ -1,32 +1,59 @@
-Github repo link:
+Github repo link: https://github.com/AlyssaPuype/ChampionsLeague.git
 
-Stappen:
+#Stappen:
 
-Project aanmaken met Identity
+1.Project aanmaken met Identity
 
-Verschillende project layers aangemaakt:
+2.Verschillende project layers aangemaakt:
 	- ChampionsLeague (Applicatie laag)
 	- ChampionsLeague.Domains
 	- ChampionsLeague.Repositories
 	- ChampionsLeague.Services
 
-EF core toegevoegd in de verschillende lagen
+3.EF core toegevoegd in de verschillende lagen
 
-Database aangemaakt in SQL Server Management Studio
+4.Database aangemaakt in SQL Server Management Studio
 
-Connectiestring toegevoegd in appsettings.json
+5.Connectiestring toegevoegd in appsettings.json
 
-Database scaffold uitgevoerd in ChampionsLeague.Domains
+6.Database scaffold uitgevoerd in ChampionsLeague.Domains
 
-Identity Migration uitgevoerd
+7.Identity Migration uitgevoerd
 
-DbSeeders aangemaakt om data in de database te zetten
+8.DbSeeders aangemaakt om data in de database te zetten
 
-DAO's aangemaakt in de repositories laag
+9.Eerste DAO's aangemaakt in de repositories laag
 
-Services aangemaakt in de services laag
+10.Services aangemaakt in de services laag
 
-Eerste controller voor Matches en Clubs aangemaakt
+11.Eerste controller voor Matches en Clubs aangemaakt
+
+12.Pagina's aangemaakt om matches en clubs te tonen, klein beetje UI toegevoegd vanuit Mobile first perspectief
+
+13.Orderservice toegevoegd en viewmodels
+
+14.Zitplaatsservice toegevoegd
+
+15.DataTables library toegevoegd om matches te tonen in tabel
+
+16.Ticketservice toegevoegd (zonder abonnement momenteel)
+
+17.Shoppingcart toegevoegd met session storage, Orderservice voor tickets werd aangepast, omdat we nu een shoppingcart hebben ipv dat de order meteen geplaatst is
+
+18.EmailService toegevoegd
+
+19.AbonnementService toegevoegd
+
+20.Aanpassingen aan de workflow gemaakt voor abonnementen. Werd eerst door clubcontroller behandeld, maar naar ordercontroller verhuisd voor consistentie met tickets
+
+21. Competitie Entity aangepast zodat deze nu startdatum en einddatum heeft, zodat met kan controleren of men een abonnement voor of na de competitie wilt aankopen
+
+22. xUnittest geschreven om bovenstaande business rule te testen
+
+23. Onnodige DAO en service methodes verwijderd
+
+
+
 
 
 Issues:
