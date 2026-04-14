@@ -15,16 +15,22 @@ namespace ChampionsLeague.Services.Services
         private readonly IOrderDAO _orderDAO;
         private readonly IClubService _clubService;
         private readonly IMatchService _matchService;
-        private const decimal AbonnementPrijs = 200m;
-
+        private readonly ICompetitieService _competitieService;
         private readonly IEmailSend _emailSend;
 
-        public AbonnementService(IAbonnementDAO abonnementDAO, IOrderDAO orderDAO, IClubService clubService, IMatchService matchService, IEmailSend emailSend)
+
+
+
+        private const decimal AbonnementPrijs = 200m;
+
+
+        public AbonnementService(IAbonnementDAO abonnementDAO, IOrderDAO orderDAO, IClubService clubService, IMatchService matchService, ICompetitieService competitieService, IEmailSend emailSend)
         {
             _abonnementDAO = abonnementDAO;
             _orderDAO = orderDAO;
             _clubService = clubService;
             _matchService = matchService;
+            _competitieService = competitieService;
             _emailSend = emailSend;
         }
         public async Task<bool> HeeftAbonnementVoorClubAsync(string userId, int clubId)
@@ -38,12 +44,14 @@ namespace ChampionsLeague.Services.Services
             var club = await _clubService.GetByIdAsync(clubId);
             if (club == null) throw new Exception("Club niet gevonden.");
 
-            // regel: abonnement enkel voor start competitie
-            //var eersteMatch = await _matchService.GetEersteMatchVanClubAsync(clubId);
-            //if (eersteMatch?.MatchDate != null && DateOnly.FromDateTime(DateTime.Now) >= eersteMatch.MatchDate.Value)
-            //    throw new Exception("Abonnementen kunnen enkel gekocht worden voor de start van de competitie.");
+            //Validation: abonnement enkel voor start competitie kopen
+            //Via competitieService
+            var startDatum = await _competitieService.GetStartDatumAsync();
+            if (startDatum != null && DateOnly.FromDateTime(DateTime.Now) >= startDatum.Value)
+                throw new Exception($"Abonnementen kunnen enkel gekocht worden vóór {startDatum.Value}.");
 
-            // regel: user heeft al abonnement voor deze club
+
+            //Validation: user heeft al abonnement voor deze club
             if (await _abonnementDAO.HeeftAbonnementVoorClubAsync(userId, clubId))
                 throw new Exception("Je hebt al een abonnement voor deze club.");
 

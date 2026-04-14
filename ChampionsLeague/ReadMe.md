@@ -42,16 +42,49 @@ ApplicationUser tabel manueel verwijderd in database.
 
 EMPTY orders query:
 
-DELETE FROM Voucher;
-DELETE FROM Ticket;
-DELETE FROM Abonnement;
-DELETE FROM Orderline;
-DELETE FROM [Order];
+	DELETE FROM Voucher;
+	DELETE FROM Ticket;
+	DELETE FROM Abonnement;
+	DELETE FROM Orderline;
+	DELETE FROM [Order];
 
-DBCC CHECKIDENT ('Voucher', RESEED, 0);
-DBCC CHECKIDENT ('Ticket', RESEED, 0);
-DBCC CHECKIDENT ('Abonnement', RESEED, 0);
-DBCC CHECKIDENT ('Orderline', RESEED, 0);
-DBCC CHECKIDENT ('[Order]', RESEED, 0);
+	DBCC CHECKIDENT ('Voucher', RESEED, 0);
+	DBCC CHECKIDENT ('Ticket', RESEED, 0);
+	DBCC CHECKIDENT ('Abonnement', RESEED, 0);
+	DBCC CHECKIDENT ('Orderline', RESEED, 0);
+	DBCC CHECKIDENT ('[Order]', RESEED, 0);
 
 
+CLEAN database:
+Note: Wanneer je de app opnieuw runt voor de eerste keer, kan dit wat tijd nemen omdat we veel seeders hebben, check output
+
+	DELETE FROM [Match];
+	DELETE FROM Competitie;
+	DELETE FROM Zitplaats;
+	DELETE FROM Stadionvak;
+	DELETE FROM Club;
+	DELETE FROM Stadion;
+
+	DBCC CHECKIDENT ('Match', RESEED, 0);
+	DBCC CHECKIDENT ('Competitie', RESEED, 0);
+	DBCC CHECKIDENT ('Zitplaats', RESEED, 0);
+	DBCC CHECKIDENT ('Stadionvak', RESEED, 0);
+	DBCC CHECKIDENT ('Club', RESEED, 0);
+	DBCC CHECKIDENT ('Stadion', RESEED, 0);
+
+ADD migrations:
+	
+	- ChampionsLeagueDbContext:
+	Add-Migration [nameOfTheMigration] -Context ChampionsLeagueDbContext
+	Update-Database -Context ChampionsLeagueDbContext
+
+	- ApplicationDbContext:
+	Add-Migration [nameOfTheMigration] -Context ApplicationDbContext
+	Update-Database -Context ApplicationDbContext
+
+
+xUnitTest: TestAbonnement:
+
+- create xUnit project
+- references toevoegen (domains, services)
+- installeer moq nuget package
