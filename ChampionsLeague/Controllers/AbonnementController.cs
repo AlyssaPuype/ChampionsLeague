@@ -23,8 +23,13 @@ namespace ChampionsLeague.Controllers
         // Toon history van Abonnementen
             public async Task<IActionResult> History()
         {
+
             var user = await _userManager.GetUserAsync(User);
-            var abonnementen = await _abonnementService.GetByUserIdAsync(user!.Id);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            var abonnementen = await _abonnementService.GetByUserIdAsync(user.Id);
             return View(abonnementen);
         }
     }

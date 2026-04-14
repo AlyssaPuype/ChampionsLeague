@@ -18,20 +18,22 @@ namespace ChampionsLeague.Controllers
         private readonly IMatchService _matchService;
         private readonly IStadionvakService _stadionvakService;
         private readonly ITicketService _ticketService;
+        private readonly IClubService _clubService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(IOrderService orderService, IMatchService matchService, IStadionvakService stadionvakService, ITicketService ticketService, UserManager<ApplicationUser> userManager)
+        public OrderController(IOrderService orderService, IMatchService matchService, IStadionvakService stadionvakService, ITicketService ticketService, IClubService clubService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
             _matchService = matchService;
             _stadionvakService = stadionvakService;
             _ticketService = ticketService;
+            _clubService = clubService;
             _userManager = userManager;
         }
 
-
+        //ORDERPROCES: TICKETS
         [HttpGet]
-        public async Task<IActionResult> Index(int matchId)
+        public async Task<IActionResult> Ticket(int matchId)
         {
             var match = await _matchService.GetMatchByIdAsync(matchId);
 
@@ -52,13 +54,13 @@ namespace ChampionsLeague.Controllers
         //De gebruiker selecteert een stadionvak
         //De gebruiker selecteert het aantal gewenste tickets
         //De gebruikter klikt op 'Toevoegen aan winkelmand'
-        //AddToCart actie wordt getriggered, er is validatie op het stadionvak en business rules
+        //AddTicketToCart actie wordt getriggered, er is validatie op het stadionvak en business rules
         //Gebruiker kan naar de winkelmand en daar de bestelling afronden, dan wordt Payment() getriggered
         //Payment() calls CreateTicketOrderAsync() in OrderService, de tickets worden in de DB aangemaakt
 
 
         [HttpPost]
-        public async Task<IActionResult> AddToCart(OrderTicketVM viewModel)
+        public async Task<IActionResult> AddTicketToCart(OrderTicketVM viewModel)
         {
             var user = await _userManager.GetUserAsync(User);
             var match = await _matchService.GetMatchByIdAsync(viewModel.GeselecteerdMatchId);
@@ -74,7 +76,11 @@ namespace ChampionsLeague.Controllers
                     throw new Exception("Selecteer een stadionvak.");
 
                 //#18: Validatie: User mag max 4 tickets per match (over alle stadionvakken) kopen
-                var gekochteTickets = await _ticketService.CountTicketsByUserAndMatchAsync(user!.Id, viewModel.GeselecteerdMatchId);
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+                var gekochteTickets = await _ticketService.CountTicketsByUserAndMatchAsync(user.Id, viewModel.GeselecteerdMatchId);
                 var ticketsInCart = currentCartList?.Carts?
                     .Where(c => c.MatchId == viewModel.GeselecteerdMatchId)
                     .Sum(c => c.AantalTickets) ?? 0;
@@ -88,8 +94,12 @@ namespace ChampionsLeague.Controllers
 
                 if (match.MatchDate != null)
                 {
+                    if (user == null)
+                    {
+                        return Unauthorized();
+                    }
                     //Dit checkt of er al een ticket voor een match bestaat in de database
-                    var heeftTicketOpDag = await _ticketService.HeeftTicketOpZelfdeDagAsync(user!.Id, match.MatchDate.Value, viewModel.GeselecteerdMatchId);
+                    var heeftTicketOpDag = await _ticketService.HeeftTicketOpZelfdeDagAsync(user.Id, match.MatchDate.Value, viewModel.GeselecteerdMatchId);
                     if (heeftTicketOpDag)
                         throw new Exception("Je hebt al een ticket voor een andere match op deze dag.");
 
@@ -113,22 +123,24 @@ namespace ChampionsLeague.Controllers
                         throw new Exception("Tickets kunnen pas 1 maand voor de wedstrijd gekocht worden.");
                 }
 
+
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 viewModel.Match = match!;
                 viewModel.Stadionvakken = await _stadionvakService.GetByStadionAsync(match!.Stadion.Id);
-                return View("Index", viewModel);
+                return View("Ticket", viewModel);
             }
 
             // Validaties ok -> toevoegen aan shoppingcart
             var vak = await _stadionvakService.GetByIdAsync(viewModel.GeselecteerdStadionvakId);
             var cartList = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart")
                 ?? new ShoppingCartVM { Carts = new List<CartItemVM>() };
+            cartList.Carts ??= new List<CartItemVM>();
 
             // check if match already in cart
-            var bestaandItem = cartList.Carts!.FirstOrDefault(c => c.MatchId == viewModel.GeselecteerdMatchId && c.StadionvakId == viewModel.GeselecteerdStadionvakId);
+            var bestaandItem = cartList.Carts.FirstOrDefault(c => c.MatchId == viewModel.GeselecteerdMatchId && c.StadionvakId == viewModel.GeselecteerdStadionvakId);
             if (bestaandItem != null)
             {
                 bestaandItem.AantalTickets += viewModel.AantalTickets;
@@ -192,5 +204,62 @@ namespace ChampionsLeague.Controllers
         //    }
         //}
 
+
+        //ORDERPROCES: ABONNEMENTEN
+
+        [HttpGet]
+        public async Task<IActionResult> Abonnement(int clubId)
+        {
+            var club = await _clubService.GetByIdAsync(clubId);
+            if (club == null) return NotFound();
+
+            var vakken = await _stadionvakService.GetByStadionAsync(club.StadionId);
+
+            var viewModel = new OrderAbonnementVM
+            {
+                Club = club,
+                Stadionvakken = vakken,
+                ClubId = clubId
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAbonnementToCart(OrderAbonnementVM viewModel)
+        {
+            var club = await _clubService.GetByIdAsync(viewModel.ClubId);
+            if (club == null) return NotFound();
+
+            var cart = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart")
+                ?? new ShoppingCartVM();
+
+            cart.AbonnementCarts ??= new List<AbonnementCartItemVM>();
+
+            if (cart.AbonnementCarts.Any(a => a.ClubId == viewModel.ClubId))
+            {
+                TempData["Error"] = $"Je hebt al een abonnement voor deze {club.Naam} in je winkelmand.";
+                return RedirectToAction("Abonnement", new { clubId = viewModel.ClubId });
+            }
+
+            var heeftConflict = cart.Carts?.Any(c => c.ThuisclubId == viewModel.ClubId) ?? false;
+            if (heeftConflict)
+            {
+                TempData["Error"] = "Je kan geen abonnement én een los ticket voor een thuismatch van dezelfde club hebben.";
+                return RedirectToAction("Abonnement", new { clubId = viewModel.ClubId });
+            }
+
+            cart.AbonnementCarts.Add(new AbonnementCartItemVM
+            {
+                ClubId = club.Id,
+                ClubNaam = club.Naam,
+                ClubLogo = club.LogoPath,
+                StadionvakId = viewModel.GeselecteerdStadionvakId,
+                Prijs = 200m
+            });
+
+            HttpContext.Session.SetObject("ShoppingCart", cart);
+            return RedirectToAction("Index", "ShoppingCart");
+        }
     }
 }

@@ -17,7 +17,7 @@
     <p>Een abonnement geeft je dezelfde zitplaats voor alle thuismatches van @Model.Club.Naam.</p>
     <p><strong>Prijs: €200</strong></p>
 
-    <form asp-controller="Club" asp-action="AddAbonnementToCart" method="post">
+    <form asp-controller="Order" asp-action="AddAbonnementToCart" method="post">
         <input type="hidden" asp-for="ClubId" />
 
         <div class="stadionvak">

@@ -39,7 +39,7 @@
                             @if (match.MatchDate != null && match.MatchDate.Value <= DateOnly.FromDateTime(DateTime.Now.AddMonths(1)))
                             {
                                 // minder dan een maand:
-                               <a asp-controller="Order" asp-action="Index" asp-route-matchid="@match.Id" class=" btn btn-primary">Koop ticket</a>
+                               <a asp-controller="Order" asp-action="Ticket" asp-route-matchid="@match.Id" class=" btn btn-primary">Koop ticket</a>
                             }
                             else
                             {
