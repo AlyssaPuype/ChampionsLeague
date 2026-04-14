@@ -95,14 +95,5 @@ namespace ChampionsLeague.Services.Services
             return await _abonnementDAO.GetByUserIdAsync(userId);
         }
 
-        public async Task<IEnumerable<Abonnement>> GetAllAsync()
-        {
-            return await _abonnementDAO.GetAllAsync();
-        }
-
-        public async Task<Abonnement?> GetByIdAsync(int id)
-        {
-            return await _abonnementDAO.GetByIdAsync(id);
-        }
     }
 }

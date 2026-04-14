@@ -18,22 +18,6 @@ namespace ChampionsLeague.Repositories.DAO
             _context = context;
         }
 
-        public async Task<IEnumerable<Abonnement>> GetAllAsync()
-        {
-            return await _context.Abonnements
-                .Include(a => a.Club)
-                .Include(a => a.Zitplaats)
-                .ToListAsync();
-        }
-
-        public async Task<Abonnement?> GetByIdAsync(int id)
-        {
-            return await _context.Abonnements
-                .Include(a => a.Club)
-                .Include(a => a.Zitplaats)
-                .FirstOrDefaultAsync(a => a.Id == id);
-        }
-
         public async Task<bool> HeeftAbonnementVoorClubAsync(string userId, int clubId)
         {
             return await _context.Abonnements
@@ -71,14 +55,6 @@ namespace ChampionsLeague.Repositories.DAO
                 .ToListAsync();
         }
 
-        public async Task AddAsync(Abonnement abonnement)
-        {
-            await _context.Abonnements.AddAsync(abonnement);
-        }
 
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

@@ -7,7 +7,6 @@ namespace ChampionsLeague.Services.Services.Interfaces
 {
     public interface ITicketService
     {
-        Task<IEnumerable<Ticket>> GetAllAsync();
         Task<Ticket?> GetByIdAsync(int ticketId);
         Task<IEnumerable<Ticket>> GetByUserAsync(string userId);
         Task<int> CountTicketsByUserAndMatchAsync(string userId, int matchId);

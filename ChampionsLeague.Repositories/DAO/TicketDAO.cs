@@ -18,11 +18,7 @@ namespace ChampionsLeague.Repositories.DAO
             _context = context;
         }
 
-        public async Task<IEnumerable<Ticket>> GetAllAsync()
-        {
-            return await _context.Tickets.ToListAsync();
-        }
-
+        
         public async Task<Ticket?> GetByIdAsync(int ticketId)
         {
             return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);

@@ -20,32 +20,6 @@ namespace ChampionsLeague.Repositories.DAO
         }
 
 
-        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
-        {
-            return await _context.Orders
-                .Include(o => o.User)        
-                .Include(o => o.Orderlines) 
-                .ToListAsync();
-        }
-
-        public async Task<Order?> GetByIdAsync(int id)
-        {
-            return await _context.Orders
-                .Include(o => o.User)
-                .Include(o => o.Orderlines)
-                .ThenInclude(ol => ol.Tickets)
-                .FirstOrDefaultAsync(o => o.Id == id);
-        }
-        public async Task<IEnumerable<Order>> GetByUserAsync(string userId)
-        {
-            return await _context.Orders
-                .Where(o => o.UserId == userId)
-                .Include(o => o.Orderlines)
-                .ThenInclude(ol => ol.Tickets)
-                .ThenInclude(t => t.Match)
-                .ToListAsync();
-
-        }
 
         //order in database toevoegen
         public async Task AddAsync(Order order)

@@ -7,7 +7,6 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
 {
     public interface IStadionvakDAO
     {
-        Task<IEnumerable<Stadionvak>> GetAllStadionvakkenAsync();
         Task<Stadionvak?> GetByIdAsync(int id);
         Task<IEnumerable<Stadionvak>> GetByStadionAsync(int stadionId);
     }
