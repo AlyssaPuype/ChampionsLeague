@@ -83,7 +83,7 @@ EMPTY orders query:
 
 
 CLEAN database:
-Note: Wanneer je de app opnieuw runt voor de eerste keer, kan dit wat tijd nemen omdat we veel seeders hebben, check output
+Note: Wanneer  de app opnieuw runt voor de eerste keer, kan dit wat tijd nemen omdat we veel seeders hebben, check output
 
 	DELETE FROM [Match];
 	DELETE FROM Competitie;
