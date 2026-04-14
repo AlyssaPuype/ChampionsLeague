@@ -38,12 +38,11 @@ namespace ChampionsLeague.Services.Services
             var club = await _clubService.GetByIdAsync(clubId);
             if (club == null) throw new Exception("Club niet gevonden.");
 
-            // regel: abonnement enkel voor start competitie
-            //var eersteMatch = await _matchService.GetEersteMatchVanClubAsync(clubId);
-            //if (eersteMatch?.MatchDate != null && DateOnly.FromDateTime(DateTime.Now) >= eersteMatch.MatchDate.Value)
-            //    throw new Exception("Abonnementen kunnen enkel gekocht worden voor de start van de competitie.");
+            //Validation: abonnement enkel voor start competitie kopen
+            //Via competitieService
+            
 
-            // regel: user heeft al abonnement voor deze club
+            //Validation: user heeft al abonnement voor deze club
             if (await _abonnementDAO.HeeftAbonnementVoorClubAsync(userId, clubId))
                 throw new Exception("Je hebt al een abonnement voor deze club.");
 

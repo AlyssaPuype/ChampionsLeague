@@ -9,7 +9,7 @@ namespace ChampionsLeague.Data.DataSeeders
         {
             var competities = new List<Competitie>
             {
-                new() { Naam = "UEFA Champions League" }
+                new() { Naam = "UEFA Champions League", StartDatum = new DateOnly(2026, 4, 30), EindDatum = new DateOnly(2026, 7, 4) }
             };
 
             context.Competities.AddRange(competities);
