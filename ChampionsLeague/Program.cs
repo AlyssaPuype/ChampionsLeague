@@ -48,6 +48,8 @@ builder.Services.AddScoped<IStadionvakDAO, StadionvakDAO>();
 builder.Services.AddScoped<IZitplaatsDAO, ZitplaatsDAO>();
 builder.Services.AddScoped<ITicketDAO, TicketDAO>();
 builder.Services.AddScoped<IAbonnementDAO, AbonnementDAO>();
+builder.Services.AddScoped<ICompetitieDAO, CompetitieDAO>();
+
 
 
 
@@ -59,6 +61,8 @@ builder.Services.AddScoped<IStadionvakService, StadionvakService>();
 builder.Services.AddScoped<IZitplaatsService, ZitplaatsService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IAbonnementService, AbonnementService>();
+builder.Services.AddScoped<ICompetitieService, CompetitieService>();
+
 
 
 builder.Services.AddControllersWithViews();
