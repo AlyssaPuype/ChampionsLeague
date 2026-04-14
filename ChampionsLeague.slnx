@@ -4,5 +4,5 @@
   <Project Path="ChampionsLeague.Services/ChampionsLeague.Services.csproj" />
   <Project Path="ChampionsLeague.Util/ChampionsLeague.Util.csproj" Id="ec95aa44-103f-45b7-bd88-4e4e89d2b185" />
   <Project Path="ChampionsLeague/ChampionsLeague.csproj" />
-  <Project Path="TestAbonnement/TestAbonnement.csproj" Id="643f4b9f-2d6b-470b-8733-19f7c3d49b1d" />
+  <Project Path="TestAbonnement/ChampionsLeagueTests.csproj" Id="643f4b9f-2d6b-470b-8733-19f7c3d49b1d" />
 </Solution>

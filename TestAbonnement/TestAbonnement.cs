@@ -9,9 +9,9 @@ using Moq;
 // AbonnementService
 // Business rule test: Abonnementen kunnen enkel aangekocht worden voor de start van de competitie
 
-namespace TestAbonnement
+namespace ChampionsLeagueTests
 {
-    public class UnitTest1
+    public class TestAbonnement
     {
         //Nodige services uit AbonnementService als Mock inladen
         private readonly Mock<IAbonnementDAO> _mockAbonnementDAO = new();
@@ -23,7 +23,7 @@ namespace TestAbonnement
         private readonly AbonnementService _service;
 
         //Setup van de Mocks, voor alle tests
-        public UnitTest1()
+        public TestAbonnement()
         {
             // Club setup — geldig voor alle tests
             _mockClubService.Setup(s => s.GetByIdAsync(1))
