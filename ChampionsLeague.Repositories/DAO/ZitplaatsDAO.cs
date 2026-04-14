@@ -16,18 +16,7 @@ namespace ChampionsLeague.Repositories.DAO
         {
             _context = context;
         }
-        public async Task<IEnumerable<Zitplaats>> GetAllZitplaatsenAsync()
-        {
-            return await _context.Zitplaatsen.ToListAsync();
-        }
-
-        public async Task<Zitplaats?> GetByIdAsync(int id)
-        {
-            return await _context.Zitplaatsen
-                .FirstOrDefaultAsync(z => z.Id == id);
-        }
-
-
+        
         public async Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
             return await _context.Zitplaatsen

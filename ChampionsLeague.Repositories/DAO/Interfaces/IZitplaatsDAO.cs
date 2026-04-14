@@ -8,9 +8,7 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
 {
     public interface IZitplaatsDAO
     {
-        Task<IEnumerable<Zitplaats>> GetAllZitplaatsenAsync();
-        Task<Zitplaats?> GetByIdAsync(int id);
-        
+               
         //Geen overboeking mogelijk maken
         Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen);
     }
