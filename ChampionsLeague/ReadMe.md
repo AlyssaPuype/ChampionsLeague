@@ -81,3 +81,10 @@ ADD migrations:
 	- ApplicationDbContext:
 	Add-Migration [nameOfTheMigration] -Context ApplicationDbContext
 	Update-Database -Context ApplicationDbContext
+
+
+xUnitTest: TestAbonnement:
+
+- create xUnit project
+- references toevoegen (domains, services)
+- installeer moq nuget package
