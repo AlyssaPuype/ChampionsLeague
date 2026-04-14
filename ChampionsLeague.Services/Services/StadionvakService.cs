@@ -15,11 +15,7 @@ namespace ChampionsLeague.Services.Services.Interfaces
         {
             _stadionvakDAO = stadionvakDAO;
         }
-        public async Task<IEnumerable<Stadionvak>> GetAllStadionvakkenAsync()
-        {
-            return await _stadionvakDAO.GetAllStadionvakkenAsync();
-        }
-
+      
         public async Task<Stadionvak?> GetByIdAsync(int id)
         {
             return await _stadionvakDAO.GetByIdAsync(id);

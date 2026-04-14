@@ -16,11 +16,7 @@ namespace ChampionsLeague.Services.Services
             _ticketDAO = ticketDAO;
         }
 
-        public async Task<IEnumerable<Ticket>> GetAllAsync()
-        {
-            return await _ticketDAO.GetAllAsync();
-        }
-
+        
         public async Task<Ticket?> GetByIdAsync(int ticketId)
         {
             return await _ticketDAO.GetByIdAsync(ticketId);

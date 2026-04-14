@@ -40,22 +40,7 @@ namespace ChampionsLeague.Services.Services
             _emailSend = emailSend;
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
-        {
-            return await _orderDAO.GetAllOrdersAsync();
-        }
-
-        public async Task<Order?> GetByIdAsync(int id)
-        {
-            return await _orderDAO.GetByIdAsync(id);
-        }
-
-        public async Task<IEnumerable<Order>> GetByUserAsync(string userId)
-        {
-            return await _orderDAO.GetByUserAsync(userId);
-        }
-
-
+       
         //Ticket aanmaken
         public async Task CreateTicketOrderAsync(string userId, string email, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
