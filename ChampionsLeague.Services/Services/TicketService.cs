@@ -37,9 +37,24 @@ namespace ChampionsLeague.Services.Services
             return await _ticketDAO.HeeftTicketOpZelfdeDagAsync(userId, matchDate, matchId);
         }
 
-        // we moeten een ticket kunnen annuleren
-        public async Task UpdateAsync(Ticket ticket)
+        // Ticket annuleren
+        //Business rule: tot 1 week voor de start van de match
+        //Zie ook unit test: ChampionsLeagueTests/TestTicketAnnulatie
+
+        public async Task AnnuleerAsync(int ticketId)
         {
+            var ticket = await _ticketDAO.GetByIdAsync(ticketId); 
+            if (ticket == null) throw new Exception("Geen ticket gevonden.");
+
+            if (ticket.Match?.MatchDate != null)
+            {
+                var deadline = ticket.Match.MatchDate.Value.AddDays(-7);
+                if (DateOnly.FromDateTime(DateTime.Now) > deadline)
+                    throw new Exception("Ticket kan niet meer gratis geannuleerd worden");
+            }
+
+            ticket.Status = "Gratis geannuleerd";
+
             await _ticketDAO.UpdateAsync(ticket);
             await _ticketDAO.SaveAsync();
         }

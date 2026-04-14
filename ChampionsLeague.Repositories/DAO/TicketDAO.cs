@@ -21,7 +21,9 @@ namespace ChampionsLeague.Repositories.DAO
         
         public async Task<Ticket?> GetByIdAsync(int ticketId)
         {
-            return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
+            return await _context.Tickets
+                .Include(t => t.Match)
+                .FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
         public async Task<IEnumerable<Ticket>> GetByUserAsync(string userId)
@@ -38,11 +40,7 @@ namespace ChampionsLeague.Repositories.DAO
                 .ToListAsync();
         }
 
-        public async Task UpdateAsync(Ticket ticket)
-        {
-            _context.Tickets.Update(ticket);
-        }
-        
+               
         
         //methode voor validatie van max 4 tickets per user per match aan te kopen, rekening houden met geannuleerde tickets
         public async Task<int> CountTicketsByUserAndMatchAsync(string userId, int matchId)
@@ -64,6 +62,11 @@ namespace ChampionsLeague.Repositories.DAO
                 .Where(t => t.Match!.MatchDate == matchDate)
                 .Where(t => t.MatchId != matchId) //dezelfde match uitsluiten, user mag wel nog verder bestellen voor dezelfde match
                 .AnyAsync();
+        }
+
+        public async Task UpdateAsync(Ticket ticket)
+        {
+            _context.Tickets.Update(ticket);
         }
 
         public async Task SaveAsync()
