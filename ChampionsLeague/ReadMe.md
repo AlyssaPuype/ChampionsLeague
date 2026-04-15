@@ -1,3 +1,5 @@
+Bevat notities en stappen in grote lijnen
+
 Github repo link: https://github.com/AlyssaPuype/ChampionsLeague.git
 
 #Stappen:
@@ -119,12 +121,23 @@ xUnitTest: TestAbonnement:
 - references toevoegen (domains, services)
 - installeer moq nuget package
 
+xUnitTest: TestTicketAnnulatie
 
-Search references :
+
+Search references (handig wanneer je een bepaalde methode zoekt) :
 - selecteer methode (bv in Interface klasses van services) en press shift + f12
 
-source: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization/provide-resources?view=aspnetcore-10.0
 Add Localization:
+source: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization/provide-resources?view=aspnetcore-10.0
+
 	- Provide resources:
 		- Maak folder in web project: Resources
-		- Add item -> Kies resource file als template
+		- Add item -> Kies resource file als template, maak voor elke taal resource file aan, voeg key en waarde toe
+	- Configureeer localization in Program.cs:
+	- Voeg toe in views:
+		- @inject IViewLocalizer Localizer
+
+Booking API:
+-	Account in RapidAPI aangemaakt (gmail account gebruikt)
+-	Subscribe API: https://rapidapi.com/tipsters/api/booking-com/playground/apiendpoint_a159b494-e4ec-4134-8a71-5ece6d8cc60b
+-	In appsettings.developments.json: bookingAPI key toegevoegd (x-rapidAPI-key)
