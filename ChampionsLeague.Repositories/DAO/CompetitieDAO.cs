@@ -1,4 +1,5 @@
 ﻿using ChampionsLeague.Domains.DB;
+using ChampionsLeague.Domains.Entities;
 using ChampionsLeague.Repositories.DAO.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,9 +19,8 @@ namespace ChampionsLeague.Repositories.DAO
 
         public async Task<DateOnly?> GetStartDatumAsync()
         {
-            return await _context.Competities
-                .Select(c => c.StartDatum)
-                .FirstOrDefaultAsync();
+            var competitie = await _context.Competities.FirstOrDefaultAsync();
+            return competitie?.StartDatum;
         }
     }
 }

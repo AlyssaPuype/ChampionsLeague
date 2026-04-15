@@ -1,4 +1,5 @@
 ﻿using ChampionsLeague.Domains.Entities;
+using ChampionsLeague.Repositories.DAO;
 using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Services.Services.Interfaces;
 using ChampionsLeague.Util.Mail.Interfaces;
@@ -13,30 +14,44 @@ namespace ChampionsLeague.Services.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderDAO _orderDAO;
-        //zitplaatsservice om beschikbare zitplaatsen op te halen 
+
+        //Zitplaatsservice  (beschikbare zitplaatsen op halen voor tickets en abonnementen)
         private readonly IZitplaatsService _zitplaatsService;
-        //constante ticketprijs voor nu
+
+        //INJECTION voor tickets:
+        //Ticketservice (max 4 tickets per user per match)
+        //Matchservice (mag geen tickets kopen voor twee verschillende matches op een dag)
+        //constante ticketprijs op 50 euro
+
+        private readonly ITicketService _ticketService;
+        private readonly IMatchService _matchService;
         private const decimal TicketPrijs = 50m;
 
-        //ticketservice (max 4 tickets per user per match)
-        private readonly ITicketService _ticketService;
 
-        //nodig om abonnementen aan te maken
-        private readonly IAbonnementService _abonnementService;
-
-        //mag geen tickets kopen voor twee verschillende matches op een dag
-        private readonly IMatchService _matchService;
-
+        //Voordien had ik logica om abonnementen aan te maken in abonnementservice, logica naar orderservice verplaatst
+        
+        //INJECTION voor Abonnementen:
+        //AbonnementDAO (check of gebruiker al een abonnement heeft voor die club)
+        //ClubService (vind club voor abonnement)
+        //CompetitieService (mag geen abonnement kopen na de start van de competitie)
+        //constante abonnementprijs op 200 euro
+        private readonly IAbonnementDAO _abonnementDAO;
+        private readonly IClubService _clubService;
+        private readonly ICompetitieService _competitieService;
+        private const decimal AbonnementPrijs = 200m;
+        
+        //INJECTION om emails te kunnen sturen (voor vouchers)
         private readonly IEmailSend _emailSend;
 
-
-        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService, ITicketService ticketService, IAbonnementService abonnementService, IMatchService matchService, IEmailSend emailSend)
+        public OrderService(IOrderDAO orderDAO, IZitplaatsService zitplaatsService, ITicketService ticketService, IMatchService matchService, IAbonnementDAO abonnementDAO, IClubService clubService, ICompetitieService competitieService, IEmailSend emailSend)
         {
             _orderDAO = orderDAO;
             _zitplaatsService = zitplaatsService;
             _ticketService = ticketService;
-            _abonnementService = abonnementService;
             _matchService = matchService;
+            _abonnementDAO = abonnementDAO;
+            _clubService = clubService;
+            _competitieService = competitieService;
             _emailSend = emailSend;
         }
 
@@ -134,8 +149,59 @@ namespace ChampionsLeague.Services.Services
         // abonnement aanmaken
         public async Task CreateAbonnementOrderAsync(string userId, string email, int clubId)
         {
-            await _abonnementService.CreateAbonnementOrderAsync(userId, email, clubId);
+
+            var club = await _clubService.GetByIdAsync(clubId);
+            if (club == null) throw new Exception("Club niet gevonden.");
+
+            //Validation: abonnement enkel voor start competitie kopen
+            //Via competitieService
+            //Zie ook unit test: ChampionsLeagueTests/TestAbonnement
+            var startDatum = await _competitieService.GetStartDatumAsync();
+            if (startDatum != null && DateOnly.FromDateTime(DateTime.Now) >= startDatum.Value)
+                throw new Exception($"Abonnementen kunnen enkel gekocht worden vóór {startDatum.Value}.");
+
+
+            //Validation: user heeft al abonnement voor deze club
+            if (await _abonnementDAO.HeeftAbonnementVoorClubAsync(userId, clubId))
+                throw new Exception("Je hebt al een abonnement voor deze club.");
+
+            // zoek beschikbare zitplaats
+            var zitplaats = await _zitplaatsService.GetBeschikbareZitplaatsVoorAbonnementAsync(clubId);
+            if (zitplaats == null)
+                throw new Exception("Geen beschikbare zitplaatsen meer voor dit abonnement.");
+
+            // voeg abonnement toe aan orderline
+            var orderline = new Orderline { Prijs = AbonnementPrijs };
+            orderline.Abonnements.Add(new Abonnement
+            {
+                ClubId = clubId,
+                ZitplaatsId = zitplaats.Id,
+                Prijs = AbonnementPrijs
+            });
+
+            //maak order
+            var order = new Order
+            {
+                UserId = userId,
+                Orderlines = new List<Orderline> { orderline },
+                TotalePrijs = AbonnementPrijs,
+                OrderDate = DateTime.Now
+            };
+
+            await _orderDAO.AddAsync(order);
+            await _orderDAO.SaveAsync();
+
+            // send voucher
+            await _emailSend.SendEmailAsync(
+                email,
+                "Bevestiging van uw abonnement - ChampionsLeague",
+                $@"<h2>Bedankt voor uw abonnement!</h2>
+               <p>U heeft een abonnement gekocht voor alle thuismatches van <strong>{club.Naam}</strong> .</p>
+               <p>Zitplaats: <strong>{zitplaats.ZitplaatsNummer}</strong></p>
+               <p>Prijs: €{AbonnementPrijs}</p>"
+            );
         }
+
 
 
     }

@@ -9,9 +9,7 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
     {
 
         Task<bool> HeeftAbonnementVoorClubAsync(string userId, int clubId);
-        Task<Zitplaats?> GetBeschikbareZitplaatsAsync(int clubId);
         Task<IEnumerable<Abonnement>> GetByUserIdAsync(string userId);
        
-
     }
 }

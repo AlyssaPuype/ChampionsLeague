@@ -5,6 +5,8 @@ using ChampionsLeague.Domains.Entities;
 using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Services.Services.Interfaces;
 
+//TicketService beheert tickets na order
+
 namespace ChampionsLeague.Services.Services
 {
     public class TicketService : ITicketService
