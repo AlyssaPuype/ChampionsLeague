@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Localization
+@{
+    var culture = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture.Name ?? "nl";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -34,6 +39,13 @@
                        
                     </ul>
                     <partial name="_LoginPartial" />
+                    <form asp-controller="Home" asp-action="SetLanguage" method="post">
+                        <select name="culture" onchange="this.form.submit()" class="form-select">
+                            <option value="nl" selected="@(culture == "nl")">Nederlands</option>
+                            <option value="en" selected="@(culture == "en")">English</option>
+                            <option value="fr" selected="@(culture == "fr")">Français</option>
+                        </select>
+                    </form>
                 </div>
             </div>
         </nav>
