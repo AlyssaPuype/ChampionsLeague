@@ -11,6 +11,11 @@ namespace ChampionsLeague.Services.Services
     {
         private readonly ICompetitieDAO _competitieDAO;
 
+        public CompetitieService(ICompetitieDAO competitieDAO)
+        {
+            _competitieDAO = competitieDAO;
+        }
+
         public async Task<DateOnly?> GetStartDatumAsync()
         {
             return await _competitieDAO.GetStartDatumAsync();
