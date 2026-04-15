@@ -12,5 +12,6 @@ namespace ChampionsLeague.Services.Services.Interfaces
 
         Task<int> GetAantalBeschikbaarAsync(int stadionvakId, int matchId);
 
+        Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId);
     }
 }
