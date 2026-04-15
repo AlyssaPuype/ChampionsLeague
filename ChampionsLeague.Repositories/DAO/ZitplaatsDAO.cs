@@ -27,5 +27,19 @@ namespace ChampionsLeague.Repositories.DAO
                 .Take(aantalGewensteZitplaatsen)
                 .ToListAsync();
         }
+
+        public async Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId)
+        {
+            var stadionId = await _context.Clubs
+                .Where(c => c.Id == clubId)
+                .Select(c => c.StadionId)
+                .FirstOrDefaultAsync();
+
+            return await _context.Zitplaatsen
+                .Where(z => z.Stadionvak.StadionId == stadionId
+                    && !_context.Abonnements.Any(a => a.ZitplaatsId == z.Id)
+                    && !_context.Tickets.Any(t => t.ZitplaatsId == z.Id && t.Status != "geannuleerd"))
+                .FirstOrDefaultAsync();
+        }
     }
 }
