@@ -31,6 +31,11 @@
             </select>
         </div>
 
+        <!--toon beschikbare capaciteit van een stadionvak-->
+        <div id="beschikbaar-info" style="display:none;" class="mt-2">
+            <span id="beschikbaar-aantal"></span> plaatsen beschikbaar in dit vak
+        </div>
+        
         <button type="submit" class="btn btn-primary mt-3">Voeg toe aan winkelmand</button>
     </form>
 
@@ -39,3 +44,25 @@
         <div class="alert alert-danger mt-3">@TempData["Error"]</div>
     }
 </section>
+
+
+<!--AJAX gebruikt om dynamisch het aantal beschikbare plaatsen weer te geven nadat met het stadionvak heeft geselecteerd-->
+@section Scripts {
+    <script>
+        document.getElementById('GeselecteerdStadionvakId').addEventListener('change', function () {
+            const vakId = this.value;
+
+            if (!vakId) {
+                document.getElementById('beschikbaar-info').style.display = 'none';
+                return;
+            }
+
+            fetch(`/Order/GetAantalBeschikbaar?stadionvakId=${vakId}`)
+                .then(r => r.json())
+                .then(aantal => {
+                    document.getElementById('beschikbaar-aantal').textContent = aantal;
+                    document.getElementById('beschikbaar-info').style.display = 'block';
+                });
+        });
+    </script>
+}

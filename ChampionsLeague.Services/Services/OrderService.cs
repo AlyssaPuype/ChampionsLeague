@@ -72,7 +72,7 @@ namespace ChampionsLeague.Services.Services
 
             //TODO: #46 Error handling: stadionvak moet gekozen worden
             //get beschikbare zitplaatsen
-            var beschikbareZitplaatsen = await _zitplaatsService.GetAvailableByStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
+            var beschikbareZitplaatsen = await _zitplaatsService.GetBeschikbaarPerStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
             //Check of deze ingevuld worden
             if (!beschikbareZitplaatsen.Any())
             {
