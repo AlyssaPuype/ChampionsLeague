@@ -122,4 +122,9 @@ xUnitTest: TestAbonnement:
 
 Search references :
 - selecteer methode (bv in Interface klasses van services) en press shift + f12
-- 
+
+source: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization/provide-resources?view=aspnetcore-10.0
+Add Localization:
+	- Provide resources:
+		- Maak folder in web project: Resources
+		- Add item -> Kies resource file als template

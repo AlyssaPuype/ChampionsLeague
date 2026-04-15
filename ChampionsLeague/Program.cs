@@ -39,6 +39,17 @@ builder.Services.AddDbContext<ChampionsLeagueDbContext>(options =>
 //localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization();
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] { "nl", "en", "fr" };
+    options.SetDefaultCulture(supportedCultures[0])
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
+});
+
 //DAO
 //Dbcontext is AddScoped by default, so for DAO too
 builder.Services.AddScoped<IClubDAO, ClubDAO>();
@@ -62,12 +73,6 @@ builder.Services.AddScoped<IZitplaatsService, ZitplaatsService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IAbonnementService, AbonnementService>();
 builder.Services.AddScoped<ICompetitieService, CompetitieService>();
-
-
-
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddControllersWithViews();
 
 
 //Session
@@ -103,11 +108,9 @@ else
 }
 
 app.UseHttpsRedirection();
-
+app.UseRequestLocalization();
 app.UseSession();
 app.UseRouting();
-app.UseSession();
-
 app.UseAuthorization();
 
 app.MapStaticAssets();

@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -12,28 +15,21 @@
 
         <!--Bron gebruikt: Wikipedia : Inhoud tekst komt niet overeen met de gebruikte data in het project, deze info is toegevoegd als placeholder-->
         <section class="about-container">
-            <h3>Over de competitie</h3>
-            <p>
-                De UEFA Champions League is het belangrijkste internationale voetbaltoernooi voor clubs in en rond Europa. Het toernooi wordt georganiseerd door de Europese voetbalbond UEFA. De naam Champions League bestaat sinds 1992. Voor die tijd stond het toernooi bekend als Europacup I (ook wel UEFA Beker voor landskampioenen).
-                In tegenstelling tot wat de naam doet vermoeden, gaat het om een kampioenschap tussen hoog eindigende ploegen in de nationale competities, niet alleen om kampioenen per land
-            </p>
+            <h3>@Localizer["Title_Competitie"]</h3>
+            <p>@Localizer["Text_Competitie"]</p>
         </section>
 
         <section class="history-container">
-            <h3>Geschiedenis</h3>
-            <p>De Europacup I (de originele naam luidt 'Coupe des Clubs Champions Européens', en staat nog altijd op de beker) was het belangrijkste Europese clubtoernooi waaraan elk seizoen de landskampioenen van alle bij de UEFA aangesloten landen deelnamen. Alleen in de beginjaren waren er enkele uitzonderingen, waaronder het Nederlandse PSV dat in het seizoen 1955/56 deelnam in plaats van de Nederlandse kampioen Willem II. De te winnen beker, die nog steeds wordt uitgereikt aan de winnaar van de Champions League, wordt ook wel de "cup met de grote oren" genoemd. Die "grote oren" zijn afgeleid van de Grieks/Romeinse amfora, waarvan de oren als draaghouvast dienden.</p>
+            <h3>@Localizer["Title_Geschiedenis"]</h3>
+            <p>@Localizer["Text_Geschiedenis"]</p>
         </section>
 
         <section class="seizoen-container">
-            <h3>Dit seizoen</h3>
-            <p>
-                De UEFA Champions League 2025/26 is de 71ste editie van het belangrijkste toernooi in het Europees clubvoetbal voor mannen, georganiseerd door de UEFA, en de 34ste sinds de naamsverandering.
-                De finale staat gepland op 30 mei 2026 in de Puskás Aréna in Boedapest. De winnaar kwalificeert zich voor de UEFA Champions League 2026/27, de UEFA Super Cup 2026, de FIFA Intercontinental Cup 2026 en het WK voor clubs 2029. Paris Saint-Germain is de titelverdediger.
-            </p>
+            <h3>@Localizer["Title_Seizoen"]</h3>
+            <p>@Localizer["Text_Seizoen"]</p>
             <a class="btn btn-primary" asp-controller="Match" asp-action="Index">
-                Bekijk Matches
+                @Localizer["Btn_Matches"]
             </a>
-            
         </section>
 
         
