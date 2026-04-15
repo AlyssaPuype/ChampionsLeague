@@ -52,6 +52,9 @@ Github repo link: https://github.com/AlyssaPuype/ChampionsLeague.git
 
 23. Onnodige DAO en service methodes verwijderd
 
+24. Ordering in tabel van matches gefixt
+
+25. Capaciteit per vak tonen tijdens het orderen van tickets/abonnementen mbv AJAX
 
 
 

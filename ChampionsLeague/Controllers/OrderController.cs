@@ -19,16 +19,26 @@ namespace ChampionsLeague.Controllers
         private readonly IStadionvakService _stadionvakService;
         private readonly ITicketService _ticketService;
         private readonly IClubService _clubService;
+        private readonly IZitplaatsService _zitplaatsService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(IOrderService orderService, IMatchService matchService, IStadionvakService stadionvakService, ITicketService ticketService, IClubService clubService, UserManager<ApplicationUser> userManager)
+        public OrderController(IOrderService orderService, IMatchService matchService, IStadionvakService stadionvakService, ITicketService ticketService, IClubService clubService, IZitplaatsService zitplaatsService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
             _matchService = matchService;
             _stadionvakService = stadionvakService;
             _ticketService = ticketService;
             _clubService = clubService;
+            _zitplaatsService = zitplaatsService;
             _userManager = userManager;
+        }
+
+        //Beschikbare zitplaatsen zien
+        [HttpGet]
+        public async Task<IActionResult> GetAantalBeschikbaar(int stadionvakId, int matchId = 0)
+        {
+            var aantal = await _zitplaatsService.GetAantalBeschikbaarAsync(stadionvakId, matchId);
+            return Json(aantal);
         }
 
         //ORDERPROCES: TICKETS
@@ -185,7 +195,7 @@ namespace ChampionsLeague.Controllers
         //        //viewModel.AantalTickets: 1
         //        //Oplossing:
         //            //in Views/Order/Index.cshtml input field voor GeselecteerdMatchId ontbreekt, toevoegen
-        //            //In OrderService.cs: order van attributen was omgedraaid, opgelost door matchId als eerste te zetten. var beschikbareZitplaatsen = await _zitplaatsService.GetAvailableByStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
+        //            //In OrderService.cs: order van attributen was omgedraaid, opgelost door matchId als eerste te zetten. var beschikbareZitplaatsen = await _zitplaatsService.GetBeschikbaarPerStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
         //        //Test: stadionvak: Real Madrid - Mancity 26/04/01. Onder-West, Aantal tickets: 2 -> output: MatchId: 31, StadionvakId: 248, AantalTickets: 2
         //        await _orderService.CreateTicketOrderAsync(user.Id, user.Email, viewModel.GeselecteerdMatchId, viewModel.GeselecteerdStadionvakId, viewModel.AantalTickets);
 

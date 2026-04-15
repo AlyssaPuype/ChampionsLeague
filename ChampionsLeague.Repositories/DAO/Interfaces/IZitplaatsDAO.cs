@@ -10,12 +10,14 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
     {
                
         //Geen overboeking mogelijk maken
-        //Volledige zitplaats object ophalen om tickets te kunnen aankopen
-        Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen);
+        Task<IEnumerable<Zitplaats>> GetBeschikbaarPerStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen);
 
-        //Zitplaats zoeken voor abonnement (1 zitplaats per abonnement)
-        Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId);
+
+        //krijg het aantal beschikbare zitplaatsen voor een bepaalde stadionvak en match
+        Task<int> GetAantalBeschikbaarAsync(int stadionvakId, int matchId);
 
 
     }
+
+
 }

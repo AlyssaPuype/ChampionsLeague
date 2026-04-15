@@ -35,6 +35,12 @@
                 }
             </select>
         </div>
+
+
+        <!--toon beschikbare capaciteit van een stadionvak-->
+        <div id="beschikbaar-info" style="display:none;" class="mt-2">
+            <span id="beschikbaar-aantal"></span> plaatsen beschikbaar in dit vak
+        </div>
         
 
         <!--selecteren van aantal tickets-->
@@ -60,4 +66,31 @@
 
 </section>
 
+<!--AJAX gebruikt om dynamisch het aantal beschikbare plaatsen weer te geven nadat met het stadionvak heeft geselecteerd-->
+@section Scripts {
+    <script>
+        //Haal waarden op voor vak en match
+        document.getElementById('GeselecteerdStadionvakId').addEventListener('change', function () {
+            const vakId = this.value;
+            const matchId = document.getElementById('GeselecteerdMatchId').value;
+
+            //indien vak niet geselecteerd is, verberg info
+            if (!vakId) {
+                document.getElementById('beschikbaar-info').style.display = 'none';
+                return;
+            }
+
+            //Anders: stuur data door naar ordercontroller
+            //Zet response om in JSON
+            //Zet de data in de view en maak info zichtb
+            fetch(`/Order/GetAantalBeschikbaar?stadionvakId=${vakId}&matchId=${matchId}`)
+                .then(r => r.json())
+                .then(aantal => {
+                    document.getElementById('beschikbaar-aantal').textContent = aantal;
+                    document.getElementById('beschikbaar-info').style.display = 'block';
+                });
+                .catch(err => { console.error('Fout bij ophalen beschikbare plaatsen:', err);
+        });
+    </script>
+}
 

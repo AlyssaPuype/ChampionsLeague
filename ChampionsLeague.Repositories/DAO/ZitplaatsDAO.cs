@@ -17,7 +17,7 @@ namespace ChampionsLeague.Repositories.DAO
             _context = context;
         }
         
-        public async Task<IEnumerable<Zitplaats>> GetAvailableByStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
+        public async Task<IEnumerable<Zitplaats>> GetBeschikbaarPerStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
             return await _context.Zitplaatsen
                 .Where(z => z.StadionvakId == stadionvakId)
@@ -28,18 +28,13 @@ namespace ChampionsLeague.Repositories.DAO
                 .ToListAsync();
         }
 
-        public async Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId)
+        public async Task<int> GetAantalBeschikbaarAsync(int stadionvakId, int matchId)
         {
-            var stadionId = await _context.Clubs
-                .Where(c => c.Id == clubId)
-                .Select(c => c.StadionId)
-                .FirstOrDefaultAsync();
-
             return await _context.Zitplaatsen
-                .Where(z => z.Stadionvak.StadionId == stadionId
-                    && !_context.Abonnements.Any(a => a.ZitplaatsId == z.Id)
-                    && !_context.Tickets.Any(t => t.ZitplaatsId == z.Id && t.Status != "geannuleerd"))
-                .FirstOrDefaultAsync();
+                .Where(z => z.StadionvakId == stadionvakId)
+                .Where(z => !_context.Abonnements.Any(a => a.ZitplaatsId == z.Id))
+                .Where(z => matchId == 0 || !z.Tickets.Any(t => t.MatchId == matchId && t.Status != "geannuleerd"))
+                .CountAsync();
         }
     }
 }
