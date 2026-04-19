@@ -8,53 +8,30 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/MatchIndex.css" />
-    <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.min.css" />
 
 }
 
-<div class="text-center">
-    <h1 class="display-4 page-title">Matches</h1>
+<div class="matches-container">
+    <h1>Matches</h1>
 
-    <section class="table-container">
-        <table id="match-table" class="table">
-            <thead>
-                <tr>
-                    <th>Datum</th>
-                    <th>Thuisploeg</th>
-                    <th>Bezoekers</th>
-                    <th>Stadion</th>
-                    <th>Koop tickets</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var group in groupedMatches)
-                {
-                    @foreach (var match in group)
-                    {
-                        <tr>
-                            <td data-order="@group.Key?.ToString("yyyy-MM-dd")">@($"{group.Key:dd MMMM yyyy}")</td>
-                            <td>@match.Thuisclub.Naam</td>
-                            <td>@match.Bezoekersclub.Naam</td>
-                            <td>@match.Stadion.Naam</td>
-                            <td>
-                                <!--#50 Blokkeer in de UI de mogelijkheid om tickets te kopen voor matches met date > 1 maand-->
-                                @if (match.MatchDate != null && match.MatchDate.Value <= DateOnly.FromDateTime(DateTime.Now.AddMonths(1)))
-                                {
-                                    // minder dan een maand:
-                                    <a asp-controller="Order" asp-action="Ticket" asp-route-matchid="@match.Id" class=" btn btn-primary">Koop ticket</a>
-                                }
-                                else
-                                {
-                                    // Meer dan een maand:
-                                    <button class="btn btn-dark" disabled>Nog niet beschikbaar</button>
-                                }
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </section>
+    <form data-ajax="true"
+          data-ajax-url="@Url.Action("FilterByClub", "Match")"
+          data-ajax-method="GET"
+          data-ajax-update="#match-list"
+          data-ajax-mode="replace">
+        <select name="clubId"
+                class="form-select w-auto"
+                onchange="$(this).closest('form').submit()">
+            <option value="">Alle ploegen</option>
+            @foreach (var item in (SelectList)ViewBag.Clubs)
+            {
+                <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+            }
+        </select>
+    </form>
+    
+    <div id="match-list">
+        @await Html.PartialAsync("_MatchList", Model)
+    </div>
     
 </div>
-
