@@ -160,5 +160,13 @@ source: https://learning.postman.com/docs/getting-started/overview
 	- Content-type: application/json
 - Params zijn automatisch ingevuld
 - Klik op Send en check response
-- Maak viewmodel op op basis van response properties
-- 
+- In applicatie 
+	- Viewmodel op op basis van response properties
+	- Hotelcontroller en view schrijven
+
+### Flow aanpassing:
+Momenteel is er een aparte pagina voor hotels, maar de gebruiker kan een hotel "boeken" zonder betaling, dus toevoegen aan shoppingcart
+Bij bevestiging komt de hotelinfo als een boeking in de history te zien
+- Er moet een hotelboeking entity aangemaakt worden met dezelfde kolommen als de api properties 
+- Hotelboeking moet toegevoegd worden aan orderline
+
