@@ -54,7 +54,7 @@
 <!--AJAX gebruikt om dynamisch het aantal beschikbare plaatsen weer te geven nadat met het stadionvak heeft geselecteerd-->
 @section Scripts {
     <script>
-        document.getElementById('GeselecteerdStadionvakId').addEventListener('change', function () {
+                document.getElementById('GeselecteerdStadionvakId').addEventListener('change', function () {
             const vakId = this.value;
 
             if (!vakId) {
@@ -68,7 +68,9 @@
                     document.getElementById('beschikbaar-aantal').textContent = aantal;
                     document.getElementById('beschikbaar-info').style.display = 'block';
                 })
-                 .catch(err => { console.error('Fout bij ophalen beschikbare plaatsen:', err);
+                .catch(err => {
+                    console.error('Fout bij ophalen beschikbare plaatsen:', err);
+                });
         });
     </script>
 }
