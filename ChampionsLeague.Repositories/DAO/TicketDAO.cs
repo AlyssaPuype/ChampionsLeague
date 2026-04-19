@@ -69,6 +69,25 @@ namespace ChampionsLeague.Repositories.DAO
             _context.Tickets.Update(ticket);
         }
 
+        //Delete ticket en voucher van de DB
+        public async Task DeleteGeannuleerdTicketAsync(int zitplaatsId, int matchId)
+        {
+            var ticket = await _context.Tickets
+            .Include(t => t.Voucher)
+            .FirstOrDefaultAsync(t => t.ZitplaatsId == zitplaatsId
+            && t.MatchId == matchId
+            && t.Status == "geannuleerd");
+
+            if (ticket != null)
+            {
+                if (ticket.Voucher != null)
+                    _context.Vouchers.Remove(ticket.Voucher);
+
+                _context.Tickets.Remove(ticket);
+            }
+        }
+
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

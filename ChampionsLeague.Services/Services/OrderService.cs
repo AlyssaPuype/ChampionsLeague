@@ -3,6 +3,7 @@ using ChampionsLeague.Repositories.DAO;
 using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Services.Services.Interfaces;
 using ChampionsLeague.Util.Mail.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -93,8 +94,14 @@ namespace ChampionsLeague.Services.Services
             {
                 throw new Exception("Geen beschikbare zitplaatsen.");
             }
-            
-            
+
+            // Vooraf het maken van order, verwijder geanulleerde tickets zodat deze terug geboekt kunnen worden
+            foreach (var zitplaats in beschikbareZitplaatsen)
+            {
+                await _ticketService.DeleteGeannuleerdTicketAsync(zitplaats.Id, matchId);
+            }
+
+
             //maak orderline aan en bereken totaalprijs
             var orderline = new Orderline
             {
