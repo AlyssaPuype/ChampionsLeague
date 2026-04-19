@@ -115,6 +115,12 @@ Note: Wanneer  de app opnieuw runt voor de eerste keer, kan dit wat tijd nemen o
 	Add-Migration [nameOfTheMigration] -Context ApplicationDbContext
 	Update-Database -Context ApplicationDbContext
 
+### Database tables script export
+- rechtsklik database
+- Tasks -> Generate Scripts
+- Save as script file
+
+
 ## Unit tests
 
 ### xUnitTest: TestAbonnement:

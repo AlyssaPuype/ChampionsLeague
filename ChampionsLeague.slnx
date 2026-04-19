@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="ChampionsLeague.Domains/ChampionsLeague.Domains.csproj" />
   <Project Path="ChampionsLeague.Repositories/ChampionsLeague.Repositories.csproj" />
   <Project Path="ChampionsLeague.Services/ChampionsLeague.Services.csproj" />
