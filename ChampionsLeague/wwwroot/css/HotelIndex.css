@@ -1,0 +1,16 @@
+﻿.hotel-container{
+    padding: 1rem;
+}
+
+.card-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgba(3, 31, 56, 1);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+

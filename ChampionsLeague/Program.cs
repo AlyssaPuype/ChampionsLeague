@@ -9,9 +9,10 @@ using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Services;
 using ChampionsLeague.Services.Services;
 using ChampionsLeague.Services.Services.Interfaces;
-using ChampionsLeague.Web.DAO;
+using ChampionsLeague.Util.Hotel;
 using ChampionsLeague.Util.Mail;
 using ChampionsLeague.Util.Mail.Interfaces;
+using ChampionsLeague.Web.DAO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -86,6 +87,9 @@ builder.Services.AddSession(options =>
 //Email
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddSingleton<IEmailSend, EmailSend>();
+
+//Hotel
+builder.Services.AddHttpClient<IHotelService, HotelService>();
 
 //IdentityEmail
 builder.Services.AddTransient<IEmailSender, IdentityEmailSend>();

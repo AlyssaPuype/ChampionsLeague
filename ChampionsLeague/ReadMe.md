@@ -71,8 +71,9 @@ Toegevoegd: modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers") in Cha
 ApplicationUser tabel manueel verwijderd in database.
 
 
+## Queries en migrations commands
 
-EMPTY orders query:
+### EMPTY orders query:
 
 	DELETE FROM Voucher;
 	DELETE FROM Ticket;
@@ -87,7 +88,7 @@ EMPTY orders query:
 	DBCC CHECKIDENT ('[Order]', RESEED, 0);
 
 
-CLEAN database:
+### CLEAN database:
 Note: Wanneer  de app opnieuw runt voor de eerste keer, kan dit wat tijd nemen omdat we veel seeders hebben, check output
 
 	DELETE FROM [Match];
@@ -104,7 +105,7 @@ Note: Wanneer  de app opnieuw runt voor de eerste keer, kan dit wat tijd nemen o
 	DBCC CHECKIDENT ('Club', RESEED, 0);
 	DBCC CHECKIDENT ('Stadion', RESEED, 0);
 
-ADD migrations:
+### ADD migrations:
 	
 	- ChampionsLeagueDbContext:
 	Add-Migration [nameOfTheMigration] -Context ChampionsLeagueDbContext
@@ -114,20 +115,21 @@ ADD migrations:
 	Add-Migration [nameOfTheMigration] -Context ApplicationDbContext
 	Update-Database -Context ApplicationDbContext
 
+## Unit tests
 
-xUnitTest: TestAbonnement:
+### xUnitTest: TestAbonnement:
 
 - create xUnit project
 - references toevoegen (domains, services)
 - installeer moq nuget package
 
-xUnitTest: TestTicketAnnulatie
+### xUnitTest: TestTicketAnnulatie
 
 
 Search references (handig wanneer je een bepaalde methode zoekt) :
 - selecteer methode (bv in Interface klasses van services) en press shift + f12
 
-Add Localization:
+## Add Localization:
 source: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization/provide-resources?view=aspnetcore-10.0
 
 	- Provide resources:
@@ -137,7 +139,26 @@ source: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/localization/
 	- Voeg toe in views:
 		- @inject IViewLocalizer Localizer
 
-Booking API:
--	Account in RapidAPI aangemaakt (gmail account gebruikt)
--	Subscribe API: https://rapidapi.com/tipsters/api/booking-com/playground/apiendpoint_a159b494-e4ec-4134-8a71-5ece6d8cc60b
+## Hotel Booking API werkwijze:
+source: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-10.0
+source: https://learning.postman.com/docs/getting-started/overview
+
+-	Account in Postman en RapidApi aangemaakt (vives account gebruikt)
+-	Subscribe API in rapidApi: https://rapidapi.com/tipsters/api/booking-com/playground/apiendpoint_a159b494-e4ec-4134-8a71-5ece6d8cc60b
 -	In appsettings.developments.json: bookingAPI key toegevoegd (x-rapidAPI-key)
+-	In ChampionsLeague.Util: Maak folder Hotel aan en voeg HotelService en IHotelService toe
+-	Register services in Program.cs en register:
+	- builder.Services.AddHttpClient<IHotelService, HotelService>();
+
+	
+### Installeer Postman Desktop
+-	Maak nieuw request aan
+-	Vanuit RapidApi, kopieer code snippet HTTP: GET /v1/hotels/data?hotel_id=1377073&locale=en-gb
+-	Plak deze in Postman, voeg header toe met key: 
+	- X-RapidAPI-Key:
+	- X-RapidAPI-Host:
+	- Content-type: application/json
+- Params zijn automatisch ingevuld
+- Klik op Send en check response
+- Maak viewmodel op op basis van response properties
+- 

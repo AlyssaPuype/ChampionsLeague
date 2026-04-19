@@ -1,0 +1,91 @@
+﻿@model ChampionsLeague.Models.Hotel.HotelSearchVM
+
+@{
+    ViewData["Title"] = "Hotels";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/HotelIndex.css" />
+}
+
+<div class="hotel-container">
+    <h1>Zoek en boek een hotel</h1>
+
+
+    <!--Zoekform-->
+    <form asp-action="Search" method="post">
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <label asp-for="City" class="form-label">Stad</label>
+                <input asp-for="City" class="form-control" placeholder="Stad" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="CheckIn" class="form-label">Check-in</label>
+                <input asp-for="CheckIn" type="date" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="CheckOut" class="form-label">Check-out</label>
+                <input asp-for="CheckOut" type="date" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Adults" class="form-label">Aantal personen</label>
+                <input asp-for="Adults" type="number" class="form-control" min="1" max="10" />
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Zoek</button>
+            </div>
+        </div>
+    </form>
+
+    <!--Error handling-->
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p class="mb-0">@error.ErrorMessage</p>
+            }
+        </div>
+    }
+
+    <!--Resultaten-->
+    @if (Model.Results.Any())
+    {
+        <h3>@Model.Results.Count hotels gevonden in @Model.City</h3>
+        <div class="row">
+            @foreach (var hotel in Model.Results)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card-container h-100">
+                        @if (!string.IsNullOrEmpty(hotel.PhotoUrl))
+                        {
+                            <img src="@hotel.PhotoUrl" class="card-img-top" alt="@hotel.Name" />
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@hotel.Name</h5>
+                            <p class="card-text text-muted">@hotel.Address, @hotel.City</p>
+                            <p>@hotel.ReviewScore/10</p>
+
+
+                            @if (hotel.Stars.HasValue)
+                            {
+                                <p>@hotel.Stars sterren</p>
+                            }
+                            @if (hotel.ReviewScore.HasValue)
+                            {
+                                <p>@hotel.ReviewCount reviews</p>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            @if (!string.IsNullOrEmpty(hotel.Url))
+                            {
+                                <a href="@hotel.Url" target="_blank" class="btn btn-outline-primary">Bekijk Hotel</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
