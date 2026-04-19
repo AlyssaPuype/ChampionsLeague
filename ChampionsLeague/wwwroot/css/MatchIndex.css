@@ -1,9 +1,16 @@
 ﻿/*MOBILE*/
 
-.table-container{
+.matches-container{
     padding: 1rem;
-    font-size: 0.9rem;
 }
+
+
+.card {
+   
+    border: 2px solid rgba(3, 31, 56, 1);
+    border-radius: 10px;
+}
+
 
 
 

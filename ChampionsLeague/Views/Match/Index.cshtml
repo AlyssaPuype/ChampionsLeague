@@ -8,52 +8,52 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/MatchIndex.css" />
-    <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.min.css" />
 
 }
 
-<div class="text-center">
-    <h1 class="display-4 page-title">Matches</h1>
+<div class="matches-container">
+    <h1>Matches</h1>
 
-    <section class="table-container">
-        <table id="match-table" class="table">
-            <thead>
-                <tr>
-                    <th>Datum</th>
-                    <th>Thuisploeg</th>
-                    <th>Bezoekers</th>
-                    <th>Stadion</th>
-                    <th>Koop tickets</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var group in groupedMatches)
+    <form method="get" asp-action="Index" class="mb-4">
+        <select name="clubId" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
+            <option value="">Alle ploegen</option>
+            @foreach (var item in (SelectList)ViewBag.Clubs)
+            {
+                <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+
+            }
+        </select>
+    </form>
+
+    <section class="match-container">
+        <section>
+
+            @foreach (var group in groupedMatches)
                 {
+                <h5>@($"{group.Key:dd MMMM yyyy}")</h5>
                     @foreach (var match in group)
                     {
-                        <tr>
-                            <td data-order="@group.Key?.ToString("yyyy-MM-dd")">@($"{group.Key:dd MMMM yyyy}")</td>
-                            <td>@match.Thuisclub.Naam</td>
-                            <td>@match.Bezoekersclub.Naam</td>
-                            <td>@match.Stadion.Naam</td>
-                            <td>
-                                <!--#50 Blokkeer in de UI de mogelijkheid om tickets te kopen voor matches met date > 1 maand-->
+                    <div class="card mb-3">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title mb-1">@match.Thuisclub.Naam vs @match.Bezoekersclub.Naam</h5>
+                                <p class="card-text text-muted mb-0">@match.Stadion.Naam</p>
+                            </div>
+                            <div>
                                 @if (match.MatchDate != null && match.MatchDate.Value <= DateOnly.FromDateTime(DateTime.Now.AddMonths(1)))
                                 {
-                                    // minder dan een maand:
-                                    <a asp-controller="Order" asp-action="Ticket" asp-route-matchid="@match.Id" class=" btn btn-primary">Koop ticket</a>
+                                    <a asp-controller="Order" asp-action="Ticket" asp-route-matchid="@match.Id" class="btn btn-primary">Koop ticket</a>
                                 }
                                 else
                                 {
-                                    // Meer dan een maand:
                                     <button class="btn btn-dark" disabled>Nog niet beschikbaar</button>
                                 }
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
+                    </div>
                     }
                 }
-            </tbody>
-        </table>
+        </section>
     </section>
     
 </div>
