@@ -20,6 +20,9 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
         //Status van ticket veranderen bij annulatie
         Task UpdateAsync(Ticket ticket);
 
+        //Delete ticket na annulatie
+        Task DeleteGeannuleerdTicketAsync(int zitplaatsId, int matchId);
+
         Task SaveAsync();
     }
 }

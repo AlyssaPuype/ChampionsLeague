@@ -84,7 +84,11 @@ namespace ChampionsLeague.Controllers
             }
             catch (Exception ex)
             {
+
                 TempData["Error"] = ex.Message;
+                //Uncomment om de exacte error te zien
+                //var inner = ex.InnerException?.Message ?? ex.Message;
+                //TempData["Error"] = inner;
                 return View("Index", carts);
             }
 
