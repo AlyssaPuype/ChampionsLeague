@@ -1,6 +1,4 @@
-﻿using ChampionsLeague.Domains.Entities;
-using ChampionsLeague.Services.Services.Interfaces;
-using ChampionsLeague.Services.Services.Interfaces;
+﻿using ChampionsLeague.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -36,6 +34,17 @@ namespace ChampionsLeague.Web.Controllers
             var match = await _matchService.GetMatchByIdAsync(id);
             if (match == null) return NotFound();
             return View(match);
+        }
+
+        // get matches for club (clubkalender) returning a partial view to work with unobtrusive ajax
+        [HttpGet]
+        public async Task<IActionResult> FilterByClub(int? clubId)
+        {
+            var matches = clubId.HasValue
+                ? await _matchService.GetMatchesByClubAsync(clubId.Value)
+                : await _matchService.GetAllMatchesAsync();
+
+            return PartialView("_MatchList", matches);
         }
     }
 }
