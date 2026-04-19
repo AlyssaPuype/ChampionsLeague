@@ -38,7 +38,7 @@ namespace ChampionsLeague.Services.Services
             return await _ticketDAO.HeeftTicketOpZelfdeDagAsync(userId, matchDate, matchId);
         }
 
-        // Ticket annuleren
+        // Ticket status updaten naar annulatie
         //Business rule: tot 1 week voor de start van de match
         //Zie ook unit test: ChampionsLeagueTests/TestTicketAnnulatie
 
@@ -54,10 +54,16 @@ namespace ChampionsLeague.Services.Services
                     throw new Exception("Ticket kan niet meer gratis geannuleerd worden");
             }
 
-            ticket.Status = "Gratis geannuleerd";
+            ticket.Status = "geannuleerd";
 
             await _ticketDAO.UpdateAsync(ticket);
             await _ticketDAO.SaveAsync();
+        }
+
+        // Geannuleerde tickets verwijderen
+        public async Task DeleteGeannuleerdTicketAsync(int zitplaatsId, int matchId)
+        {
+            await _ticketDAO.DeleteGeannuleerdTicketAsync(zitplaatsId, matchId);
         }
     }
 }
