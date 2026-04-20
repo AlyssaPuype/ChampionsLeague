@@ -16,6 +16,8 @@ using ChampionsLeague.Web.DAO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,7 +53,8 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
         .AddSupportedUICultures(supportedCultures);
 });
 
-//DAO
+//
+//Entity DAO
 //Dbcontext is AddScoped by default, so for DAO too
 builder.Services.AddScoped<IClubDAO, ClubDAO>();
 builder.Services.AddScoped<IMatchDAO, MatchDAO>();
@@ -63,9 +66,7 @@ builder.Services.AddScoped<IAbonnementDAO, AbonnementDAO>();
 builder.Services.AddScoped<ICompetitieDAO, CompetitieDAO>();
 
 
-
-
-//services
+//Entity services
 builder.Services.AddScoped<IClubService, ClubService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
@@ -90,6 +91,10 @@ builder.Services.AddSingleton<IEmailSend, EmailSend>();
 
 //Hotel
 builder.Services.AddHttpClient<IHotelService, HotelService>();
+
+//Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 //IdentityEmail
 builder.Services.AddTransient<IEmailSender, IdentityEmailSend>();
@@ -116,6 +121,9 @@ app.UseRequestLocalization();
 app.UseSession();
 app.UseRouting();
 app.UseAuthorization();
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.MapStaticAssets();
 

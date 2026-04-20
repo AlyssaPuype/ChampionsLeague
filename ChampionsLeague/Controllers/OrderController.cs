@@ -33,7 +33,7 @@ namespace ChampionsLeague.Controllers
             _userManager = userManager;
         }
 
-        //Beschikbare zitplaatsen zien
+        //Beschikbare zitplaatsen zien, returns json zodat ajax deze data kan gebruiken (gebruikt in orderindex van ticket om beschikbare zitplaatsen weer te geven)
         [HttpGet]
         public async Task<IActionResult> GetAantalBeschikbaar(int stadionvakId, int matchId = 0)
         {
@@ -81,6 +81,8 @@ namespace ChampionsLeague.Controllers
             ?? new ShoppingCartVM { Carts = new List<CartItemVM>() };
             cart.Carts ??= new List<CartItemVM>();
 
+            //clear model binding validations (eigen validatie error)
+            ModelState.Clear();
             try
             {
 

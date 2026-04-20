@@ -53,7 +53,8 @@ namespace ChampionsLeague.Controllers
                         await _orderService.CreateAbonnementOrderAsync(
                             user.Id,
                             user.Email,
-                            abonnement.ClubId
+                            abonnement.ClubId,
+                            abonnement.StadionvakId
                         );
                     }
                 }

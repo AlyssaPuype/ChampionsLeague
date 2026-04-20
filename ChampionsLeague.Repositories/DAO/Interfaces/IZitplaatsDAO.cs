@@ -16,7 +16,7 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
         //krijg het aantal beschikbare zitplaatsen voor een bepaalde stadionvak en match
         Task<int> GetAantalBeschikbaarAsync(int stadionvakId, int matchId);
 
-        Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId);
+        Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId, int stadionvakId);
 
 
     }
