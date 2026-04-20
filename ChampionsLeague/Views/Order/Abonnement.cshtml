@@ -4,24 +4,33 @@
     ViewData["Title"] = "Abonnement kopen";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/OrderIndex.css" />
+}
+
 <h1>Abonnement kopen</h1>
+<p>Een abonnement geeft je dezelfde zitplaats voor alle thuismatches van @Model.Club.Naam.</p>
 
 <section class="ticket-details-container">
-    <h4>Club details</h4>
-    <p class="clubnames">@Model.Club.Naam</p>
-    <p>Stadion: @Model.Club.Stadion?.Naam</p>
-    <p>Capaciteit: @Model.Club.Stadion?.Capaciteit</p>
+    <div class="ticket-details">
+        <h4 class="clubnames">@Model.Club.Naam</h4>
+        <p>@Model.Club.Stadion.Naam</p>
+
+    </div>
+    <div class="prijs">
+        <p>€@Model.Prijs</p>
+    </div>
+   
 </section>
 
 <section class="ticket-form-container">
-    <p>Een abonnement geeft je dezelfde zitplaats voor alle thuismatches van @Model.Club.Naam.</p>
-    <p><strong>Prijs: €200</strong></p>
+   
 
     <form asp-controller="Order" asp-action="AddAbonnementToCart" method="post">
         <input type="hidden" asp-for="ClubId" />
 
         <div class="stadionvak">
-            <label>Stadionvak</label>
+            <h6>Selecteer stadionvak</h6>
             <select asp-for="GeselecteerdStadionvakId">
                 <option value="">Selecteer een stadionvak</option>
                 @foreach (var vak in Model.Stadionvakken)

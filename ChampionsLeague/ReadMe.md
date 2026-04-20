@@ -70,6 +70,8 @@ Github repo link: https://github.com/AlyssaPuype/ChampionsLeague.git
 
 31. Flow hotelboeking aangepast
 
+32. Create constants in service, ipv ticketprijs en abonnementprijs in orderservice te definieren. -> gemakkelijk aan te roepen in views
+
 
 ## Issues & Fixes:
 

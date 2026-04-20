@@ -1,5 +1,6 @@
 ﻿@model ChampionsLeague.Models.Order.OrderTicketVM
 
+
 @{
     ViewData["Title"] = "Tickets kopen";
 
@@ -11,10 +12,15 @@
 
 <h1>Koop tickets</h1>
 <section class="ticket-details-container">
-    <h4>Match details</h4>
-    <p class="clubnames">@Model.Match.Thuisclub.Naam vs @Model.Match.Bezoekersclub.Naam</p>
+    <div class="ticket-details">
+     <h4 class="clubnames">@Model.Match.Thuisclub.Naam vs @Model.Match.Bezoekersclub.Naam</h4>
     <p>Datum: @Model.Match.MatchDate</p>
+    <p>Locatie: @Model.Match.Stadion.Stad</p>
     <p>Stadion: @Model.Match.Stadion.Naam</p>
+    </div>
+    <div class="prijs">
+        <p>€@Model.Prijs</p>
+    </div>
 </section>
 
 <section class="ticket-form-container">
@@ -26,7 +32,7 @@
 
         <!--selecteren van een stadionvak-->
         <div class="stadionvak">
-            <label>Stadionvak</label>
+            <h6>Selecteer stadionvak</h6>
             <select asp-for="GeselecteerdStadionvakId">
                 <option value="">Selecteer een stadionvak</option>
                 @foreach (var stadionvak in Model.Stadionvakken)
@@ -45,7 +51,7 @@
 
         <!--selecteren van aantal tickets-->
         <div class="aantal-tickets">
-            <label>Aantal tickets</label>
+            <h6>Selecteer aantal tickets</h6>
             <input asp-for="AantalTickets" type="number" value="1" />
 
         </div>

@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using ChampionsLeague.Services.Constants;
+
 
 
 namespace ChampionsLeague.Services.Services
@@ -26,7 +28,7 @@ namespace ChampionsLeague.Services.Services
 
         private readonly ITicketService _ticketService;
         private readonly IMatchService _matchService;
-        private const decimal TicketPrijs = 50m;
+        private const decimal TicketPrijs = Prijzen.TicketPrijs;
 
 
         //Voordien had ik logica om abonnementen aan te maken in abonnementservice, logica naar orderservice verplaatst
@@ -39,7 +41,7 @@ namespace ChampionsLeague.Services.Services
         private readonly IAbonnementDAO _abonnementDAO;
         private readonly IClubService _clubService;
         private readonly ICompetitieService _competitieService;
-        private const decimal AbonnementPrijs = 200m;
+        private const decimal AbonnementPrijs = Prijzen.AbonnementPrijs;
         
         //INJECTION om emails te kunnen sturen (voor vouchers)
         private readonly IEmailSend _emailSend;
