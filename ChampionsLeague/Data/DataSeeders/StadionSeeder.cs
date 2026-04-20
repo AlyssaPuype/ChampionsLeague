@@ -9,12 +9,12 @@ namespace ChampionsLeague.Data.DataSeeders
         {
             var stadions = new List<Stadion>
         {
-            new() { Naam = "Santiago Bernabéu Stadium", Capaciteit = 85000 },
-            new() { Naam = "Etihad Stadium", Capaciteit = 53000 },
-            new() { Naam = "Allianz Arena", Capaciteit = 75000 },
-            new() { Naam = "Parc des Princes", Capaciteit = 48000 },
-            new() { Naam = "Jan Breydelstadion", Capaciteit = 29000 },
-            new() { Naam = "Camp Nou", Capaciteit = 99000 }
+            new() { Naam = "Santiago Bernabéu Stadium", Capaciteit = 85000, Stad = "Madrid" },
+            new() { Naam = "Etihad Stadium", Capaciteit = 53000, Stad = "Manchester" },
+            new() { Naam = "Allianz Arena", Capaciteit = 75000, Stad = "Munich" },
+            new() { Naam = "Parc des Princes", Capaciteit = 48000, Stad = "Paris" },
+            new() { Naam = "Jan Breydelstadion", Capaciteit = 29000, Stad = "Bruges" },
+            new() { Naam = "Camp Nou", Capaciteit = 99000, Stad = "Barcelona" }
         };
             context.Stadions.AddRange(stadions);
             return stadions;
