@@ -17,8 +17,9 @@
 }
 
 .match-container {
-    border: 2px solid rgba(3, 31, 56, 1);
-    border-radius: 10px;
+    background-color: rgb(245, 245, 245);
+    border: 2px solid rgba(226, 226, 226);
+    border-radius: 5px;
 }
 
 .match-body {

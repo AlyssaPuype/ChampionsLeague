@@ -21,7 +21,7 @@
                         <div>
                             @if (match.MatchDate != null && match.MatchDate.Value <= DateOnly.FromDateTime(DateTime.Now.AddMonths(1)))
                             {
-                                <a asp-controller="Order" asp-action="Ticket" asp-route-matchid="@match.Id" class="btn btn-primary">Koop ticket</a>
+                                <a asp-controller="Order" asp-action="Ticket" asp-route-matchid="@match.Id" class="btn btn-dark">Koop ticket</a>
                             }
                             else
                             {

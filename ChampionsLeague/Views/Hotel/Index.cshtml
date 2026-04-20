@@ -33,7 +33,7 @@
                 <input asp-for="Adults" type="number" class="form-control" min="1" max="10" />
             </div>
             <div class="col-md-1 d-flex align-items-end">
-                <button type="submit" class="btn btn-primary w-100">Zoek</button>
+                <button type="submit" class="btn btn-dark w-100">Zoek</button>
             </div>
         </div>
     </form>
@@ -80,7 +80,7 @@
                         <div class="card-footer">
                             @if (!string.IsNullOrEmpty(hotel.Url))
                             {
-                                <a href="@hotel.Url" target="_blank" class="btn btn-outline-primary">Bekijk Hotel</a>
+                                <a href="@hotel.Url" target="_blank" class="btn btn-outline-dark">Bekijk Hotel</a>
                             }
                         </div>
                     </div>
