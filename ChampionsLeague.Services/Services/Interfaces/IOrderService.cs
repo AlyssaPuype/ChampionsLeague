@@ -13,6 +13,6 @@ namespace ChampionsLeague.Services.Services.Interfaces
         Task CreateTicketOrderAsync(string userId, string email, int matchId, int zitplaatsId, int aantalTickets);
 
         // abonnement aanmaken
-        Task CreateAbonnementOrderAsync(string userId, string email, int clubId);
+        Task CreateAbonnementOrderAsync(string userId, string email, int clubId, int stadionvakId);
     }
 }

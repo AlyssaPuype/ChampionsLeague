@@ -156,7 +156,7 @@ namespace ChampionsLeague.Services.Services
 
 
         // abonnement aanmaken
-        public async Task CreateAbonnementOrderAsync(string userId, string email, int clubId)
+        public async Task CreateAbonnementOrderAsync(string userId, string email, int clubId, int stadionvakId)
         {
 
             var club = await _clubService.GetByIdAsync(clubId);
@@ -175,7 +175,7 @@ namespace ChampionsLeague.Services.Services
                 throw new Exception("Je hebt al een abonnement voor deze club.");
 
             // zoek beschikbare zitplaats
-            var zitplaats = await _zitplaatsService.GetBeschikbareZitplaatsVoorAbonnementAsync(clubId);
+            var zitplaats = await _zitplaatsService.GetBeschikbareZitplaatsVoorAbonnementAsync(clubId, stadionvakId);
             if (zitplaats == null)
                 throw new Exception("Geen beschikbare zitplaatsen meer voor dit abonnement.");
 

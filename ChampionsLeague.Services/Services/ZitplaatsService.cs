@@ -27,9 +27,9 @@ namespace ChampionsLeague.Services
             return await _zitplaatsDAO.GetAantalBeschikbaarAsync(stadionvakId, matchId);
         }
 
-        public async Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId)
+        public async Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId, int stadionvakId)
         {
-            return await _zitplaatsDAO.GetBeschikbareZitplaatsVoorAbonnementAsync(clubId);
+            return await _zitplaatsDAO.GetBeschikbareZitplaatsVoorAbonnementAsync(clubId, stadionvakId);
         }
     }
 }
