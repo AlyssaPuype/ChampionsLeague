@@ -216,3 +216,6 @@ In Package Manager Console:
 
 -- Gestopt, boeking hoeven niet bijgehouden te worden (dit kan een uitbreiding zijn)
 
+## Bundling and minifying
+
+Install extension: Bundler & Minifier 2022+

@@ -16,7 +16,8 @@
 {
 
     <h5>Tickets</h5>
-    <table class="table table-striped">
+    <div class="table-responsive">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Match</th>
@@ -24,7 +25,6 @@
                     <th>Stadion</th>
                     <th>Vak</th>
                     <th>Aantal</th>
-                    <th>Prijs</th>
                     <th>Subtotaal</th>
                     <th></th>
                 </tr>
@@ -38,7 +38,6 @@
                         <td>@cartItem.StadionNaam</td>
                         <td>@cartItem.StadionvakNaam</td>
                         <td>@cartItem.AantalTickets</td>
-                        <td>€@cartItem.Prijs</td>
                         <td>€@(cartItem.Prijs* cartItem.AantalTickets)</td>
                         <td>
                             <a asp-action="DeleteTicket"
@@ -50,6 +49,8 @@
                 }
             </tbody>
         </table>
+    </div>
+    
  }
 
  <!--Gekozen Abonnenmenten tonen-->
@@ -57,35 +58,38 @@
   @if (Model?.AbonnementCarts?.Any() == true)
   {
             <h5>Abonnementen</h5>
-            <table class="table table-striped">
-                <thead>
+            <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Club</th>
+                    <th>Prijs</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var abonnement in Model.AbonnementCarts)
+                {
                     <tr>
-                        <th>Club</th>
-                        <th>Prijs</th>
-                        <th></th>
+                        <td>
+                            @if (!string.IsNullOrEmpty(abonnement.ClubLogo))
+                            {
+                                <img src="@abonnement.ClubLogo" height="30" class="me-2" />
+                            }
+                            @abonnement.ClubNaam
+                        </td>
+                        <td>€@abonnement.Prijs</td>
+                        <td>
+                            <a asp-action="DeleteAbonnement"
+                               asp-route-clubId="@abonnement.ClubId"
+                               class="btn btn-danger btn-sm">Verwijder</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var abonnement in Model.AbonnementCarts)
-                    {
-                        <tr>
-                            <td>
-                                @if (!string.IsNullOrEmpty(abonnement.ClubLogo))
-                                {
-                                    <img src="@abonnement.ClubLogo" height="30" class="me-2" />
-                                }
-                                @abonnement.ClubNaam
-                            </td>
-                            <td>€@abonnement.Prijs</td>
-                            <td>
-                                <a asp-action="DeleteAbonnement"
-                                   asp-route-clubId="@abonnement.ClubId"
-                                   class="btn btn-danger btn-sm">Verwijder</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                }
+            </tbody>
+        </table>
+            </div>
+            
         }
 
 
