@@ -72,6 +72,9 @@ Github repo link: https://github.com/AlyssaPuype/ChampionsLeague.git
 
 32. Create constants in service, ipv ticketprijs en abonnementprijs in orderservice te definieren. -> gemakkelijk aan te roepen in views
 
+33. Some UI improvements
+
+34. Partial views voor club related info
 
 ## Issues & Fixes:
 
