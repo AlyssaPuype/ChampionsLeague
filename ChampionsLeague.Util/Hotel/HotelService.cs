@@ -112,13 +112,13 @@ namespace ChampionsLeague.Util.Hotel
                         ? stad.GetString() : null,
                     Country = hotel.TryGetProperty("country_trans", out var land)
                         ? land.GetString() : null,
-                    ReviewScore = hotel.TryGetProperty("review_score", out var score)
+                    ReviewScore = hotel.TryGetProperty("review_score", out var score) && score.ValueKind != JsonValueKind.Null
                         ? score.GetDouble() : null,
-                    ReviewCount = hotel.TryGetProperty("review_nr", out var nr)
+                    ReviewCount = hotel.TryGetProperty("review_nr", out var nr) && score.ValueKind != JsonValueKind.Null
                         ? nr.GetInt32() : null,
                     ReviewWord = hotel.TryGetProperty("review_score_word", out var word)
                         ? word.GetString() : null,
-                    Stars = hotel.TryGetProperty("class", out var stars)
+                    Stars = hotel.TryGetProperty("class", out var stars) && score.ValueKind != JsonValueKind.Null
                         ? stars.GetDouble() : null,
                     PhotoUrl = hotel.TryGetProperty("main_photo_url", out var foto)
                         ? foto.GetString()?.Replace("square60", "square500") : null,
