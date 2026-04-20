@@ -1,19 +1,43 @@
 ﻿@model Club
 
+<!--mapping partial view names aan club namen-->
+@{
+    var partials = new Dictionary<string, string>
+    {
+        { "Real Madrid",         "~/Views/Club/ClubInfo/_MadridInfo.cshtml" },
+        { "Manchester City",     "~/Views/Club/ClubInfo/_ManchesterInfo.cshtml" },
+        { "Bayern München",      "~/Views/Club/ClubInfo/_BayernInfo.cshtml" },
+        { "Paris Saint-Germain", "~/Views/Club/ClubInfo/_PsgInfo.cshtml" },
+        { "Club Brugge",         "~/Views/Club/ClubInfo/_BruggeInfo.cshtml" },
+        { "FC Barcelona",        "~/Views/Club/ClubInfo/_BarcelonaInfo.cshtml" }
+    };
+}
+
 <div class="club-detail">
     <div class="club-header">
         <h1>@Model.Naam</h1>
         <img src="@Model.LogoPath" alt="@Model.Naam" class="club-logo" />
     </div>
-   
-    <div class="club-stadion">
-        <h3>Stadion</h3>
-        <p>Naam: @Model.Stadion?.Naam</p>
-        <p>Capaciteit: @Model.Stadion?.Capaciteit</p>
-    </div>
 
     <div class="abonnement-btn">
-       <a asp-controller="Order" asp-action="Abonnement" asp-route-clubId="@Model.Id" class="btn btn-dark">Abonnement kopen</a>
+        <a asp-controller="Order" asp-action="Abonnement" asp-route-clubId="@Model.Id" class="btn btn-dark">Abonnement kopen</a>
     </div>
+   
+    <div class="club-content">
+        <div class="club-stadion">
+            <h3>Stadion</h3>
+            <p>Naam: @Model.Stadion?.Naam</p>
+            <p>Capaciteit: @Model.Stadion?.Capaciteit</p>
+        </div>
+
+        <!--Club info partial views-->
+        @if (partials.TryGetValue(Model.Naam, out var partialName))
+        {
+            @await Html.PartialAsync(partialName)
+        }
+    </div>
+   
+
+    
 
 </div>

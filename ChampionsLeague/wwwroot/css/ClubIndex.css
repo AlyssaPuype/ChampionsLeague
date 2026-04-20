@@ -48,6 +48,15 @@
 
 
 /*_ClubDetail.cshtml*/
+
+
+.club-content {
+    padding: 1rem;
+    background-color: rgb(245, 245, 245);
+    border: 2px solid rgba(226, 226, 226);
+    border-radius: 5px;
+}
+
 .club-header {
     display: flex;
     align-items: center;
@@ -63,6 +72,7 @@
 
 .club-stadion {
 }
+
 
 
 
