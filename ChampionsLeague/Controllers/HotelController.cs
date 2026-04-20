@@ -1,9 +1,11 @@
 ﻿using ChampionsLeague.Util.Hotel;
 using Microsoft.AspNetCore.Mvc;
 using ChampionsLeague.Models.Hotel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChampionsLeague.Controllers
 {
+    [Authorize]
     public class HotelController : Controller
     {
         private readonly IHotelService _hotelService;

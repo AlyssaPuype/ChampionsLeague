@@ -209,4 +209,5 @@ In Package Manager Console:
 
 	UPDATE Stadion SET Stad = 'Barcelona' WHERE Naam = 'Camp Nou';
 
+-- Gestopt, boeking hoeven niet bijgehouden te worden (dit kan een uitbreiding zijn)
 
