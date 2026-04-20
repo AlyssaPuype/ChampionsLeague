@@ -58,7 +58,17 @@ Github repo link: https://github.com/AlyssaPuype/ChampionsLeague.git
 
 25. Capaciteit per vak tonen tijdens het orderen van tickets/abonnementen mbv AJAX
 
+26. Localization toegevoegd (ENG, NL, FR)
 
+27. Matches werd getoond via DataTables -> Gewijzigd naar een gewone list die update via unobtrusive ajax en dropdown (club filter)
+
+28. Unit test voor abonnementen gewijzigd, want logica werd voordien verplaatst naar orderservice
+
+29. Hotel Booking API toegevoegd
+
+30. Hotel Service aangemaakt
+
+31. Flow hotelboeking aangepast
 
 
 Issues:
@@ -132,7 +142,7 @@ Note: Wanneer  de app opnieuw runt voor de eerste keer, kan dit wat tijd nemen o
 ### xUnitTest: TestTicketAnnulatie
 
 
-Search references (handig wanneer je een bepaalde methode zoekt) :
+## Search references (handig wanneer je een bepaalde methode zoekt) :
 - selecteer methode (bv in Interface klasses van services) en press shift + f12
 
 ## Add Localization:
@@ -175,4 +185,11 @@ Momenteel is er een aparte pagina voor hotels, maar de gebruiker kan een hotel "
 Bij bevestiging komt de hotelinfo als een boeking in de history te zien
 - Er moet een hotelboeking entity aangemaakt worden met dezelfde kolommen als de api properties 
 - Hotelboeking moet toegevoegd worden aan orderline
+
+
+1. Stadion entity aanpassen met nieuwe stad property: 
+In Package Manager Console:
+2. 'Add-Migration AddStadToStadion -Context ChampionsLeagueDbContext'
+3. 'Update-Database -Context ChampionsLeagueDbContext'
+4. Seeders van Stadion aanpassen zodat er nu ook een stad is voor elk stadion 
 

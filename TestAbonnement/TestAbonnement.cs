@@ -11,27 +11,29 @@ using Moq;
 
 namespace ChampionsLeagueTests
 {
-    public class TestAbonnement
+    public class TestOrderService
     {
         //Nodige services uit AbonnementService als Mock inladen
         private readonly Mock<IAbonnementDAO> _mockAbonnementDAO = new();
+        private readonly Mock<IZitplaatsService> _mockZitplaatsService = new();
+        private readonly Mock<ITicketService> _mockTicketService = new();
         private readonly Mock<IOrderDAO> _mockOrderDAO = new();
         private readonly Mock<IClubService> _mockClubService = new();
         private readonly Mock<IMatchService> _mockMatchService = new();
         private readonly Mock<IEmailSend> _mockEmailSend = new();
         private readonly Mock<ICompetitieService> _mockCompetitieService = new();
-        private readonly AbonnementService _service;
+        private readonly OrderService _service;
 
         //Setup van de Mocks, voor alle tests
-        public TestAbonnement()
+        public TestOrderService()
         {
             // Club setup — geldig voor alle tests
             _mockClubService.Setup(s => s.GetByIdAsync(1))
                 .ReturnsAsync(new Club { Id = 1, Naam = "Bayern München" });
 
             // Zitplaats setup
-            _mockAbonnementDAO.Setup(s => s.GetBeschikbareZitplaatsAsync(1))
-                .ReturnsAsync(new Zitplaats { Id = 1, ZitplaatsNummer = "ODT1" });
+            _mockZitplaatsService.Setup(s => s.GetBeschikbareZitplaatsVoorAbonnementAsync(1))
+               .ReturnsAsync(new Zitplaats { Id = 1, ZitplaatsNummer = "ODT1" });
 
             // OrderDAO setup
             _mockOrderDAO.Setup(s => s.AddAsync(It.IsAny<Order>())).Returns(Task.CompletedTask);
@@ -41,11 +43,13 @@ namespace ChampionsLeagueTests
             _mockEmailSend.Setup(s => s.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            _service = new AbonnementService(
-                _mockAbonnementDAO.Object,
-                _mockOrderDAO.Object,
-                _mockClubService.Object,
+            _service = new OrderService(
+                 _mockOrderDAO.Object,
+                _mockZitplaatsService.Object,
+                _mockTicketService.Object,
                 _mockMatchService.Object,
+                _mockAbonnementDAO.Object,
+                _mockClubService.Object,
                 _mockCompetitieService.Object,
                 _mockEmailSend.Object
             );
