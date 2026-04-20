@@ -71,14 +71,18 @@ Github repo link: https://github.com/AlyssaPuype/ChampionsLeague.git
 31. Flow hotelboeking aangepast
 
 
-Issues:
+## Issues & Fixes:
 
-- Na Submit van CreateTicket form
+ ### Na Submit van CreateTicket form
 - Error: SqlException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Order_AspNetUser". The conflict occurred in database "ChampionsLeagueDB", table "dbo.ApplicationUser", column 'Id'. 
 ChampionsLeagueDbContext accidentally created a separate ApplicationUser table. 
 The Order table had a FK pointing to this table instead of the correct AspNetUsers table managed by Identity.
 Toegevoegd: modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers") in ChampionsLeagueDbContext
 ApplicationUser tabel manueel verwijderd in database.
+
+### Error after migrations: 
+'The running command stopped because the preference variable "ErrorActionPreference" or common parameter is set to Stop: C:\Users\alyss\Documents\School\Vives2526\S0-Full-Stack-Development\Project\ChampionsLeague\ChampionsLeague\ChampionsLeague.csproj : warning NU1901: Package 'NuGet.Packaging' 6.12.1 has a known low severity vulnerability, https://github.com/advisories/GHSA-g4vj-cjjj-v7hg'
+update NuGet.Packaging package 
 
 
 ## Queries en migrations commands
@@ -192,4 +196,17 @@ In Package Manager Console:
 2. 'Add-Migration AddStadToStadion -Context ChampionsLeagueDbContext'
 3. 'Update-Database -Context ChampionsLeagueDbContext'
 4. Seeders van Stadion aanpassen zodat er nu ook een stad is voor elk stadion 
+5. Update DB
+	UPDATE Stadion SET Stad = 'Madrid' WHERE Naam = 'Santiago Bernabéu Stadium';
+
+	UPDATE Stadion SET Stad = 'Manchester' WHERE Naam = 'Etihad Stadium';
+
+	UPDATE Stadion SET Stad = 'Munchen' WHERE Naam = 'Allianz Arena';
+
+	UPDATE Stadion SET Stad = 'Paris' WHERE Naam = 'Parc des Princes';
+
+	UPDATE Stadion SET Stad = 'Bruges' WHERE Naam = 'Jan Breydelstadion';
+
+	UPDATE Stadion SET Stad = 'Barcelona' WHERE Naam = 'Camp Nou';
+
 
