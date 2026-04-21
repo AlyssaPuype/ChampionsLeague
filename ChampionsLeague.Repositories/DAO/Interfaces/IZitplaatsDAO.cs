@@ -9,15 +9,18 @@ namespace ChampionsLeague.Repositories.DAO.Interfaces
     public interface IZitplaatsDAO
     {
                
-        //Tickets: Lijst van vrije zitplaatsen in een vak per match
+        //Tickets
         //Gebruiker kiest een match, een vak en het aantal gewenste zitplaatsen
+        //Return: Lijst van zitplaatsen
         Task<IEnumerable<Zitplaats>> GetBeschikbareZitplaatsenVoorTicketAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen);
 
-        //Abonnementen: Eerste vrije zitplaats in een vak
+        //Abonnementen
         //Gebruiker kiest een vak en krijgt de eerste vrije zitplaats in dat vak toegewezen
+        //Return: 1 zitplaats
         Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int stadionvakId);
 
         //Get aantal vrije zitplaatsen
+        //Return: int
         Task<int> GetAantalBeschikbareZitplaatsen(int stadionvakId, int matchId);
 
 
