@@ -194,7 +194,7 @@ source: https://github.com/domaindrivendev/Swashbuckle.AspNetCore#readme
 https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-8.0&tabs=visual-studio
 - Installeer in Web project: Swashbuckle.AspNetCore.Swagger 10.1.7 and Swashbuckle.AspNetCore
 - Import using Microsoft.OpenApi; en Register in program.cs
--
+
 
 ### Flow aanpassing:
 Momenteel is er een aparte pagina voor hotels, maar de gebruiker kan een hotel "boeken" zonder betaling, dus toevoegen aan shoppingcart
@@ -226,3 +226,4 @@ In Package Manager Console:
 ## Bundling and minifying
 
 Install extension: Bundler & Minifier 2022+
+

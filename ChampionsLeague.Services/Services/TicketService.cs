@@ -39,9 +39,8 @@ namespace ChampionsLeague.Services.Services
         }
 
         // Ticket status updaten naar annulatie
-        //Business rule: tot 1 week voor de start van de match
+        //R-9: tot 1 week voor de start van de match
         //Zie ook unit test: ChampionsLeagueTests/TestTicketAnnulatie
-
         public async Task AnnuleerAsync(int ticketId)
         {
             var ticket = await _ticketDAO.GetByIdAsync(ticketId); 
