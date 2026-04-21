@@ -38,6 +38,7 @@ namespace ChampionsLeague.Controllers
         public async Task<IActionResult> GetAantalBeschikbaar(int stadionvakId, int matchId = 0)
         {
             var aantal = await _zitplaatsService.GetAantalBeschikbaarAsync(stadionvakId, matchId);
+            
             return Json(aantal);
         }
 
@@ -68,6 +69,8 @@ namespace ChampionsLeague.Controllers
         //CreateOrder() roept CreateTicketOrderAsync() aan in OrderService
         //Tickets worden aangemaakt in de DB en een bevestigingsmail wordt verstuurd
 
+
+        //TODO: capacity houdt nog geen rekening met zitplaatsen of abonnementen in shoppingcart, update alleen nadat de order is geplaatst
         [HttpPost]
         public async Task<IActionResult> AddTicketToCart(OrderTicketVM viewModel)
         {
@@ -131,6 +134,8 @@ namespace ChampionsLeague.Controllers
                     if (match.MatchDate.Value > maandlimiet)
                         throw new Exception("Tickets kunnen pas 1 maand voor de wedstrijd gekocht worden.");
                 }
+
+                
 
 
             }
@@ -220,6 +225,7 @@ namespace ChampionsLeague.Controllers
                 var heeftConflict = cart.Carts?.Any(c => c.ThuisclubId == viewModel.ClubId) ?? false;
                 if (heeftConflict)
                     throw new Exception("Je kan geen abonnement én een los ticket voor een thuismatch van dezelfde club hebben.");
+
             }
             catch (Exception ex)
             {
