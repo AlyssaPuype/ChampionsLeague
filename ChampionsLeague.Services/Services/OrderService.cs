@@ -167,7 +167,7 @@ namespace ChampionsLeague.Services.Services
             //R-4
             //Validation: abonnement enkel voor start competitie kopen
             //Via competitieService
-            //Zie ook unit test: ChampionsLeagueTests/TestAbonnement
+            //Zie ook unit test: ChampionsLeagueTests/TestAbonnementAankoop
             var startDatum = await _competitieService.GetStartDatumAsync();
             if (startDatum != null && DateOnly.FromDateTime(DateTime.Now) >= startDatum.Value)
                 throw new Exception($"Abonnementen kunnen enkel gekocht worden vóór {startDatum.Value}.");

@@ -65,7 +65,7 @@ namespace ChampionsLeagueTests
 
             // Act & Assert
             await Assert.ThrowsAsync<Exception>(() =>
-                _service.CreateAbonnementOrderAsync("userId", "email@test.com", 1));
+                _service.CreateAbonnementOrderAsync("userId", "email@test.com", 1,1));
         }
 
         //Startdatum ligt in de toekomst, we roepen CreateAbonnementOrderAsync aan, er wordt geen exception gegooid en checken of de order werd aangemaakt
@@ -80,7 +80,7 @@ namespace ChampionsLeagueTests
                 .ReturnsAsync(false);
 
             // Act
-            await _service.CreateAbonnementOrderAsync("userId", "email@test.com", 1);
+            await _service.CreateAbonnementOrderAsync("userId", "email@test.com", 1,1);
 
             // Assert
             _mockOrderDAO.Verify(s => s.AddAsync(It.IsAny<Order>()), Times.Once);

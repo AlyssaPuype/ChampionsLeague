@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Solution Items/">
+    <File Path="Notes.md" />
     <File Path="README.md" />
   </Folder>
   <Project Path="ChampionsLeague.Domains/ChampionsLeague.Domains.csproj" />
