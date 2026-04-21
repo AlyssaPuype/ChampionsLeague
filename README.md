@@ -12,9 +12,13 @@
 #### 1. Database script uitvoeren
 
 1. Open SSMS en verbind met je lokale SQL Server
-2. Open script: fullDBScript.sql in SSMS via File > Open > File
+2. Via File > Open > File en selecteer DatabaseScripts/DbScriptWithoutMigrations.sql
 3. Klik op execute
 1. Database "ChampionsLeagueDB" wordt aangemaakt met de nodige tabellen
+
+Indien er issues zijn met de migraties -> voer `fullDBScript.sql` uit (script zonder EFmigrations)
+en commenteer line19 uit ChampionsLeague.Web/Data/DbSeeder.cs: //await context.Database.MigrateAsync();
+
 
 #### 2. Adapt appsettings.development.json
 
