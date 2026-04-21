@@ -19,7 +19,9 @@ namespace ChampionsLeague.Repositories.DAO
 
         public async Task<DateOnly?> GetStartDatumAsync()
         {
-            var competitie = await _context.Competities.FirstOrDefaultAsync();
+            var competitie = await _context.Competities
+                .FirstOrDefaultAsync();
+
             return competitie?.StartDatum;
         }
     }

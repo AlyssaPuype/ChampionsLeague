@@ -74,10 +74,11 @@ namespace ChampionsLeague.Repositories.DAO
         {
             var ticket = await _context.Tickets
             .Include(t => t.Voucher)
-            .FirstOrDefaultAsync(t => t.ZitplaatsId == zitplaatsId
-            && t.MatchId == matchId
-            && t.Status == "geannuleerd");
-
+            .Where(t => t.ZitplaatsId == zitplaatsId)
+            .Where(t => t.MatchId == matchId)
+            .Where(t => t.Status == "geannuleerd")
+            .FirstOrDefaultAsync();
+           
             if (ticket != null)
             {
                 if (ticket.Voucher != null)
