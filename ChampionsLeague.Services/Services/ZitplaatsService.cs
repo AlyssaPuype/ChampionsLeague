@@ -19,17 +19,17 @@ namespace ChampionsLeague.Services
        
         public async Task<IEnumerable<Zitplaats>> GetBeschikbaarPerStadionvakAsync(int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
-            return await _zitplaatsDAO.GetBeschikbaarPerStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
+            return await _zitplaatsDAO.GetBeschikbareZitplaatsenVoorTicketAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
         }
 
         public async Task<int> GetAantalBeschikbaarAsync(int stadionvakId, int matchId)
         {
-            return await _zitplaatsDAO.GetAantalBeschikbaarAsync(stadionvakId, matchId);
+            return await _zitplaatsDAO.GetAantalBeschikbareZitplaatsen(stadionvakId, matchId);
         }
 
-        public async Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int clubId, int stadionvakId)
+        public async Task<Zitplaats?> GetBeschikbareZitplaatsVoorAbonnementAsync(int stadionvakId)
         {
-            return await _zitplaatsDAO.GetBeschikbareZitplaatsVoorAbonnementAsync(clubId, stadionvakId);
+            return await _zitplaatsDAO.GetBeschikbareZitplaatsVoorAbonnementAsync(stadionvakId);
         }
     }
 }

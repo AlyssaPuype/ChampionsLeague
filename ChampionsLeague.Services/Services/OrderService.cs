@@ -24,7 +24,7 @@ namespace ChampionsLeague.Services.Services
         //INJECTION voor tickets:
         //Ticketservice (max 4 tickets per user per match)
         //Matchservice (mag geen tickets kopen voor twee verschillende matches op een dag)
-        //constante ticketprijs op 50 euro
+        //constante ticketprijs op 50 euro -> definitie in ChampionsLeague.Services/Constants/Prijzen.cs 
 
         private readonly ITicketService _ticketService;
         private readonly IMatchService _matchService;
@@ -32,12 +32,13 @@ namespace ChampionsLeague.Services.Services
 
 
         //Voordien had ik logica om abonnementen aan te maken in abonnementservice, logica naar orderservice verplaatst
-        
+
         //INJECTION voor Abonnementen:
         //AbonnementDAO (check of gebruiker al een abonnement heeft voor die club)
         //ClubService (vind club voor abonnement)
         //CompetitieService (mag geen abonnement kopen na de start van de competitie)
-        //constante abonnementprijs op 200 euro
+        //constante abonnementprijs op 200 euro -> definitie in ChampionsLeague.Services/Constants/Prijzen.cs 
+
         private readonly IAbonnementDAO _abonnementDAO;
         private readonly IClubService _clubService;
         private readonly ICompetitieService _competitieService;
@@ -61,12 +62,13 @@ namespace ChampionsLeague.Services.Services
         //Ticket aanmaken
         public async Task CreateTicketOrderAsync(string userId, string email, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {
-
+            //R-1
             //#18: Validatie: User mag max 4 tickets per match kopen
             var gekochteTickets = await _ticketService.CountTicketsByUserAndMatchAsync(userId, matchId);
             if (gekochteTickets + aantalGewensteZitplaatsen > 4)
                 throw new Exception($"Reeds gekochte tickets: {gekochteTickets}. Maximum tickets per match: 4.");
 
+            //R-2
             //#48: Validatie: User mag geen tickets kopen voor twee verschillende matches op dezelfde dag
             var match = await _matchService.GetMatchByIdAsync(matchId);
             if (match == null) throw new Exception("Match niet gevonden.");
@@ -78,6 +80,7 @@ namespace ChampionsLeague.Services.Services
                     throw new Exception("Je hebt al een ticket voor een andere match op deze dag.");
             }
 
+            //R-3
             //#50: Validatie: Een gebruiker mag enkel tickets kopen voor matches met date < 1 maand
             //
             if (match.MatchDate != null)
@@ -88,7 +91,6 @@ namespace ChampionsLeague.Services.Services
                     throw new Exception("Tickets kunnen pas 1 maand voor de wedstrijd gekocht worden.");
             }
 
-            //TODO: #46 Error handling: stadionvak moet gekozen worden
             //get beschikbare zitplaatsen
             var beschikbareZitplaatsen = await _zitplaatsService.GetBeschikbaarPerStadionvakAsync(matchId, stadionvakId, aantalGewensteZitplaatsen);
             //Check of deze ingevuld worden
@@ -162,6 +164,7 @@ namespace ChampionsLeague.Services.Services
             var club = await _clubService.GetByIdAsync(clubId);
             if (club == null) throw new Exception("Club niet gevonden.");
 
+            //R-4
             //Validation: abonnement enkel voor start competitie kopen
             //Via competitieService
             //Zie ook unit test: ChampionsLeagueTests/TestAbonnement
@@ -169,13 +172,13 @@ namespace ChampionsLeague.Services.Services
             if (startDatum != null && DateOnly.FromDateTime(DateTime.Now) >= startDatum.Value)
                 throw new Exception($"Abonnementen kunnen enkel gekocht worden vóór {startDatum.Value}.");
 
-
+            //R-5
             //Validation: user heeft al abonnement voor deze club
             if (await _abonnementDAO.HeeftAbonnementVoorClubAsync(userId, clubId))
                 throw new Exception("Je hebt al een abonnement voor deze club.");
 
             // zoek beschikbare zitplaats
-            var zitplaats = await _zitplaatsService.GetBeschikbareZitplaatsVoorAbonnementAsync(clubId, stadionvakId);
+            var zitplaats = await _zitplaatsService.GetBeschikbareZitplaatsVoorAbonnementAsync(stadionvakId);
             if (zitplaats == null)
                 throw new Exception("Geen beschikbare zitplaatsen meer voor dit abonnement.");
 
