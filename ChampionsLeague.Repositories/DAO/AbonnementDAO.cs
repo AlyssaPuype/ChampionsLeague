@@ -21,9 +21,10 @@ namespace ChampionsLeague.Repositories.DAO
         public async Task<bool> HeeftAbonnementVoorClubAsync(string userId, int clubId)
         {
             return await _context.Abonnements
-                .AnyAsync(a => a.ClubId == clubId
-                    && a.Orderline != null
-                    && a.Orderline.Order.UserId == userId);
+                .Where(a => a.ClubId == clubId)
+                .Where(a => a.Orderline != null)
+                .Where(a => a.Orderline.Order.UserId == userId)
+                .AnyAsync();
         }
 
         // get alle abonnementen van een gebruiker met club info, zitplaats, stadionvak

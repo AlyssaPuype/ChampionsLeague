@@ -18,12 +18,15 @@ namespace ChampionsLeague.Repositories.DAO
 
         public async Task<Stadionvak?> GetByIdAsync(int id)
         {
-            return await _context.Stadionvakken.FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Stadionvakken
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<IEnumerable<Stadionvak>> GetByStadionAsync(int stadionId)
         {
-            return await _context.Stadionvakken.Where(s => s.StadionId == stadionId).ToListAsync();
+            return await _context.Stadionvakken
+                .Where(s => s.StadionId == stadionId)
+                .ToListAsync();
         }
 
 
