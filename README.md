@@ -16,15 +16,27 @@
 3. Klik op execute
 1. Database "ChampionsLeagueDB" wordt aangemaakt met de nodige tabellen
 
-Indien er issues zijn met de migraties -> voer `fullDBScript.sql` uit (script zonder EFmigrations)
-en commenteer line19 uit ChampionsLeague.Web/Data/DbSeeder.cs: //await context.Database.MigrateAsync();
 
+#### 2. Migraties uitvoeren
 
-#### 2. Adapt appsettings.development.json
+In Package Manager Console:
 
-1. Open `appsettings.Development.json` en pas de `DefaultConnection` aan
+Default project: ChampionsLeague.Domains:
+`Update-Database -Context ChampionsLeagueDbContext`
 
-#### 3. Run project
+Default project: ChampionsLeague.Web:
+`Update-Database -Context ApplicationDbContext`
+
+##### Bij migratieproblemen:
+
+Indien er issues zijn met de migraties,  voer `fullDBScript.sql` uit (script met EFmigrations)
+en commenteer line19 uit ChampionsLeague.Web/Data/DbSeeder.cs: -> //await context.Database.MigrateAsync();
+
+#### 3. Adapt appsettings.development.json
+
+1. Open `appsettings.Development.json` en pas de `DefaultConnection` aan naar eigen server en database naam
+
+#### 4. Run project
 
 1. Open de solution in Visual Studio 2022
 2. Stel `ChampionsLeague` in als startup project
