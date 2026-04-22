@@ -1,5 +1,8 @@
 # STARTUP PROJECT
 
+#### Website is ook online beschikbaar:
+https://championsleague-b6fhh6cxcsczbahb.germanywestcentral-01.azurewebsites.net/
+
 ## Project vereisten:
 
 - Visual Studio 2026 18.4.3
@@ -42,4 +45,5 @@ en commenteer line19 uit ChampionsLeague.Web/Data/DbSeeder.cs: -> //await contex
 2. Stel `ChampionsLeague` in als startup project
 3. Run het project (F5)
 4. De seeder vult automatisch de database met testdata
+
 
