@@ -9,7 +9,9 @@ namespace ChampionsLeague.Services.Services.Interfaces
     {
        
         Task<IEnumerable<Abonnement>> GetByUserIdAsync(string userId);
+        Task<bool> HeeftAbonnementVoorClubAsync(string userId, int clubId);
 
 
     }
+
 }

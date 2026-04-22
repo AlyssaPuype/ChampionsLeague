@@ -26,5 +26,10 @@ namespace ChampionsLeague.Services.Services
             return await _abonnementDAO.GetByUserIdAsync(userId);
         }
 
+        public async Task<bool> HeeftAbonnementVoorClubAsync(string userId, int clubId)
+        {
+            return await _abonnementDAO.HeeftAbonnementVoorClubAsync(userId, clubId);
+        }
+
     }
 }

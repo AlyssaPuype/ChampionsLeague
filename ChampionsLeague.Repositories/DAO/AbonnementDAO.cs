@@ -33,6 +33,16 @@ namespace ChampionsLeague.Repositories.DAO
                 .ToListAsync();
         }
 
+        //Check of de user al een abonnement heeft
+        public async Task<bool> HeeftAbonnementVoorClubAsync(string userId, int clubId)
+        {
+            return await _context.Abonnements
+                .AnyAsync(a => a.ClubId == clubId
+                    && a.Orderline != null
+                    && a.Orderline.Order.UserId == userId);
+        }
+
+
 
     }
 }

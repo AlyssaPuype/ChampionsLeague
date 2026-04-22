@@ -1,4 +1,4 @@
-﻿using ChampionsLeague.Data.Interfaces;
+﻿using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Domains.DB;
 using ChampionsLeague.Domains.Entities;
 using Microsoft.EntityFrameworkCore;

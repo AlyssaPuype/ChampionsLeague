@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ChampionsLeague.Data.Interfaces;
+using ChampionsLeague.Repositories.DAO;
+using ChampionsLeague.Repositories.DAO.Interfaces;
 using ChampionsLeague.Domains.Entities;
 using ChampionsLeague.Services.Services.Interfaces;
 
