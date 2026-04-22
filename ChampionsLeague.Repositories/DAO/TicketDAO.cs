@@ -26,6 +26,7 @@ namespace ChampionsLeague.Repositories.DAO
                 .FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
+        //Get list tickets per user
         public async Task<IEnumerable<Ticket>> GetByUserAsync(string userId)
         {
             //Include thuis en bezoekersclub en zitplaats
@@ -39,10 +40,9 @@ namespace ChampionsLeague.Repositories.DAO
                 .Where(t => t.Orderline!.Order.UserId == userId)
                 .ToListAsync();
         }
-
-               
+                       
         
-        //methode voor validatie van max 4 tickets per user per match aan te kopen, rekening houden met geannuleerde tickets
+        //Get aantal tickets per user per match
         public async Task<int> CountTicketsByUserAndMatchAsync(string userId, int matchId)
         {
             return await _context.Tickets
@@ -52,7 +52,7 @@ namespace ChampionsLeague.Repositories.DAO
                 .CountAsync();
         }
 
-        //methode voor validatie dat user geen tickets kan kopen voor twee =/ matches op dezelfde dag, rekening houden met geannuleerde tickets
+        //Boolean voor validatie R-2
         public async Task<bool> HeeftTicketOpZelfdeDagAsync(string userId, DateOnly matchDate, int matchId)
         {
             return await _context.Tickets
@@ -64,6 +64,7 @@ namespace ChampionsLeague.Repositories.DAO
                 .AnyAsync();
         }
 
+        //Update status van het ticket
         public async Task UpdateAsync(Ticket ticket)
         {
             _context.Tickets.Update(ticket);

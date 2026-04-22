@@ -9,10 +9,10 @@ namespace ChampionsLeague.Data.Interfaces
     public interface IMatchDAO
     {
         Task<List<Match>> GetAllMatchesAsync();
-        Task<Match?> GetByIdAsync(int id);
-        Task<List<Match>> GetByClubAsync(int clubId);
+        Task<Match?> GetMatchByIdAsync(int id);
+        Task<List<Match>> GetMatchesByClubAsync(int clubId);
 
-        Task<Match?> GetEersteMatchVanClubAsync(int clubId);
+       
 
 
     }

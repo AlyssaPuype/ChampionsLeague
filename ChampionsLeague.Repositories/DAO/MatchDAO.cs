@@ -25,7 +25,7 @@ namespace ChampionsLeague.Data.DAOs
                 .ToListAsync();
         }
 
-        public async Task<Match?> GetByIdAsync(int id)
+        public async Task<Match?> GetMatchByIdAsync(int id)
         {
             return await _context.Matches
                 .Include(m => m.Thuisclub)
@@ -35,7 +35,7 @@ namespace ChampionsLeague.Data.DAOs
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task<List<Match>> GetByClubAsync(int clubId)
+        public async Task<List<Match>> GetMatchesByClubAsync(int clubId)
         {
             return await _context.Matches
                 .Include(m => m.Thuisclub)
@@ -47,14 +47,6 @@ namespace ChampionsLeague.Data.DAOs
                 .ToListAsync();
         }
 
-        public async Task<Match?> GetEersteMatchVanClubAsync(int clubId)
-        {
-            return await _context.Matches
-                .Where(m => m.ThuisclubId == clubId)
-                .OrderBy(m => m.MatchDate)
-                .FirstOrDefaultAsync();
-        }
-
-
+       
     }
 }

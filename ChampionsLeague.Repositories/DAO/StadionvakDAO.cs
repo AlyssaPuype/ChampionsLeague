@@ -22,13 +22,13 @@ namespace ChampionsLeague.Repositories.DAO
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        //Get de stadionvakken per stadion
         public async Task<IEnumerable<Stadionvak>> GetByStadionAsync(int stadionId)
         {
             return await _context.Stadionvakken
                 .Where(s => s.StadionId == stadionId)
                 .ToListAsync();
         }
-
 
 
     }

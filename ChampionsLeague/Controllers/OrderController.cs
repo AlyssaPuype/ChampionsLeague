@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+
+//Ordercontroller en orderservice beheren beide tickets en abonnement orders
+//uitrbreiden later om ook hotelboekingen te beheren?
+
 namespace ChampionsLeague.Controllers
 {
     [Authorize]
@@ -70,7 +74,8 @@ namespace ChampionsLeague.Controllers
         //Tickets worden aangemaakt in de DB en een bevestigingsmail wordt verstuurd
 
 
-        //TODO: capacity houdt nog geen rekening met zitplaatsen of abonnementen in shoppingcart, update alleen nadat de order is geplaatst
+        //TODO: capacity houdt nog geen rekening met zitplaatsen of abonnementen in shoppingcart, het update alleen nadat de order is geplaatst
+        //Ticketorder valideren en toevoegen aan shoppingcart, 
         [HttpPost]
         public async Task<IActionResult> AddTicketToCart(OrderTicketVM viewModel)
         {
@@ -134,10 +139,6 @@ namespace ChampionsLeague.Controllers
                     if (match.MatchDate.Value > maandlimiet)
                         throw new Exception("Tickets kunnen pas 1 maand voor de wedstrijd gekocht worden.");
                 }
-
-                
-
-
             }
             catch (Exception ex)
             {
@@ -178,8 +179,6 @@ namespace ChampionsLeague.Controllers
 
 
         //ORDERPROCES: ABONNEMENTEN
-
-        [HttpGet]
         public async Task<IActionResult> Abonnement(int clubId)
         {
             var club = await _clubService.GetByIdAsync(clubId);
@@ -196,6 +195,8 @@ namespace ChampionsLeague.Controllers
 
             return View(viewModel);
         }
+
+        //Abonnementorder valideren en toevoegen aan shoppingcart, 
 
         [HttpPost]
         public async Task<IActionResult> AddAbonnementToCart(OrderAbonnementVM viewModel)

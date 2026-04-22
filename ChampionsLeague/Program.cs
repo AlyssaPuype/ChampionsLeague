@@ -28,23 +28,24 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+//Identity
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
-//seeding data - source: https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
+//Entities
 builder.Services.AddDbContext<ChampionsLeagueDbContext>(options =>
     options
         .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+
+//seeding data - source: https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
+builder.Services.AddScoped<DbSeeder>();
+
+
 //localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-builder.Services.AddControllersWithViews()
-    .AddViewLocalization();
-
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[] { "nl", "en", "fr" };
@@ -53,7 +54,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
         .AddSupportedUICultures(supportedCultures);
 });
 
-//
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization();
+
 //Entity DAO
 //Dbcontext is AddScoped by default, so for DAO too
 builder.Services.AddScoped<IClubDAO, ClubDAO>();
@@ -101,7 +104,10 @@ builder.Services.AddTransient<IEmailSender, IdentityEmailSend>();
 
 var app = builder.Build();
 
-await DbSeeder.SeedAsync(app.Services);
+//seeder uitvoeren
+using var scope = app.Services.CreateScope();
+var DbSeeder = scope.ServiceProvider.GetRequiredService<DbSeeder>();
+await DbSeeder.SeedAsync();
 
 
 // Configure the HTTP request pipeline.

@@ -11,14 +11,12 @@ namespace ChampionsLeague.Repositories.DAO
     public class OrderDAO : IOrderDAO
     {
         private readonly ChampionsLeagueDbContext _context;
-
-    
+            
 
     public OrderDAO(ChampionsLeagueDbContext context)
         {
             _context = context;
         }
-
 
 
         //order in database toevoegen

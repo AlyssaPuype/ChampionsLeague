@@ -102,6 +102,7 @@ namespace ChampionsLeague.Controllers
         }
 
         // Verwijder Ticket uit de session cart
+        [HttpPost]
         public IActionResult DeleteTicket(int? matchId, int? stadionvakId)
         {
             if (matchId == null) return NotFound();
@@ -122,6 +123,7 @@ namespace ChampionsLeague.Controllers
         }
 
         // verwijder Abonnement uit de session cart
+        [HttpPost]
         public IActionResult DeleteAbonnement(int clubId)
         {
             var cart = HttpContext.Session.GetObject<ShoppingCartVM>("ShoppingCart");

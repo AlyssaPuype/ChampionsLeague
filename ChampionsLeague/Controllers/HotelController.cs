@@ -35,8 +35,7 @@ namespace ChampionsLeague.Controllers
                 return View("Index", model);
             }
 
-            model.Results = await _hotelService.SearchHotelsAsync(
-                destinationId, model.CheckIn, model.CheckOut, model.Adults);
+            model.Results = await _hotelService.SearchHotelsAsync(destinationId, model.CheckIn, model.CheckOut, model.Adults);
 
             return View("Index", model);
         }

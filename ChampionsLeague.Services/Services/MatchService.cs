@@ -23,18 +23,14 @@ namespace ChampionsLeague.Services.Services
 
         public async Task<Match?> GetMatchByIdAsync(int id)
         {
-            return await _matchDAO.GetByIdAsync(id);
+            return await _matchDAO.GetMatchByIdAsync(id);
         }
 
         public async Task<List<Match>> GetMatchesByClubAsync(int clubId)
         {
-            return await _matchDAO.GetByClubAsync(clubId);
+            return await _matchDAO.GetMatchesByClubAsync(clubId);
         }
 
-        public async Task<Match?> GetEersteMatchVanClubAsync(int clubId)
-        {
-            return await _matchDAO.GetEersteMatchVanClubAsync(clubId);
-        }
-
+        
     }
 }

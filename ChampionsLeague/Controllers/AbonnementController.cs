@@ -21,7 +21,7 @@ namespace ChampionsLeague.Controllers
 
 
         // Toon history van Abonnementen
-            public async Task<IActionResult> History()
+        public async Task<IActionResult> History()
         {
 
             var user = await _userManager.GetUserAsync(User);

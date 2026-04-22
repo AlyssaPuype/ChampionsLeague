@@ -25,6 +25,7 @@ namespace ChampionsLeague.Web.DAO
                 .ToListAsync();
         }
 
+        // get clubs by id
         public async Task<Club?> GetByIdAsync(int id)
         {
             return await _context.Clubs
@@ -32,6 +33,7 @@ namespace ChampionsLeague.Web.DAO
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        // get clubs by naam
         public async Task<Club?> GetByNaamAsync(string naam)
         {
             return await _context.Clubs

@@ -41,7 +41,9 @@ namespace ChampionsLeague.Util.Mail
                 }
             }
             catch (Exception ex)
-            { throw; }
+            { 
+            throw; 
+            }
         }
     }
 }

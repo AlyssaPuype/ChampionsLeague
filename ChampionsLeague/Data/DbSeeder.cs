@@ -7,30 +7,38 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChampionsLeague.Data
 {
-    public static class DbSeeder
+    public class DbSeeder
     {
-        public static async Task SeedAsync(IServiceProvider services)
+        private readonly ChampionsLeagueDbContext _context;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public DbSeeder(ChampionsLeagueDbContext context, RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager)
         {
-            using var scope = services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ChampionsLeagueDbContext>();
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
+        }
 
-            await context.Database.MigrateAsync();
+        public async Task SeedAsync()
+        {
+            //Commenteer uit wanneer problemen met migraties en inladen van database (zie readme)
+            await _context.Database.MigrateAsync();
 
-            if (context.Clubs.Any())
+            //Check of data in db zit. Als er data zit, stop
+            if (_context.Clubs.Any())
             {
                 return;
             }
 
-            var stadions = StadionSeeder.Seed(context);
-            var clubs = ClubSeeder.Seed(context, stadions);
-            var stadionvakken = StadionvakSeeder.Seed(context, stadions);
-            var zitplaatsen = ZitplaatsSeeder.Seed(context, stadionvakken);
-            var competities = CompetitieSeeder.Seed(context);
-            var matches = MatchSeeder.Seed(context, clubs, competities);
+            var stadions = StadionSeeder.Seed(_context);
+            var clubs = ClubSeeder.Seed(_context, stadions);
+            var stadionvakken = StadionvakSeeder.Seed(_context, stadions);
+            var zitplaatsen = ZitplaatsSeeder.Seed(_context, stadionvakken);
+            var competities = CompetitieSeeder.Seed(_context);
+            var matches = MatchSeeder.Seed(_context, clubs, competities);
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
         }
     }
