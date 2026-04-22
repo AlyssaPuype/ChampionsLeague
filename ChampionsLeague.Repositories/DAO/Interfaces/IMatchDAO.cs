@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using ChampionsLeague.Domains.Entities;
 
+namespace ChampionsLeague.Repositories.DAO
 
-namespace ChampionsLeague.Data.Interfaces
 {
     public interface IMatchDAO
     {

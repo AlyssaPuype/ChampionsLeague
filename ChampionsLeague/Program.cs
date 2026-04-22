@@ -1,7 +1,4 @@
 using ChampionsLeague.Data;
-using ChampionsLeague.Data.DAOs;
-using ChampionsLeague.Data.DataSeeders;
-using ChampionsLeague.Data.Interfaces;
 using ChampionsLeague.Domains.DB;
 using ChampionsLeague.Domains.Entities;
 using ChampionsLeague.Repositories.DAO;
@@ -13,10 +10,8 @@ using ChampionsLeague.Util.Hotel;
 using ChampionsLeague.Util.Mail;
 using ChampionsLeague.Util.Mail.Interfaces;
 using ChampionsLeague.Web.DAO;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi;
 
 
 var builder = WebApplication.CreateBuilder(args);

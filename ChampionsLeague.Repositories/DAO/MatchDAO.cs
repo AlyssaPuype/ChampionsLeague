@@ -3,7 +3,8 @@ using ChampionsLeague.Domains.DB;
 using ChampionsLeague.Domains.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChampionsLeague.Data.DAOs
+namespace ChampionsLeague.Repositories.DAO
+
 {
     public class MatchDAO : IMatchDAO
     {
