@@ -59,6 +59,9 @@ namespace ChampionsLeague.Services.Services
             _emailSend = emailSend;
         }
 
+        //TODO: ipv 2 aparte methodes voor tickets en abonnementen, 1 methode die beide orderlines aanmaakt en in 1 order stopt
+        // Geef carts mee in constructor, maak 1 methode: CreateOrderAsync
+
         //Ticket aanmaken
         public async Task CreateTicketOrderAsync(string userId, string email, int matchId, int stadionvakId, int aantalGewensteZitplaatsen)
         {

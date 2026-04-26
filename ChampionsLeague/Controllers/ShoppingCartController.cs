@@ -32,6 +32,8 @@ namespace ChampionsLeague.Controllers
             return View(cartList);
         }
 
+        //TODO: ipv 2 aparte orders aanmaken, 1 order aanmaken voor zowel tickets als abonnementen
+        //await _orderService.CreateOrderAsync(user.Id, user.Email, carts);
         //Behandel de bestelling, maak een order
         [HttpPost]
         public async Task<IActionResult> CreateOrder()

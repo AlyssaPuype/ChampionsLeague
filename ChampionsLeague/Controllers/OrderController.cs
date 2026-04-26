@@ -75,7 +75,7 @@ namespace ChampionsLeague.Controllers
 
 
         //TODO: capacity houdt nog geen rekening met zitplaatsen of abonnementen in shoppingcart, het update alleen nadat de order is geplaatst
-        //Ticketorder valideren en toevoegen aan shoppingcart, 
+        //Ticketorder valideren en toevoegen aan shoppingcart (alleen controller heeft toegang tot de session, daarom gebeurt de validaties op tickets en abonnement nogmaals hier in de controller
         [HttpPost]
         public async Task<IActionResult> AddTicketToCart(OrderTicketVM viewModel)
         {
@@ -104,6 +104,7 @@ namespace ChampionsLeague.Controllers
                 var ticketsInCart = cart.Carts
                .Where(c => c.MatchId == viewModel.GeselecteerdMatchId)
                .Sum(c => c.AantalTickets);
+                //LINQ in controller gebruikt -> session zit in weblaag
 
                 if (gekochteTickets + ticketsInCart + viewModel.AantalTickets > 4)
                     throw new Exception($"Maximum 4 tickets per match. Al gekocht: {gekochteTickets}, in winkelmand: {ticketsInCart}.");
