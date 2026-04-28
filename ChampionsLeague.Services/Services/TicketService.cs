@@ -59,7 +59,8 @@ namespace ChampionsLeague.Services.Services
             await _ticketDAO.SaveAsync();
         }
 
-        // Geannuleerde tickets verwijderen
+        // Geannuleerde tickets verwijderen (DAO haalt ook geannulleerde tickets op, maar er zit een unique constraint op in de database (match_id x zitplaats_id) dus
+        //wanneer ze een nieuw ticket willen aanmaken, bestaat die geannulleerde ticket nog
         public async Task DeleteGeannuleerdTicketAsync(int zitplaatsId, int matchId)
         {
             await _ticketDAO.DeleteGeannuleerdTicketAsync(zitplaatsId, matchId);
